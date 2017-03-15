@@ -17,8 +17,8 @@ Application for book management.
 - Frontend: HTML, CSS, Angular, JS
 
 ## 3. Team
-  - Miłosz Białczak []
-  - Mateusz Gniewkowski []
+  - Miłosz Białczak [218295]
+  - Mateusz Gniewkowski [218138]
   - Beata Szeląg [218139]
   
   Date: Wed, 9:15
@@ -45,8 +45,8 @@ Aplikacja do zarządzania książkami
 - Frontend: HTML, CSS, Angular, JS
 
 ## 3. Zespół
-  - Miłosz Białczak []
-  - Mateusz Gniewkowski []
+  - Miłosz Białczak [218295]
+  - Mateusz Gniewkowski [218138]
   - Beata Szeląg [218139]
   
   Data: Środa, 9:15
