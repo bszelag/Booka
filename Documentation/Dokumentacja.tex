@@ -1,0 +1,334 @@
+\documentclass{report}
+
+\usepackage[T1]{fontenc}
+\usepackage[polish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{longtable}
+\selectlanguage{polish}
+
+\title{Dokumentacja projektu "Booka"}
+\author{Grupa 1:\\ Miłosz Białczak (218295)\\ Mateusz Gniewkowski (218138)\\ Beata Szeląg (218139)}
+\date{\today}
+
+\begin{document}
+
+\setlength{\LTleft}{-20cm plus -1fill}
+\setlength{\LTright}{\LTleft}
+\maketitle
+\tableofcontents{}
+
+
+
+\chapter{Wstęp}
+\chapter{Analiza systemu}
+
+\section{Wymagania funkcjonalne}
+
+
+%\begin{longtable}{|c|p{12cm}|}
+%\caption{Wymaganie funkcjonalne F\_XX} \label{tab:F_XX} \\ \hline
+%\multicolumn{2}{ |c| }{Nazwa wymagania} \\ \hline
+%ID & F\_XX \\ \hline
+%Opis & 	opis \\ \hline
+%Priorytet & wymagane/oczekiwane/opcjonalne \\ \hline
+%Powiązania & id/-  \\ \hline
+%\end{longtable} 
+
+
+
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie funkcjonalne F\_00} \label{tab:F_00} \\ \hline
+\multicolumn{2}{ |c| }{Utworzenie konta} \\ \hline
+ID & F\_00 \\ \hline
+Opis & Użytkownicy nieposiadający kont mają możliwość ich założenia. Po wybraniu odpowiedniej opcji, na podany adres mailowy zostaje wysłana wiadomość zawierająca link potwierdzający rejestrację.  \\ \hline
+Priorytet & wymagane\\ \hline
+Powiązania & - \\ \hline
+\end{longtable} 
+
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie funkcjonalne F\_01} \label{tab:F_01} \\ \hline
+\multicolumn{2}{ |c| }{Logowanie} \\ \hline
+ID & F\_01 \\ \hline
+Opis & 	Użytkownik posiadający konto może zalogować się do systemu \\ \hline
+Priorytet & wymagane\\ \hline
+Powiązania & - \\ \hline
+\end{longtable} 
+
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie funkcjonalne F\_02} \label{tab:F_02} \\ \hline
+\multicolumn{2}{ |c| }{Wylogowanie} \\ \hline
+ID & F\_02 \\ \hline
+Opis & Zalogowany użytkownik może się wylogować \\ \hline
+Priorytet & wymagane\\ \hline
+Powiązania & - \\ \hline
+\end{longtable}
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie funkcjonalne F\_03} \label{tab:F_03} \\ \hline
+\multicolumn{2}{ |c| }{Konfiguracja} \\ \hline
+ID & F\_03 \\ \hline
+Opis & 	Użytkownik ma możliwość konfiguracji swojego konta, a w szczególności ustawienia i zmiany hasła \\ \hline
+Priorytet & wymagane\\ \hline
+Powiązania & - \\ \hline
+\end{longtable} 
+
+
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie funkcjonalne F\_04} \label{tab:F_04} \\ \hline
+\multicolumn{2}{ |c| }{Dodawanie pozycji do księgozbioru} \\ \hline
+ID & F\_04 \\ \hline
+Opis & 	Użytkownik może dodać nową pozycję do swojego księgozbioru. Powinien on określić jej tytuł, autora i kategorię. Jeżeli użytkownik posiada elektroniczną kopię książki na dysku lokalnym, lub obsługiwanym dysku sieciowym (serwer FPT), może ją zaimportować automatycznie. Jest możliwe importowanie całych katalogów naraz - aplikacja powinna reagować na zmiany w danym katalogu i automatycznie importować ich zawartość. \\ \hline
+Priorytet & wymagane \\ \hline
+Powiązania & -  \\ \hline
+\end{longtable} 
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie funkcjonalne F\_05} \label{tab:F_05} \\ \hline
+\multicolumn{2}{ |c| }{Usuwanie pozycji z księgozbioru} \\ \hline
+ID & F\_05 \\ \hline
+Opis & 	Użytkownik może usunąć dowolną pozycję ze swojego księgozbioru. \\ \hline
+Priorytet & wymagane\\ \hline
+Powiązania & -  \\ \hline
+\end{longtable}
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie funkcjonalne F\_06} \label{tab:F_06} \\ \hline
+\multicolumn{2}{ |c| }{Podgląd księgozbioru} \\ \hline
+ID & F\_06 \\ \hline
+Opis & 	Użytkownik może przeglądać swój księgozbiór. \\ \hline
+Priorytet & wymagane \\ \hline
+Powiązania & -  \\ \hline
+\end{longtable} 
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie funkcjonalne F\_07} \label{tab:F_07} \\ \hline
+\multicolumn{2}{ |c| }{Przeszukiwanie księgozbioru} \\ \hline
+ID & F\_07 \\ \hline
+Opis & Użytkownik może przeszukiwać swój księgozbiór po nazwie, autorze, kategorii itp.\\ \hline
+Priorytet & wymagane \\ \hline
+Powiązania & F\_06  \\ \hline
+\end{longtable} 
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie funkcjonalne F\_08} \label{tab:F_08} \\ \hline
+\multicolumn{2}{ |c| }{Przeszukiwanie zasobów bibliotecznych} \\ \hline
+ID & F\_08 \\ \hline
+Opis & Użytkownik powinien mieć możliwość przeglądania zasobów bibliotek miejskich. \\ \hline
+Priorytet & wymagane \\ \hline
+Powiązania & -  \\ \hline
+\end{longtable}
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie funkcjonalne F\_09} \label{tab:F_09} \\ \hline
+\multicolumn{2}{ |c| }{Przeszukiwanie sklepów internetowych} \\ \hline
+ID & F\_09 \\ \hline
+Opis & Użytkownik powinien mieć możliwość wyszukiwania książek w zdefiniowanych sklepach \\ \hline
+Priorytet & oczekiwane  \\ \hline
+Powiązania & -  \\ \hline
+\end{longtable}
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie funkcjonalne F\_10} \label{tab:F_10} \\ \hline
+\multicolumn{2}{ |c| }{Pożyczanie książek} \\ \hline
+ID & F\_10 \\ \hline
+Opis & Użytkownik powinien mieć możliwość oznaczenia książki jako pożyczonej (z uwzględnieniem komu owa książka została pożyczona). Informacja o pożyczonych komuś i od kogoś książkach powinna być dostępna w widoku księgozbioru.\\ \hline
+Priorytet & wymagane \\ \hline
+Powiązania & F\_06, F\_11   \\ \hline
+\end{longtable} 
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie funkcjonalne F\_11} \label{tab:F_11} \\ \hline
+\multicolumn{2}{ |c| }{Oddawanie książek} \\ \hline
+ID & F\_11 \\ \hline
+Opis & System powinien dawać możliwość oddawania książek. \\ \hline
+Priorytet & wymagane \\ \hline
+Powiązania & F\_06, F\_10  \\ \hline
+\end{longtable}
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie funkcjonalne F\_12} \label{tab:F_12} \\ \hline
+\multicolumn{2}{ |c| }{System notyfikacji} \\ \hline
+ID & F\_12 \\ \hline
+Opis & System powinien automatycznie informować użytkownika o akcjach z nim związanych (np. informacja o zbliżającym się terminie oddania książki). Notyfikacje powinny być możliwe do modyfikacji i wyłączenia.  \\ \hline
+Priorytet & oczekiwane \\ \hline
+Powiązania & -  \\ \hline
+\end{longtable}
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie funkcjonalne F\_13} \label{tab:F_13} \\ \hline
+\multicolumn{2}{ |c| }{Dostęp do pozycji w wersjach elektronicznych} \\ \hline
+ID & F\_13 \\ \hline
+Opis & Jeżeli książka jest dostępna w wersji elektronicznej, powinno być możliwe otworzenie jej z poziomu aplikacji. \\ \hline
+Priorytet & oczekiwane \\ \hline
+Powiązania & -  \\ \hline
+\end{longtable} 
+
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie funkcjonalne F\_14} \label{tab:F_14} \\ \hline
+\multicolumn{2}{ |c| }{Udostępnianie księgozbioru} \\ \hline
+ID & F\_14 \\ \hline
+Opis & Użytkownik powinien mieć możliwość udostępnienia swojego księgozbioru do podglądu innym użytkownikom (niekoniecznie z opcją czytania książek w wersji elektronicznej) \\ \hline
+Priorytet & opcjonalne \\ \hline
+Powiązania & -  \\ \hline
+\end{longtable} 
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie funkcjonalne F\_15} \label{tab:F_15} \\ \hline
+\multicolumn{2}{ |c| }{Wysyłanie powiadomień do innych użytkowników} \\ \hline
+ID & F\_15 \\ \hline
+Opis & Użytkownik powinien mieć możliwość wysyłania powiadomień innym użytkownikom. Powiadomienia mogą dotyczyć próśb o pożyczenie, oddanie książki, udostępnienie podglądu księgozbioru itp. Powiadomienia mogą być wysyłane poprzez Facebooka, e-maila, lub aplikację. \\ \hline
+Priorytet & oczekiwane \\ \hline
+Powiązania & -  \\ \hline
+\end{longtable}
+
+
+
+\section{Wymagania niefunkcjonalne}
+
+%\begin{longtable}{|c|p{12cm}|}
+%\caption{Wymaganie niefunkcjonalne N\_XX} \label{tab:N_XX} \\ \hline
+%\multicolumn{2}{ |c| }{Nazwa wymagania} \\ \hline
+%ID & N\_XX \\ \hline
+%Opis & opis \\ \hline
+%Priorytet & wymagane/oczekiwane/opcjonalne \\ \hline
+%Powiązania & id/- \\ \hline
+%\end{longtable}
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie niefunkcjonalne N\_00} \label{tab:N_00} \\ \hline
+\multicolumn{2}{ |c| }{Interfejs użytkownika} \\ \hline
+ID & N\_00 \\ \hline
+Opis & Aplikacja powinna posiadać ładny i przejrzysty graficzny interfejs użytkownika, możliwe intuicyjny i łatwy w obsłudze. \\ \hline
+Priorytet & oczekiwane \\ \hline
+Powiązania & - \\ \hline
+\end{longtable} 
+
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie niefunkcjonalne N\_01} \label{tab:N_01} \\ \hline
+\multicolumn{2}{ |c| }{Odporność na utratę danych} \\ \hline
+ID & N\_01 \\ \hline
+Opis & Stworzenie mechanizmów w systemie odpowiedzialnych za cykliczną
+archiwizację stanu bazy danych oraz możliwość wczytania jej z pliku. \\ \hline
+Priorytet & oczekiwane \\ \hline
+Powiązania & - \\ \hline
+\end{longtable}
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie niefunkcjonalne N\_02} \label{tab:N_02} \\ \hline
+\multicolumn{2}{ |c| }{Skalowalność} \\ \hline
+ID & N\_02 \\ \hline
+Opis & System powinien zapewnić możliwość jego rozbudowy pod względem rozmiaru \\ \hline
+Priorytet & oczekiwane \\ \hline
+Powiązania & - \\ \hline
+\end{longtable}
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie niefunkcjonalne N\_03} \label{tab:N_03} \\ \hline
+\multicolumn{2}{ |c| }{Bezpieczeństwo danych} \\ \hline
+ID & N\_03 \\ \hline
+Opis & System powinien dbać o zapewnienie ograniczonego
+dostępu do przechowywanych informacji. \\ \hline
+Priorytet & wymagane \\ \hline
+Powiązania & - \\ \hline
+\end{longtable}
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie niefunkcjonalne N\_04} \label{tab:N_04} \\ \hline
+\multicolumn{2}{ |c| }{Wydajność} \\ \hline
+ID & N\_04 \\ \hline
+Opis & System powinien reagować na zapytania użytkownika z opóźnieniem nie większym niż pół sekundy. \\ \hline
+Priorytet & oczekiwane \\ \hline
+Powiązania & - \\ \hline
+\end{longtable}
+
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie niefunkcjonalne N\_05} \label{tab:N_05} \\ \hline
+\multicolumn{2}{ |c| }{Możliwość rozwoju} \\ \hline
+ID & N\_05 \\ \hline
+Opis & System powinien być zaplanowany w ten sposób, aby umożliwić dołączanie nowych funkcjonalności. \\ \hline
+Priorytet & oczekiwane \\ \hline
+Powiązania & - \\ \hline
+\end{longtable}
+
+
+\section{Wymagania technologiczne}
+
+
+%\begin{longtable}{|c|p{12cm}|}
+%\caption{Wymaganie technologiczne T\_XX} \label{tab:T_XX} \\ \hline
+%\multicolumn{2}{ |c| }{Nazwa wymagania} \\ \hline
+%ID & T\_XX \\ \hline
+%Opis & opis \\ \hline
+%Priorytet & wymagane/oczekiwane/opcjonalne \\ \hline
+%Powiązania & id/- \\ \hline
+%\end{longtable} 
+
+
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie technologiczne T\_00} \label{tab:T_00} \\ \hline
+\multicolumn{2}{ |c| }{Java} \\ \hline
+ID & T\_00 \\ \hline
+Opis & Aplikacja powinna być stworzona w języku Java, wersja 8 lub wyższa. \\ \hline
+Priorytet & wymagane \\ \hline
+Powiązania & - \\ \hline
+\end{longtable} 
+
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie technologiczne T\_01} \label{tab:T_01} \\ \hline
+\multicolumn{2}{ |c| }{SpringBoot} \\ \hline
+ID & T\_01 \\ \hline
+Opis & Serwer aplikacji powinien być napisany z wykorzystaniem framework'a Spring Boot. \\ \hline
+Priorytet & wymagane\\ \hline
+Powiązania & - \\ \hline
+\end{longtable} 
+
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie technologiczne T\_02} \label{tab:T_02} \\ \hline
+\multicolumn{2}{ |c| }{MySQL} \\ \hline
+ID & T\_02 \\ \hline
+Opis & Wykorzystywanym systemem bazodanowym powinien być MySQL. \\ \hline
+Priorytet & wymagane \\ \hline
+Powiązania & - \\ \hline
+\end{longtable}
+
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Wymaganie technologiczne T\_03} \label{tab:T_03} \\ \hline
+\multicolumn{2}{ |c| }{Aplikacja webowa} \\ \hline
+ID & T\_03 \\ \hline
+Opis & Aplikacja webowa powinna być napisana z wykorzystaniem technologii CSS, HTML i JavaScript z framework'iem AngularJS  \\ \hline
+Priorytet & wymagane \\ \hline
+Powiązania & - \\ \hline
+\end{longtable} 
+
+
+
+\chapter{Projekt systemu}
+
+\chapter{Opis systemu}
+
+
+
+\chapter{Spis tabel i obrazów}
+
+
+\begingroup
+\let\clearpage\relax
+\listoffigures
+\listoftables
+\endgroup
+
+
+
+\end{document}
