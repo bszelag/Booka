@@ -5,6 +5,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{lmodern}
 \usepackage{longtable}
+\usepackage{multirow}
 \selectlanguage{polish}
 
 \title{Dokumentacja projektu "Booka"}
@@ -52,7 +53,7 @@ Powiązania & - \\ \hline
 \caption{Wymaganie funkcjonalne F\_01} \label{tab:F_01} \\ \hline
 \multicolumn{2}{ |c| }{Logowanie} \\ \hline
 ID & F\_01 \\ \hline
-Opis & 	Użytkownik posiadający konto może zalogować się do systemu \\ \hline
+Opis & 	Użytkownik posiadający konto może zalogować się do systemu\\ \hline
 Priorytet & wymagane\\ \hline
 Powiązania & - \\ \hline
 \end{longtable} 
@@ -311,6 +312,145 @@ Opis & Aplikacja webowa powinna być napisana z wykorzystaniem technologii CSS, 
 Priorytet & wymagane \\ \hline
 Powiązania & - \\ \hline
 \end{longtable} 
+
+\section{Przypadki użycia}
+
+Użyte skróty:
+\begin{itemize}
+\item WP - warunki początkowe
+\item WK - warunki końcowe
+\end{itemize}
+
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Przypadek użycia PU\_00} \label{tab:PU_00} \\ \hline
+\multicolumn{2}{ |c| }{Zakładanie konta} \\ \hline
+ID & PU\_00 \\ \hline
+Cel & Możliwość stworzenia nowego konta do systemu \\ \hline
+WP & - \\ \hline
+WK & poprawne zarejestrowanie nowego użytkownika \\ \hline
+\multirow{4}{*}{Przebieg} 
+& Należy wybrać opcję 'Sign up'. \\
+& Należy podać imię, nazwisko, email, hasło oraz opcjonalnie wypełnić dodatkowe pola \\
+& Należy zatwierdzić formularz \\
+& Na email zostanie przesłany link potwierdzający rejestrację, który należy kliknąć \\
+\hline
+\end{longtable} 
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Przypadek użycia PU\_01} \label{tab:PU_01} \\ \hline
+\multicolumn{2}{ |c| }{Logowanie} \\ \hline
+ID & PU\_01 \\ \hline
+Cel & Możliwość zalogowania się do systemu \\ \hline
+WP & poprawnie utworzone konto użytkownika \\ \hline
+WK & zalogowanie się do systemu \\ \hline
+\multirow{3}{*}{Przebieg} 
+& Należy wybrać opcję 'Sign in'. \\
+& Należy podać email oraz hasło \\
+& Należy zatwierdzić dane \\
+\hline
+\end{longtable} 
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Przypadek użycia PU\_02} \label{tab:PU_02} \\ \hline
+\multicolumn{2}{ |c| }{Edycja danych użytkownika} \\ \hline
+ID & PU\_02 \\ \hline
+Cel & Możliwość edycji danych użytkownika \\ \hline
+WP & poprawnie zalogowanie się do systemu \\ \hline
+WK & zmiana danych użytkownika na nowe \\ \hline
+\multirow{3}{*}{Przebieg} 
+& Należy wybrać opcję 'Settings' oraz 'Profile'. \\
+& Należy wybrać interesujące nas dane, które chcemy zmienić i wybrać opcję 'Edit' \\
+& Po wprowadzeniu danych należy zatwierdzić zmiany \\
+\hline
+\end{longtable} 
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Przypadek użycia PU\_03} \label{tab:PU_03} \\ \hline
+\multicolumn{2}{ |c| }{Przeglądanie księgozbioru} \\ \hline
+ID & PU\_03 \\ \hline
+Cel & Możliwość przeglądania wszystkich pozycji w księgozbiorze \\ \hline
+WP & poprawnie zalogowanie się \\ \hline
+WK & wyświetlenie listy książek \\ \hline
+\multirow{1}{*}{Przebieg} 
+& Należy wybrać opcję 'Books' \\
+\hline
+\end{longtable} 
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Przypadek użycia PU\_04} \label{tab:PU_04} \\ \hline
+\multicolumn{2}{ |c| }{Wyszukiwanie książek z własnego księgozbioru} \\ \hline
+ID & PU\_04 \\ \hline
+Cel & Możliwość przeglądania wybranych pozycji w księgozbiorze \\ \hline
+WP & poprawnie zalogowanie się \\ \hline
+WK & wyświetlenie listy książek \\ \hline
+\multirow{2}{*}{Przebieg} 
+& Należy wybrać opcję 'Books' \\
+& Należy wypełnić jeden/kilka filtrów: filtr imion autorów ('Name'), nazwisk autorów ('Surname'), tytułów ('Title'), tagów ('Tag') \\
+\hline
+\end{longtable} 
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Przypadek użycia PU\_05} \label{tab:PU_05} \\ \hline
+\multicolumn{2}{ |c| }{Dodanie nowej książki do księgozbioru} \\ \hline
+ID & PU\_05 \\ \hline
+Cel & Możliwość dodania nowej pozycji do księgozbioru \\ \hline
+WP & poprawnie zalogowanie się \\ \hline
+WK & dodanie nowej pozycji do księgozbioru \\ \hline
+\multirow{3}{*}{Przebieg} 
+& Należy wybrać opcję 'Books' i 'Add book' \\
+& Należy uzupełnić formularz, podając imię i nazwisko autora, tytuł książki i opcjonalnie wypełnić pozostałe pola \\
+& Należy zatwierdzić formularz \\
+\hline
+\end{longtable} 
+
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Przypadek użycia PU\_06} \label{tab:PU_06} \\ \hline
+\multicolumn{2}{ |c| }{Edycja danych książki} \\ \hline
+ID & PU\_06 \\ \hline
+Cel & Możliwość edycji informacji o danej książce \\ \hline
+WP & poprawnie zalogowanie się \\ \hline
+WK & zmiana danych dotyczących danej książki \\ \hline
+\multirow{4}{*}{Przebieg} 
+& Należy wybrać opcję 'Books' \\
+& Należy wybrać daną książkę poprzez 'See details' \\
+& Należy wybrać interesujące nas dane, które chcemy zmienić i wybrać opcję 'Edit' \\
+& Po wprowadzeniu danych należy zatwierdzić zmiany \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Przypadek użycia PU\_07} \label{tab:PU_07} \\ \hline
+\multicolumn{2}{ |c| }{Usuwanie książki} \\ \hline
+ID & PU\_07 \\ \hline
+Cel & Możliwość usunięcia danej pozycji z księgozbioru \\ \hline
+WP & poprawnie zalogowanie się \\ \hline
+WK & usunięcie pozycji z księgozbioru \\ \hline
+\multirow{4}{*}{Przebieg} 
+& Należy wybrać opcję 'Books' \\
+& Należy wybrać daną książkę poprzez 'See details' \\
+& Należy wybrać opcję 'Delete' \\
+& W dodatkowym oknie należy potwierdzić chęć usunięcia danej pozycji (opcja 'Yes') \\
+\hline
+\end{longtable}
+
+
+
+\begin{longtable}{|c|p{12cm}|}
+\caption{Przypadek użycia PU\_08} \label{tab:PU_08} \\ \hline
+\multicolumn{2}{ |c| }{Podgląd książki elektronicznej} \\ \hline
+ID & PU\_08 \\ \hline
+Cel & Możliwość otworzenia książki elektronicznej \\ \hline
+WP & poprawnie zalogowanie się oraz posiadanie książki/książek elektronicznych w księgozbiorze\\ \hline
+WK & otworzenie książki w programie typu Adobe Reader / Foxit \\ \hline
+\multirow{3}{*}{Przebieg} 
+& Należy wybrać opcję 'Books' \\
+& Należy wybrać daną pozycję \\
+& Należy wybrać ikonę książki \\
+\hline
+\end{longtable}
+
 
 
 
