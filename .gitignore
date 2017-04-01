@@ -1,1 +1,16 @@
+# Idea
 .idea
+
+*.iml
+
+# Latex files
+*.aux
+*.dvi
+*.lof
+*.log
+*.lot
+*.synctex.gz
+*.toc
+
+# building
+target

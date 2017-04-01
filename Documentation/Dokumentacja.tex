@@ -483,9 +483,8 @@ WK & Oznaczenie książki jako pożyczonej / Foxit \\ \hline
 Endpoint & Request & Opis & Przykład użycia \\ \hline
 /users/ & GET & Pobranie informacji o użytkownikach & curl -X GET http://localhost/users/ \\ \hline
 /users/<user\_id> & GET & Wyświetlanie informacji o użytkowniku & curl -X GET http://localhost/users/12 \\ \hline
-/users/<user\_id> & PUT & Zmiana danych użytkownika & curl -X PUT http://localhost/users/12 -d \{'login':'xyz','password':'xyz'\} \\ \hline
+/users/<user\_id> & PUT & Zmiana danych użytkownika & curl -X UPDATE http://localhost/users/12 -d \{'login':'xyz','password':'xyz'\} \\ \hline
 /users/<user\_id> & DELETE & Usuwanie konta użytkownika & curl -X DELETE http://localhost/users/12 \\ \hline
-/users/sign\_in & GET & Wyświetlanie strony logowania & curl -X GET http://localhost/users/sign\_in \\ \hline
 /users/sign\_in & POST & Logowanie & curl -X POST -d \{'login':'xyz','password':'xyz'\}  http://localhost/users/sign\_in \\ \hline
 \end{longtable} 
 
@@ -498,11 +497,11 @@ Endpoint & Request & Opis & Przykład użycia \\ \hline
 Endpoint & Request & Opis & Przykład użycia \\ \hline
 /books/ & GET & Pobranie informacji o książkach & curl -X GET http://localhost/books/ \\ \hline
 /books/<book\_id> & GET & Wyświetlanie informacji o danej książce & curl -X GET http://localhost/books/12 \\ \hline
-/books/<book\_id> & PUT & Zmiana danych książki & curl -X PUT http://localhost/books/12 -d \{'title':'xyz','author':'xyz',...\} \\ \hline
+/books/<book\_id> & UPDATE & Zmiana danych książki & curl -X UPDATE http://localhost/books/12 -d \{'title':'xyz','author':'xyz',...\} \\ \hline
 /books/<book\_id> & DELETE & Usuwanie książki & curl -X DELETE http://localhost/books/12 \\ \hline
 /books/<book\_id>/lend/ & GET & Wyświetla informacje o wypożyczeniu & curl -X GET http://localhost/books/12/lend \\ \hline
 /books/<book\_id>/lend/ & POST & Wypożyczanie książki & curl -X POST http://localhost/books/12/lend -d \{"to":"abc","date":"null","info":" "\} \\ \hline
-/books/<book\_id>/lend/ & PUT & Edycja danych o wypożyczeniu & curl -X POST http://localhost/books/12/lend -d \{"to":"abc","date":"null","info":" "\} \\ \hline
+/books/<book\_id>/lend/ & UPDATE & Edycja danych o wypożyczeniu & curl -X POST http://localhost/books/12/lend -d \{"to":"abc","date":"null","info":" "\} \\ \hline
 /books/<book\_id>/lend/ & DELETE & Usuwa dane wypożyczenie & curl -X DELETE http://localhost/books/lend/12 \\ \hline
 \end{longtable} 
 
@@ -513,8 +512,7 @@ Endpoint & Request & Opis & Przykład użycia \\ \hline
 \multicolumn{4}{ |c| }{ Wyszukiwanie } \\ 
 \multicolumn{4}{ |c| }{ /search } \\ \hline
 Endpoint & Request & Opis & Przykład użycia \\ \hline
-/search/ & GET & Widok wyszukiwarki & curl -X GET http://localhost/search/ \\ \hline
-/search/ & POST & Wyszukiwanie & curl -X POST http://localhost/search/ -d \{"pole1":"a","pole2":"b"...\} \\ \hline
+/search/<query> & GET & Wyszukiwanie & curl -X GET http://localhost/search/<query> \\ \hline
 \end{longtable} 
 
 \item Biblioteki
@@ -527,7 +525,7 @@ Endpoint & Request & Opis & Przykład użycia \\ \hline
 /libraries/ & GET & Lista bibliotek & curl -X GET http://localhost/libraries/ \\ \hline
 /libraries/ & POST & Dodanie biblioteki & curl -X POST http://localhost/libraries/ -d \{"pole1":"a","pole2":"b"...\} \\ \hline
 /libraries/<id> & GET & Informacje o bibliotece & curl -X GET http://localhost/libraries/12 \\ \hline
-/libraries/<id> & PUT & Edycja danych o bibliotece & curl -X PUT http://localhost/libraries/12 -d \{"pole1":"a","pole2":"b"...\} \\ \hline
+/libraries/<id> & UPDATE & Edycja danych o bibliotece & curl -X UPDATE http://localhost/libraries/12 -d \{"pole1":"a","pole2":"b"...\} \\ \hline
 /libraries/<id> & DELETE & Usunięcie biblioteki & curl -X DELETE http://localhost/libraries/12 \\ \hline
 \end{longtable} 
 
@@ -541,7 +539,7 @@ Endpoint & Request & Opis & Przykład użycia \\ \hline
 /bookshops/ & GET & Lista księgarni & curl -X GET http://localhost/bookshops/ \\ \hline
 /bookshops/ & POST & Dodanie księgarni & curl -X POST http://localhost/bookshops/ -d \{"pole1":"a","pole2":"b"...\} \\ \hline
 /bookshops/<id> & GET & Informacje o księgarni & curl -X GET http://localhost/bookshops/12 \\ \hline
-/bookshops/<id> & PUT & Edycja danych o księgarni & curl -X PUT http://localhost/bookshops/12 -d \{"pole1":"a","pole2":"b"...\} \\ \hline
+/bookshops/<id> & UPDATE & Edycja danych o księgarni & curl -X UPDATE http://localhost/bookshops/12 -d \{"pole1":"a","pole2":"b"...\} \\ \hline
 /bookshops/<id> & DELETE & Usunięcie księgarni & curl -X DELETE http://localhost/bookshops/12 \\ \hline
 \end{longtable} 
 
@@ -555,7 +553,7 @@ Endpoint & Request & Opis & Przykład użycia \\ \hline
 /friends/ & GET & Lista znajomych & curl -X GET http://localhost/friends/ \\ \hline
 /friends/ & POST & Dodanie znajomego & curl -X POST http://localhost/friends/ -d \{"email":"abc@abc.com"\} \\ \hline
 /friends/<id> & GET & Informacje o książkach znajomego & curl -X GET http://localhost/friends/12 \\ \hline
-/friends/<id> & POST & Wyślij powiadomienie znajomemu & curl -X PUT http://localhost/friends/12 -d \{"type":"a","message":"b"...\} \\ \hline
+/friends/<id> & POST & Wyślij powiadomienie znajomemu & curl -X UPDATE http://localhost/friends/12 -d \{"type":"a","message":"b"...\} \\ \hline
 /friends/<id> & DELETE & Usuń znajomego z listy & curl -X DELETE http://localhost/friends/12 \\ \hline
 \end{longtable} 
 
