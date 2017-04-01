@@ -545,7 +545,31 @@ Endpoint & Request & Opis & Przykład użycia \\ \hline
 /bookshops/<id> & DELETE & Usunięcie księgarni & curl -X DELETE http://localhost/bookshops/12 \\ \hline
 \end{longtable} 
 
-\item Powiadomienia
+\item Znajomi
+
+\begin{longtable}{|c|c|c|p{6cm}|}
+\caption{Akcje związane ze znajomymi} \label{API_5} \\ \hline
+\multicolumn{4}{ |c| }{ Znajomi } \\ 
+\multicolumn{4}{ |c| }{ /friends } \\ \hline
+Endpoint & Request & Opis & Przykład użycia \\ \hline
+/friends/ & GET & Lista znajomych & curl -X GET http://localhost/friends/ \\ \hline
+/friends/ & POST & Dodanie znajomego & curl -X POST http://localhost/friends/ -d \{"email":"abc@abc.com"\} \\ \hline
+/friends/<id> & GET & Informacje o książkach znajomego & curl -X GET http://localhost/friends/12 \\ \hline
+/friends/<id> & POST & Wyślij powiadomienie znajomemu & curl -X PUT http://localhost/friends/12 -d \{"type":"a","message":"b"...\} \\ \hline
+/friends/<id> & DELETE & Usuń znajomego z listy & curl -X DELETE http://localhost/friends/12 \\ \hline
+\end{longtable} 
+
+\item Wiadomości
+
+\begin{longtable}{|c|c|c|p{6cm}|}
+\caption{Akcje związane z wiadomościami} \label{API_6} \\ \hline
+\multicolumn{4}{ |c| }{ Wiadomości } \\ 
+\multicolumn{4}{ |c| }{ /messages } \\ \hline
+Endpoint & Request & Opis & Przykład użycia \\ \hline
+/messages/ & GET & Lista wiadomości & curl -X GET http://localhost/messages/ \\ \hline
+/messages/<email> & GET & Lista wiadomości od znajomego & curl -X GET http://localhost/messages/<email> \\ \hline
+/messages/<email> & POST & Wysłanie wiadomości do znajomego & curl -X POST http://localhost/messages/ -d \{"message":"xxxxx"\} \\ \hline
+\end{longtable} 
 
 \end{enumerate}
 
