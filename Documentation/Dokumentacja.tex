@@ -7,7 +7,10 @@
 \usepackage{longtable}
 \usepackage{multirow}
 \usepackage{enumerate}
+\usepackage{array}
+\newcolumntype{C}[1]{>{\centering\let\newline}}
 \selectlanguage{polish}
+
 
 \title{Dokumentacja projektu "Booka"}
 \author{Grupa 1:\\ Miłosz Białczak (218295)\\ Mateusz Gniewkowski (218138)\\ Beata Szeląg (218139)}
@@ -473,103 +476,80 @@ WK & Oznaczenie książki jako pożyczonej / Foxit \\ \hline
 
 \section{REST API}
 
-\begin{enumerate}
-\item Użytkownicy
 
-\begin{longtable}{|c|c|c|p{6cm}|}
+\begin{longtable}{|p{3cm}|p{2cm}|p{3.5cm}|p{6cm}|}
 \caption{Akcje związane z użytkownikami} \label{API_0} \\ \hline
 \multicolumn{4}{ |c| }{ Użytkownicy } \\ 
 \multicolumn{4}{ |c| }{ /users } \\ \hline
-Endpoint & Request & Opis & Przykład użycia \\ \hline
-/users/ & GET & Pobranie informacji o użytkownikach & curl -X GET http://localhost/users/ \\ \hline
-/users/<user\_id> & GET & Wyświetlanie informacji o użytkowniku & curl -X GET http://localhost/users/12 \\ \hline
-/users/<user\_id> & PUT & Zmiana danych użytkownika & curl -X UPDATE http://localhost/users/12 -d \{'login':'xyz','password':'xyz'\} \\ \hline
-/users/<user\_id> & DELETE & Usuwanie konta użytkownika & curl -X DELETE http://localhost/users/12 \\ \hline
-/users/sign\_in & POST & Logowanie & curl -X POST -d \{'login':'xyz','password':'xyz'\}  http://localhost/users/sign\_in \\ \hline
+Endpoint & Request & Opis & Dodatkowo \\ \hline
+/users/ & GET & Pobranie informacji o użytkownikach & - \\ \hline
+/users/<user\_id> & GET & Wyświetlanie informacji o użytkowniku & - \\ \hline
+/users/<user\_id> & PUT & Zmiana danych użytkownika & body: login, password \\ \hline
+/users/<user\_id> & DELETE & Usuwanie konta użytkownika & - \\ \hline
+/users/sign\_in & POST & Logowanie & body: login, password \\ \hline
 \end{longtable} 
 
-\item Książki
 
-\begin{longtable}{|c|c|c|p{6cm}|}
+\begin{longtable}{|p{4.0cm}|p{1.5cm}|p{3.5cm}|p{5.5cm}|}
 \caption{Akcje związane z książkami} \label{API_1} \\ \hline
 \multicolumn{4}{ |c| }{ Książki } \\ 
 \multicolumn{4}{ |c| }{ /books } \\ \hline
-Endpoint & Request & Opis & Przykład użycia \\ \hline
-/books/ & GET & Pobranie informacji o książkach & curl -X GET http://localhost/books/ \\ \hline
-/books/<book\_id> & GET & Wyświetlanie informacji o danej książce & curl -X GET http://localhost/books/12 \\ \hline
-/books/<book\_id> & UPDATE & Zmiana danych książki & curl -X UPDATE http://localhost/books/12 -d \{'title':'xyz','author':'xyz',...\} \\ \hline
-/books/<book\_id> & DELETE & Usuwanie książki & curl -X DELETE http://localhost/books/12 \\ \hline
-/books/<book\_id>/lend/ & GET & Wyświetla informacje o wypożyczeniu & curl -X GET http://localhost/books/12/lend \\ \hline
-/books/<book\_id>/lend/ & POST & Wypożyczanie książki & curl -X POST http://localhost/books/12/lend -d \{"to":"abc","date":"null","info":" "\} \\ \hline
-/books/<book\_id>/lend/ & UPDATE & Edycja danych o wypożyczeniu & curl -X POST http://localhost/books/12/lend -d \{"to":"abc","date":"null","info":" "\} \\ \hline
-/books/<book\_id>/lend/ & DELETE & Usuwa dane wypożyczenie & curl -X DELETE http://localhost/books/lend/12 \\ \hline
+Endpoint & Request & Opis & Dodatkowo \\ \hline
+/books/ & GET & Pobranie informacji o książkach & - \\ \hline
+/books/<book\_id> & GET & Wyświetlanie informacji o danej książce & - \\ \hline
+/books/<book\_id> & PUT & Zmiana danych książki & body: title, author, format, path, status, owner, owner\_type \\ \hline
+/books/<book\_id> & DELETE & Usuwanie książki & - \\ \hline
+/books/<book\_id>/lend/ & GET & Wyświetla informacje o wypożyczeniu & - \\ \hline
+/books/<book\_id>/lend/ & POST & Wypożyczanie książki & body: borrower, message, date\_start, date\_stop \\ \hline
+/books/<book\_id>/lend/ & PUT & Edycja danych o wypożyczeniu & body: borrower, message, date\_start, date\_stop \\ \hline
+/books/<book\_id>/lend/ & DELETE & Usuwa dane wypożyczenie & - \\ \hline
 \end{longtable} 
 
-\item Wyszukiwanie
 
-\begin{longtable}{|c|c|c|p{6cm}|}
+\begin{longtable}{|p{3cm}|p{2cm}|p{3.5cm}|p{6cm}|}
 \caption{Akcje związane z wyszukiwaniem} \label{API_2} \\ \hline
 \multicolumn{4}{ |c| }{ Wyszukiwanie } \\ 
 \multicolumn{4}{ |c| }{ /search } \\ \hline
-Endpoint & Request & Opis & Przykład użycia \\ \hline
-/search/<query> & GET & Wyszukiwanie & curl -X GET http://localhost/search/<query> \\ \hline
+Endpoint & Request & Opis & Dodatkowo \\ \hline
+/search/<query> & GET & Wyszukiwanie & query: opis budowania zapytania w punkcie X.Y \\ \hline
 \end{longtable} 
 
-\item Biblioteki
 
-\begin{longtable}{|c|c|c|p{6cm}|}
-\caption{Akcje związane z bibliotekami} \label{API_3} \\ \hline
-\multicolumn{4}{ |c| }{ Biblioteki } \\ 
-\multicolumn{4}{ |c| }{ /libraries } \\ \hline
-Endpoint & Request & Opis & Przykład użycia \\ \hline
-/libraries/ & GET & Lista bibliotek & curl -X GET http://localhost/libraries/ \\ \hline
-/libraries/ & POST & Dodanie biblioteki & curl -X POST http://localhost/libraries/ -d \{"pole1":"a","pole2":"b"...\} \\ \hline
-/libraries/<id> & GET & Informacje o bibliotece & curl -X GET http://localhost/libraries/12 \\ \hline
-/libraries/<id> & UPDATE & Edycja danych o bibliotece & curl -X UPDATE http://localhost/libraries/12 -d \{"pole1":"a","pole2":"b"...\} \\ \hline
-/libraries/<id> & DELETE & Usunięcie biblioteki & curl -X DELETE http://localhost/libraries/12 \\ \hline
+\begin{longtable}{|p{3cm}|p{2cm}|p{3.5cm}|p{6cm}|}
+\caption{Akcje związane z instytucjami} \label{API_3} \\ \hline
+\multicolumn{4}{ |c| }{ Institutions } \\ 
+\multicolumn{4}{ |c| }{ /institutions } \\ \hline
+Endpoint & Request & Opis & Dodatkowo \\ \hline
+/institutions/ & GET & Lista instytucji & - \\ \hline
+/institutions/ & POST & Dodanie instytucji & body: name, url, contact, type, address\_id \\ \hline
+/institutions/<id> & GET & Informacje o instytucji & - \\ \hline
+/institutions/<id> & PUT & Edycja danych o instytucji &  body: name, url, contact, type, address\_id \\ \hline
+/institutions/<id> & DELETE & Usunięcie instytucji & - \\ \hline
 \end{longtable} 
 
-\item Księgarnie
 
-\begin{longtable}{|c|c|c|p{6cm}|}
-\caption{Akcje związane z księgarniami} \label{API_4} \\ \hline
-\multicolumn{4}{ |c| }{ Księgarnie } \\ 
-\multicolumn{4}{ |c| }{ /bookshops } \\ \hline
-Endpoint & Request & Opis & Przykład użycia \\ \hline
-/bookshops/ & GET & Lista księgarni & curl -X GET http://localhost/bookshops/ \\ \hline
-/bookshops/ & POST & Dodanie księgarni & curl -X POST http://localhost/bookshops/ -d \{"pole1":"a","pole2":"b"...\} \\ \hline
-/bookshops/<id> & GET & Informacje o księgarni & curl -X GET http://localhost/bookshops/12 \\ \hline
-/bookshops/<id> & UPDATE & Edycja danych o księgarni & curl -X UPDATE http://localhost/bookshops/12 -d \{"pole1":"a","pole2":"b"...\} \\ \hline
-/bookshops/<id> & DELETE & Usunięcie księgarni & curl -X DELETE http://localhost/bookshops/12 \\ \hline
-\end{longtable} 
-
-\item Znajomi
-
-\begin{longtable}{|c|c|c|p{6cm}|}
+\begin{longtable}{|p{3cm}|p{2cm}|p{3.5cm}|p{6cm}|}
 \caption{Akcje związane ze znajomymi} \label{API_5} \\ \hline
 \multicolumn{4}{ |c| }{ Znajomi } \\ 
 \multicolumn{4}{ |c| }{ /friends } \\ \hline
-Endpoint & Request & Opis & Przykład użycia \\ \hline
-/friends/ & GET & Lista znajomych & curl -X GET http://localhost/friends/ \\ \hline
-/friends/ & POST & Dodanie znajomego & curl -X POST http://localhost/friends/ -d \{"email":"abc@abc.com"\} \\ \hline
-/friends/<id> & GET & Informacje o książkach znajomego & curl -X GET http://localhost/friends/12 \\ \hline
-/friends/<id> & POST & Wyślij powiadomienie znajomemu & curl -X UPDATE http://localhost/friends/12 -d \{"type":"a","message":"b"...\} \\ \hline
-/friends/<id> & DELETE & Usuń znajomego z listy & curl -X DELETE http://localhost/friends/12 \\ \hline
+Endpoint & Request & Opis & Dodatkowo \\ \hline
+/friends/ & GET & Lista znajomych & - \\ \hline
+/friends/ & POST & Dodanie znajomego & body: email \\ \hline
+/friends/<id> & GET & Informacje o książkach znajomego & - \\ \hline
+/friends/<id> & POST & Wyślij powiadomienie znajomemu & body: type, message \\ \hline
+/friends/<id> & DELETE & Usuń znajomego z listy & - \\ \hline
 \end{longtable} 
 
-\item Wiadomości
 
-\begin{longtable}{|c|c|c|p{6cm}|}
+\begin{longtable}{|p{3cm}|p{2cm}|p{3.5cm}|p{6cm}|}
 \caption{Akcje związane z wiadomościami} \label{API_6} \\ \hline
 \multicolumn{4}{ |c| }{ Wiadomości } \\ 
 \multicolumn{4}{ |c| }{ /messages } \\ \hline
-Endpoint & Request & Opis & Przykład użycia \\ \hline
-/messages/ & GET & Lista wiadomości & curl -X GET http://localhost/messages/ \\ \hline
-/messages/<email> & GET & Lista wiadomości od znajomego & curl -X GET http://localhost/messages/<email> \\ \hline
-/messages/<email> & POST & Wysłanie wiadomości do znajomego & curl -X POST http://localhost/messages/ -d \{"message":"xxxxx"\} \\ \hline
+Endpoint & Request & Opis & Dodatkowo \\ \hline
+/messages/ & GET & Lista wiadomości & - \\ \hline
+/messages/<email> & GET & Lista wiadomości od znajomego & -  \\ \hline
+/messages/<email> & POST & Wysłanie wiadomości do znajomego & body: message \\ \hline
 \end{longtable} 
-
-\end{enumerate}
 
 \chapter{Opis systemu}
 
