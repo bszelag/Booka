@@ -112,27 +112,12 @@ public class Address implements Serializable {
 
         Address address = (Address) o;
 
-        if (id != null ? !id.equals(address.id) : address.id != null) return false;
-        if (country != null ? !country.equals(address.country) : address.country != null) return false;
-        if (province != null ? !province.equals(address.province) : address.province != null) return false;
-        if (city != null ? !city.equals(address.city) : address.city != null) return false;
-        if (street != null ? !street.equals(address.street) : address.street != null) return false;
-        if (buildNr != null ? !buildNr.equals(address.buildNr) : address.buildNr != null) return false;
-        if (apartNr != null ? !apartNr.equals(address.apartNr) : address.apartNr != null) return false;
-        return code != null ? code.equals(address.code) : address.code == null;
+        return id.equals(address.id);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (country != null ? country.hashCode() : 0);
-        result = 31 * result + (province != null ? province.hashCode() : 0);
-        result = 31 * result + (city != null ? city.hashCode() : 0);
-        result = 31 * result + (street != null ? street.hashCode() : 0);
-        result = 31 * result + (buildNr != null ? buildNr.hashCode() : 0);
-        result = 31 * result + (apartNr != null ? apartNr.hashCode() : 0);
-        result = 31 * result + (code != null ? code.hashCode() : 0);
-        return result;
+        return  id;
     }
 
     @Override

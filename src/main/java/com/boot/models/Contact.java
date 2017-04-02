@@ -32,12 +32,12 @@ public class Contact  implements Serializable {
 
         Contact contact1 = (Contact) o;
 
-        return contact != null ? contact.equals(contact1.contact) : contact1.contact == null;
+        return contact.equals(contact1.contact);
     }
 
     @Override
     public int hashCode() {
-        return contact != null ? contact.hashCode() : 0;
+        return contact.hashCode();
     }
 
     @Override

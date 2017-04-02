@@ -110,27 +110,12 @@ public class Book implements Serializable {
 
         Book book = (Book) o;
 
-        if (id != null ? !id.equals(book.id) : book.id != null) return false;
-        if (title != null ? !title.equals(book.title) : book.title != null) return false;
-        if (author != null ? !author.equals(book.author) : book.author != null) return false;
-        if (format != null ? !format.equals(book.format) : book.format != null) return false;
-        if (path != null ? !path.equals(book.path) : book.path != null) return false;
-        if (status != null ? !status.equals(book.status) : book.status != null) return false;
-        if (ownerType != null ? !ownerType.equals(book.ownerType) : book.ownerType != null) return false;
-        return owner != null ? owner.equals(book.owner) : book.owner == null;
+        return id.equals(book.id);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (author != null ? author.hashCode() : 0);
-        result = 31 * result + (format != null ? format.hashCode() : 0);
-        result = 31 * result + (path != null ? path.hashCode() : 0);
-        result = 31 * result + (status != null ? status.hashCode() : 0);
-        result = 31 * result + (ownerType != null ? ownerType.hashCode() : 0);
-        result = 31 * result + (owner != null ? owner.hashCode() : 0);
-        return result;
+        return id;
     }
 
     @Override

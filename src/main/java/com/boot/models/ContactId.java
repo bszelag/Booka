@@ -44,14 +44,14 @@ public class ContactId implements Serializable {
 
         ContactId contactId = (ContactId) o;
 
-        if (contact1 != null ? !contact1.equals(contactId.contact1) : contactId.contact1 != null) return false;
-        return contact2 != null ? contact2.equals(contactId.contact2) : contactId.contact2 == null;
+        return (contact1.equals(contactId.contact1) && contact2.equals(contactId.contact2));
+
     }
 
     @Override
     public int hashCode() {
-        int result = contact1 != null ? contact1.hashCode() : 0;
-        result = 31 * result + (contact2 != null ? contact2.hashCode() : 0);
+        int result = contact1.hashCode();
+        result = 31 * result + contact2.hashCode();
         return result;
     }
 

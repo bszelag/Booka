@@ -78,21 +78,12 @@ public class Institution implements Serializable {
 
         Institution that = (Institution) o;
 
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (url != null ? !url.equals(that.url) : that.url != null) return false;
-        if (contact != null ? !contact.equals(that.contact) : that.contact != null) return false;
-        if (type != null ? !type.equals(that.type) : that.type != null) return false;
-        return address != null ? address.equals(that.address) : that.address == null;
+        return name.equals(that.name);
     }
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (url != null ? url.hashCode() : 0);
-        result = 31 * result + (contact != null ? contact.hashCode() : 0);
-        result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + (address != null ? address.hashCode() : 0);
-        return result;
+        return name.hashCode();
     }
 
     @Override

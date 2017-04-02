@@ -44,14 +44,13 @@ public class TagBookId implements Serializable {
 
         TagBookId tagBookId = (TagBookId) o;
 
-        if (tagTittle != null ? !tagTittle.equals(tagBookId.tagTittle) : tagBookId.tagTittle != null) return false;
-        return book != null ? book.equals(tagBookId.book) : tagBookId.book == null;
+        return (tagTittle.equals(tagBookId.tagTittle) && book.equals(tagBookId.book));
     }
 
     @Override
     public int hashCode() {
-        int result = tagTittle != null ? tagTittle.hashCode() : 0;
-        result = 31 * result + (book != null ? book.hashCode() : 0);
+        int result = tagTittle.hashCode();
+        result = 31 * result + book.hashCode();
         return result;
     }
 

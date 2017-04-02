@@ -32,12 +32,12 @@ public class Tag implements Serializable {
 
         Tag tag = (Tag) o;
 
-        return title != null ? title.equals(tag.title) : tag.title == null;
+        return title.equals(tag.title);
     }
 
     @Override
     public int hashCode() {
-        return title != null ? title.hashCode() : 0;
+        return title.hashCode();
     }
 
     @Override

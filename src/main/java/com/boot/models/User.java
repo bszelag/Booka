@@ -1,6 +1,11 @@
 package com.boot.models;
 
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.OneToOne;
 import java.io.Serializable;
 
 @Entity
@@ -66,19 +71,12 @@ public class User implements Serializable {
 
         User user = (User) o;
 
-        if (id != null ? !id.equals(user.id) : user.id != null) return false;
-        if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        if (email != null ? !email.equals(user.email) : user.email != null) return false;
-        return address != null ? address.equals(user.address) : user.address == null;
+        return id.equals(user.id);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (address != null ? address.hashCode() : 0);
-        return result;
+        return id.hashCode();
     }
 
     @Override

@@ -32,12 +32,12 @@ public class TagBook implements Serializable {
 
         TagBook tagBook1 = (TagBook) o;
 
-        return tagBook != null ? tagBook.equals(tagBook1.tagBook) : tagBook1.tagBook == null;
+        return tagBook.equals(tagBook1.tagBook);
     }
 
     @Override
     public int hashCode() {
-        return tagBook != null ? tagBook.hashCode() : 0;
+        return tagBook.hashCode();
     }
 
     @Override
