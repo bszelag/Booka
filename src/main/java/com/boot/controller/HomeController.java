@@ -1,12 +1,14 @@
 package com.boot.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-@RestController
+@Controller
+@RequestMapping("/")
 public class HomeController {
-    @RequestMapping("/")
-    public String home() {
-        return "Booka - your private books manager";
+    @RequestMapping(method = RequestMethod.GET)
+    public String index() {
+        return "index";
     }
 }
