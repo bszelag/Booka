@@ -1,0 +1,120 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 30px;
+    background-color: #a0a0a0 !important;
+}
+
+.main-view {
+    display: grid;
+    background-color: #a0a0a0;
+    margin: 5px;
+}
+.navbar {
+    width: 100%;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    background-color: #330033;
+    color: #d0d0d0;
+    text-align: right;
+    font-size: 24px;
+    border-radius: 0px;
+    border: none;
+}
+
+.navbar a {
+    text-decoration: none;
+    margin: 5px;
+    padding: 5px 10px 5px 10px;
+    color: #d0d0d0;
+}
+
+.navbar a:hover {
+    background-color: #d0d0d0;
+    color: #330033;
+    text-decoration: none;
+}
+.menu {
+    background-color: #330033;
+    margin: 10px 0px 20px 10px;
+}
+.menu i {
+    margin-left: 10px;
+}
+.main-container {
+    background-color: #a0a0a0;
+    margin: 10px 0px 20px 20px;
+    min-height: 100%;
+}
+
+.big-container {
+    background-color: #808080;
+    margin: 10px 25px 10px 40px;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+.small-container {
+    background-color: #707070;
+    margin: 10px 0px 10px 15px;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+
+.small-container p {
+    font-size: 22px;
+    text-align: center;
+}
+.small-container form {
+    font-size: 18px;
+    text-decoration: double;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.small-container form input {
+    margin: 5px 10px 5px 5px;
+    background-color: #707070;
+    text-decoration: none;
+}
+
+footer {
+    background-color: #606060;
+    color: #1f1f1f;
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 10px 0 0 0;
+}
+
+ul li a {
+    text-decoration: none;
+    display: block;
+    background-color: #330033;
+    color: #d0d0d0;
+    padding: 10px;
+    font-size: 16px;
+    text-align: center;
+}
+ul li a:hover {
+    background-color: #d0d0d0;
+    color: #330033;
+    text-decoration: none;
+}
+
+button .btn-sign {
+    padding: 10px;
+    background-color: #330033;
+    color: #d0d0d0;
+}
+
+button:hover .btn-sign {
+    background-color: #d0d0d0;
+    color: #330033;
+}

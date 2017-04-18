@@ -1,4 +1,4 @@
 (function() {
     angular
-        .module('booka', ['ngRoute', 'ngCookies']);
+        .module('booka', ['ngRoute', 'ngCookies', 'mainController']);
 })();

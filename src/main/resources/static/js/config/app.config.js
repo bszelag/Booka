@@ -10,7 +10,9 @@
     function config($routeProvider) {
         $routeProvider
             .when('/', {
-                templateUrl: 'resources/templates/main/main.html'
+                templateUrl: 'resources/templates/main/main.html',
+                controller: 'mainController',
+                controllerAs: 'cnt'
             })
 
             .when('/books', {
