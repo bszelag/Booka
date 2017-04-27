@@ -37,7 +37,7 @@
 %ID & F\_XX \\ \hline
 %Opis & 	opis \\ \hline
 %Priorytet & wymagane/oczekiwane/opcjonalne \\ \hline
-%Powiązania & id/-  \\ \hline
+%Powiązania & login/-  \\ \hline
 %\end{longtable} 
 
 
@@ -202,7 +202,7 @@ Powiązania & -  \\ \hline
 %ID & N\_XX \\ \hline
 %Opis & opis \\ \hline
 %Priorytet & wymagane/oczekiwane/opcjonalne \\ \hline
-%Powiązania & id/- \\ \hline
+%Powiązania & login/- \\ \hline
 %\end{longtable}
 
 \begin{longtable}{|c|p{12cm}|}
@@ -273,7 +273,7 @@ Powiązania & - \\ \hline
 %ID & T\_XX \\ \hline
 %Opis & opis \\ \hline
 %Priorytet & wymagane/oczekiwane/opcjonalne \\ \hline
-%Powiązania & id/- \\ \hline
+%Powiązania & login/- \\ \hline
 %\end{longtable} 
 
 
@@ -496,7 +496,7 @@ Endpoint & Request & Opis & Dodatkowo \\ \hline
 Endpoint & Request & Opis & Dodatkowo \\ \hline
 /books/ & GET & Pobranie informacji o książkach & - \\ \hline
 /books/<book\_id> & GET & Wyświetlanie informacji o danej książce & - \\ \hline
-/books/<book\_id> & PUT & Zmiana danych książki & body: title, author, format, path, status, owner, owner\_type \\ \hline
+/books/<book\_id> & PUT & Zmiana danych książki & body: title, author, format, path, status, user, user\_type \\ \hline
 /books/<book\_id> & DELETE & Usuwanie książki & - \\ \hline
 /books/<book\_id>/lend/ & GET & Wyświetla informacje o wypożyczeniu & - \\ \hline
 /books/<book\_id>/lend/ & POST & Wypożyczanie książki & body: borrower, message, date\_start, date\_stop \\ \hline
@@ -521,9 +521,9 @@ Endpoint & Request & Opis & Dodatkowo \\ \hline
 Endpoint & Request & Opis & Dodatkowo \\ \hline
 /institutions/ & GET & Lista instytucji & - \\ \hline
 /institutions/ & POST & Dodanie instytucji & body: name, url, contact, type, address\_id \\ \hline
-/institutions/<id> & GET & Informacje o instytucji & - \\ \hline
-/institutions/<id> & PUT & Edycja danych o instytucji &  body: name, url, contact, type, address\_id \\ \hline
-/institutions/<id> & DELETE & Usunięcie instytucji & - \\ \hline
+/institutions/<login> & GET & Informacje o instytucji & - \\ \hline
+/institutions/<login> & PUT & Edycja danych o instytucji &  body: name, url, contact, type, address\_id \\ \hline
+/institutions/<login> & DELETE & Usunięcie instytucji & - \\ \hline
 \end{longtable} 
 
 
@@ -534,9 +534,9 @@ Endpoint & Request & Opis & Dodatkowo \\ \hline
 Endpoint & Request & Opis & Dodatkowo \\ \hline
 /friends/ & GET & Lista znajomych & - \\ \hline
 /friends/ & POST & Dodanie znajomego & body: email \\ \hline
-/friends/<id> & GET & Informacje o książkach znajomego & - \\ \hline
-/friends/<id> & POST & Wyślij powiadomienie znajomemu & body: type, message \\ \hline
-/friends/<id> & DELETE & Usuń znajomego z listy & - \\ \hline
+/friends/<login> & GET & Informacje o książkach znajomego & - \\ \hline
+/friends/<login> & POST & Wyślij powiadomienie znajomemu & body: type, message \\ \hline
+/friends/<login> & DELETE & Usuń znajomego z listy & - \\ \hline
 \end{longtable} 
 
 

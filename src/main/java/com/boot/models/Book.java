@@ -2,14 +2,22 @@ package com.boot.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import java.io.Serializable;
 
 @Entity
 public class Book implements Serializable {
 
     @Id
+    @SequenceGenerator(name="book_idbook_seq",
+            sequenceName="book_idbook_seq",
+            allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator="book_idbook_seq")
     private Integer id;
 
     @Column(nullable = false)
@@ -23,12 +31,16 @@ public class Book implements Serializable {
     private Character ownerType;
 
     @ManyToOne
-    private User owner;
+    private User user;
+
+    @ManyToOne
+    private Institution institution;
 
     public Book() {
     }
 
-    public Book(Integer id, String title, String author, Character format, String path, String status, Character ownerType, User owner) {
+    public Book(Integer id, String title, String author, Character format, String path, String status,
+                Character ownerType, User user, Institution institution) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -36,7 +48,16 @@ public class Book implements Serializable {
         this.path = path;
         this.status = status;
         this.ownerType = ownerType;
-        this.owner = owner;
+        this.user = user;
+        this.institution = institution;
+    }
+
+    public Institution getInstitution() {
+        return institution;
+    }
+
+    public void setInstitution(Institution institution) {
+        this.institution = institution;
     }
 
     public Integer getId() {
@@ -95,12 +116,12 @@ public class Book implements Serializable {
         this.ownerType = ownerType;
     }
 
-    public User getOwner() {
-        return owner;
+    public User getUser() {
+        return user;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -128,7 +149,8 @@ public class Book implements Serializable {
                 ", path='" + path + '\'' +
                 ", status='" + status + '\'' +
                 ", ownerType=" + ownerType +
-                ", owner=" + owner +
+                ", user=" + user +
+                ", institution=" + institution +
                 '}';
     }
 }
