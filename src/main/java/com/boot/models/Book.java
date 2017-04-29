@@ -34,13 +34,13 @@ public class Book implements Serializable {
     private User user;
 
     @ManyToOne
-    private Institution institution;
+    private Department department;
 
     public Book() {
     }
 
     public Book(Integer id, String title, String author, Character format, String path, String status,
-                Character ownerType, User user, Institution institution) {
+                Character ownerType, User user, Department department) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -49,15 +49,15 @@ public class Book implements Serializable {
         this.status = status;
         this.ownerType = ownerType;
         this.user = user;
-        this.institution = institution;
+        this.department = department;
     }
 
-    public Institution getInstitution() {
-        return institution;
+    public Department getDepartment() {
+        return department;
     }
 
-    public void setInstitution(Institution institution) {
-        this.institution = institution;
+    public void setDepartment(Institution institution) {
+        this.department = department;
     }
 
     public Integer getId() {
@@ -150,7 +150,7 @@ public class Book implements Serializable {
                 ", status='" + status + '\'' +
                 ", ownerType=" + ownerType +
                 ", user=" + user +
-                ", institution=" + institution +
+                ", department=" + department +
                 '}';
     }
 }

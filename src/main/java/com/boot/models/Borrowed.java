@@ -1,9 +1,7 @@
 package com.boot.models;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -11,6 +9,11 @@ import java.util.Date;
 public class Borrowed implements Serializable {
 
     @Id
+    @SequenceGenerator(name="borrowed_idborrowed_seq",
+            sequenceName="borrowed_idborrowed_seq",
+            allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator="borrowed_idborrowed_seq")
     private Integer id;
 
     @OneToOne(optional = false)

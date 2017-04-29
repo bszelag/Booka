@@ -1,16 +1,22 @@
 package com.boot.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 public class Department implements Serializable{
 
     @Id
+    @SequenceGenerator(name="department_iddepartment_seq",
+            sequenceName="department_iddepartment_seq",
+            allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator="department_iddepartment_seq")
+    private String id;
     private String code;
-    private String localization;
+
+    @ManyToOne
+    private Address address;
 
     @ManyToOne
     private Institution institution;
@@ -18,33 +24,10 @@ public class Department implements Serializable{
     public Department() {
     }
 
-    public Department(String code, String localization, Institution institution) {
+    public Department(String id, String code, Address address, Institution institution) {
+        this.id = id;
         this.code = code;
-        this.localization = localization;
-        this.institution = institution;
-    }
-
-    public String getId() {
-        return code;
-    }
-
-    public void setId(String code) {
-        this.code = code;
-    }
-
-    public String getLocalization() {
-        return localization;
-    }
-
-    public void setLocalization(String localization) {
-        this.localization = localization;
-    }
-
-    public Institution getInstitution() {
-        return institution;
-    }
-
-    public void setInstitution(Institution institution) {
+        this.address = address;
         this.institution = institution;
     }
 
@@ -58,6 +41,38 @@ public class Department implements Serializable{
         return code.equals(department.code);
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Institution getInstitution() {
+        return institution;
+    }
+
+    public void setInstitution(Institution institution) {
+        this.institution = institution;
+    }
+
     @Override
     public int hashCode() {
         return code.hashCode();
@@ -66,8 +81,9 @@ public class Department implements Serializable{
     @Override
     public String toString() {
         return "Department{" +
-                "code='" + code + '\'' +
-                "localization='" + localization + '\'' +
+                "id='" + id + '\'' +
+                ",code='" + code + '\'' +
+                ",address='" + address + '\'' +
                 ",institution='" + institution +
                 '}';
     }
