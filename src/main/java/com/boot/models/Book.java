@@ -56,7 +56,7 @@ public class Book implements Serializable {
         return department;
     }
 
-    public void setDepartment(Institution institution) {
+    public void setDepartment(Department department) {
         this.department = department;
     }
 
