@@ -52,13 +52,13 @@ body {
 
 .big-container {
     background-color: #808080;
-    margin: 10px 25px 10px 40px;
+    margin: 10px 20px 10px 30px;
     word-break: break-all;
     word-wrap: break-word;
 }
 .small-container {
     background-color: #707070;
-    margin: 10px 0px 10px 15px;
+    margin: 10px 10px 10px 40px;
     word-break: break-all;
     word-wrap: break-word;
 }
