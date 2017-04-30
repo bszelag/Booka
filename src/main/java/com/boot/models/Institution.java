@@ -20,7 +20,7 @@ public class Institution implements Serializable {
     public Institution() {
     }
 
-    public Institution(String name, String url, String contact, Character type, Address address) {
+    public Institution(String name, String url, String contact, Character type) {
         this.name = name;
         this.url = url;
         this.contact = contact;

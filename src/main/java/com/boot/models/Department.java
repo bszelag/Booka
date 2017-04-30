@@ -10,9 +10,9 @@ public class Department implements Serializable{
     @SequenceGenerator(name="department_iddepartment_seq",
             sequenceName="department_iddepartment_seq",
             allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+    @GeneratedValue(strategy = GenerationType.IDENTITY,
             generator="department_iddepartment_seq")
-    private String id;
+    private Integer id;
     private String code;
 
     @ManyToOne
@@ -24,7 +24,7 @@ public class Department implements Serializable{
     public Department() {
     }
 
-    public Department(String id, String code, Address address, Institution institution) {
+    public Department(Integer id, String code, Address address, Institution institution) {
         this.id = id;
         this.code = code;
         this.address = address;
@@ -41,11 +41,11 @@ public class Department implements Serializable{
         return code.equals(department.code);
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
