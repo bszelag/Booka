@@ -15,7 +15,7 @@ public class Address implements Serializable {
     @SequenceGenerator(name="address_idaddress_seq",
             sequenceName="address_idaddress_seq",
             allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+    @GeneratedValue(strategy = GenerationType.IDENTITY,
             generator="address_idaddress_seq")
     private Integer id;
 

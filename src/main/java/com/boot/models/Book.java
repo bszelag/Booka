@@ -16,7 +16,7 @@ public class Book implements Serializable {
     @SequenceGenerator(name="book_idbook_seq",
             sequenceName="book_idbook_seq",
             allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+    @GeneratedValue(strategy = GenerationType.IDENTITY,
             generator="book_idbook_seq")
     private Integer id;
 
