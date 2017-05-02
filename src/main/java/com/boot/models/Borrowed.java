@@ -6,7 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,11 +13,7 @@ import java.util.Date;
 public class Borrowed implements Serializable {
 
     @Id
-    @SequenceGenerator(name="borrowed_idborrowed_seq",
-            sequenceName="borrowed_idborrowed_seq",
-            allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.IDENTITY,
-            generator="borrowed_idborrowed_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @OneToOne(optional = false)

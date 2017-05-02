@@ -1,17 +1,17 @@
 package com.boot.models;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.io.Serializable;
 
 @Entity
 public class Department implements Serializable{
 
     @Id
-    @SequenceGenerator(name="department_iddepartment_seq",
-            sequenceName="department_iddepartment_seq",
-            allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.IDENTITY,
-            generator="department_iddepartment_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String code;
 

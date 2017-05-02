@@ -6,18 +6,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import java.io.Serializable;
 
 @Entity
 public class Book implements Serializable {
 
     @Id
-    @SequenceGenerator(name="book_idbook_seq",
-            sequenceName="book_idbook_seq",
-            allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.IDENTITY,
-            generator="book_idbook_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false)
