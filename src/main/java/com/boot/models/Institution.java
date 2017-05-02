@@ -4,7 +4,6 @@ package com.boot.models;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import java.io.Serializable;
 
 @Entity
@@ -17,18 +16,14 @@ public class Institution implements Serializable {
     @Column(nullable = false)
     private Character type;
 
-    @ManyToOne
-    private Address address;
-
     public Institution() {
     }
 
-    public Institution(String name, String url, String contact, Character type, Address address) {
+    public Institution(String name, String url, String contact, Character type) {
         this.name = name;
         this.url = url;
         this.contact = contact;
         this.type = type;
-        this.address = address;
     }
 
     public String getName() {
@@ -63,14 +58,6 @@ public class Institution implements Serializable {
         this.type = type;
     }
 
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -93,7 +80,6 @@ public class Institution implements Serializable {
                 ", url='" + url + '\'' +
                 ", contact='" + contact + '\'' +
                 ", type=" + type +
-                ", address=" + address +
                 '}';
     }
 }

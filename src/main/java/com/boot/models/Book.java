@@ -6,18 +6,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import java.io.Serializable;
 
 @Entity
 public class Book implements Serializable {
 
     @Id
-    @SequenceGenerator(name="book_idbook_seq",
-            sequenceName="book_idbook_seq",
-            allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,
-            generator="book_idbook_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false)
@@ -34,13 +29,13 @@ public class Book implements Serializable {
     private User user;
 
     @ManyToOne
-    private Institution institution;
+    private Department department;
 
     public Book() {
     }
 
     public Book(Integer id, String title, String author, Character format, String path, String status,
-                Character ownerType, User user, Institution institution) {
+                Character ownerType, User user, Department department) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -49,15 +44,15 @@ public class Book implements Serializable {
         this.status = status;
         this.ownerType = ownerType;
         this.user = user;
-        this.institution = institution;
+        this.department = department;
     }
 
-    public Institution getInstitution() {
-        return institution;
+    public Department getDepartment() {
+        return department;
     }
 
-    public void setInstitution(Institution institution) {
-        this.institution = institution;
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     public Integer getId() {
@@ -150,7 +145,7 @@ public class Book implements Serializable {
                 ", status='" + status + '\'' +
                 ", ownerType=" + ownerType +
                 ", user=" + user +
-                ", institution=" + institution +
+                ", department=" + department +
                 '}';
     }
 }
