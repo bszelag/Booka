@@ -1,0 +1,188 @@
+html {
+    position: relative;
+    min-height: 100%;
+    --background_purple: #5f005f;
+    --background_purple_light: #af00af;
+    --background_purple_dark: #4f004f;
+    --background_purple_lighter_intro: #b09cb0;
+    --background_purple_darker_intro: #b090b0;
+    --background_grey: #b0b0b0;
+    --background_grey_light: #d0d0d0;
+    --background_grey_lighter: #f0f0f0;
+    --background_grey_dark: #505050;
+    --box_shadow: #999999;
+    --font_grey: #2f2f2f;
+}
+
+body {
+    margin-bottom: 30px;
+    background-color: var(--background_grey_light) !important;
+}
+
+.main-view {
+    display: grid;
+    background-color: var(--background_grey_light);
+}
+
+.sidenav {
+    height: 100%;
+    width: 10%;
+    position: fixed;
+    z-index: 1;
+    top: 35px;
+    left: 0;
+    overflow-y: hidden;
+    transition: 0.3s;
+}
+
+.sidenav a {
+    transition: 0.3s;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+.main-view .navbar-all {
+    width: 100%;
+    display: inline-flex;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    background-color: var(--background_purple);
+    color: var(--background_grey_light);
+    font-size: 24px;
+    border-radius: 0px;
+    border: none;
+    height: 55px;
+}
+
+.main-view .navbar-all .sliding-menu a {
+    color: var(--background_grey_light);
+    padding: 5px 10px 5px 10px;
+}
+
+.main-view .navbar {
+    width: 50%;
+    text-align: right;
+    display: block;
+}
+
+.main-view .sliding-menu {
+    width: 50%;
+    text-align: left;
+    display: block;
+}
+
+.main-view .navbar a:link, .main-view .navbar a:visited {
+    text-decoration: none;
+    margin: 5px;
+    padding: 5px;
+    color: var(--background_grey_light);
+}
+
+.main-view .navbar a:hover, .main-view .navbar a:active{
+    background-color: var(--background_grey_light);
+    color: var(--background_purple);
+    text-decoration: none;
+}
+
+.main-view .sliding-menu a{
+    padding: 0px;
+    margin: 0px;
+}
+
+.main-view .sliding-menu a:link, .main-view .sliding-menu a:visited {
+    color: var(--background_purple);
+}
+
+.main-view .sliding-menu a:hover, .main-view .sliding-menu a:active{
+    color: var(--background_purple_light);
+}
+
+.menu {
+    background-color: var(--background_purple);
+    margin: 10px 0px 20px 0px;
+}
+.menu i {
+    margin-left: 10px;
+}
+.main-container {
+    background-color: var(--background_grey_light);
+    padding: 20px 20px 20px 200px;
+    min-height: 100%;
+    height: 100%;
+    display: block;
+}
+
+.big-container {
+    background-color: var(--background_grey);
+    margin: 10px 20px 10px 30px;
+    word-break: break-all;
+    word-wrap: break-word;
+    box-shadow: 2px 2px 10px var(--box_shadow);
+}
+.small-container {
+    background-color: var(--background_grey_dark);
+    margin: 10px 10px 10px 40px;
+    word-break: break-all;
+    word-wrap: break-word;
+    box-shadow: 2px 2px 10px var(--box_shadow);
+}
+
+.small-container p {
+    font-size: 22px;
+    text-align: center;
+}
+.small-container form {
+    font-size: 18px;
+    text-decoration: double;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.small-container form input {
+    margin: 5px 10px 5px 5px;
+    background-color: var(--background_grey);
+    text-decoration: none;
+}
+
+footer {
+    background-color: var(--background_grey_light);
+    color: var(--font_grey);
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 10px 0 0 0;
+}
+
+ul li a:link, ul li a:visited {
+    text-decoration: none;
+    display: block;
+    background-color: var(--background_purple);
+    color: var(--background_grey_light);
+    padding: 10px;
+    font-size: 16px;
+    text-align: center;
+}
+ul li a:hover, ul li a:active {
+    background-color: var(--background_grey_light);
+    color: var(--background_purple);
+    text-decoration: none;
+}
+
+
+button .btn-sign {
+    padding: 10px;
+    background-color: var(--background_purple);
+    color: var(--background_grey_light);
+}
+
+button:hover .btn-sign {
+    background-color: var(--background_grey_light);
+    color: var(--background_purple);
+}

@@ -1,0 +1,11 @@
+.main-carousel-view {
+    width: 80%;
+}
+
+.main-carousel-view .item .carousel-caption img {
+    width: 250px;
+    padding-bottom: 75px;
+}
+.main-carousel-view .item .carousel-caption ul {
+    font-size: 20px;
+}
