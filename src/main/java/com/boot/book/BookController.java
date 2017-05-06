@@ -19,13 +19,13 @@ public class BookController {
     public BorrowedService borrowedService;
 
 
-    @RequestMapping(method = RequestMethod.GET)
-    public Collection<Book> getAllReaderBooks(int user_id){
+    @RequestMapping(value = "{user_id}", method = RequestMethod.GET)
+    public Collection<Book> getBooks(int user_id){
         return bookService.getAll(user_id);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public boolean getAllReaderBooks( @RequestBody Book book){
+    public boolean addBook( @RequestBody Book book){
         return bookService.addBook(book);
     }
 
