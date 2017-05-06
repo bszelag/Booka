@@ -37,6 +37,54 @@ public class Borrowed implements Serializable {
         this.dateStop = dateStop;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
+    public User getBorrower() {
+        return borrower;
+    }
+
+    public void setBorrower(User borrower) {
+        this.borrower = borrower;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Date getDateStart() {
+        return dateStart;
+    }
+
+    public void setDateStart(Date dateStart) {
+        this.dateStart = dateStart;
+    }
+
+    public Date getDateStop() {
+        return dateStop;
+    }
+
+    public void setDateStop(Date dateStop) {
+        this.dateStop = dateStop;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
