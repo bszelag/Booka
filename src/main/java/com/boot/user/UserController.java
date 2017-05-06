@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/api/v1//users") ///api/v1/ required till nginx
 public class UserController {
 
     @Autowired

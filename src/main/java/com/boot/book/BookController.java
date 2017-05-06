@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
 @RestController
-@RequestMapping(value = "/books")
+@RequestMapping(value = "/api/v1/books") //"/api/v1/" is required till we use nginx
 public class BookController {
 
     @Autowired
