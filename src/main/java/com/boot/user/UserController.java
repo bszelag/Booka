@@ -1,9 +1,7 @@
-package com.boot.controller;
+package com.boot.user;
 
-import com.boot.models.User;
-import com.boot.services.UserService;
+import com.boot.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.RequestEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;

@@ -1,7 +1,7 @@
-package com.boot.services;
+package com.boot.borrowed;
 
 
-import com.boot.models.Borrowed;
+import com.boot.borrowed.model.Borrowed;
 import org.springframework.stereotype.Service;
 
 @Service

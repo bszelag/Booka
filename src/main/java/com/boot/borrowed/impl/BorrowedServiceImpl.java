@@ -1,8 +1,8 @@
-package com.boot.borrowed;
+package com.boot.borrowed.impl;
 
-import com.boot.borrowed.Borrowed;
-import com.boot.borrowed.BorrowedRepository;
 import com.boot.borrowed.BorrowedService;
+import com.boot.borrowed.model.Borrowed;
+import com.boot.borrowed.repository.BorrowedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

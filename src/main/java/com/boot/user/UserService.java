@@ -1,10 +1,9 @@
-package com.boot.services;
+package com.boot.user;
 
 
-import com.boot.models.User;
+import com.boot.user.model.User;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.OpenOption;
 import java.util.Collection;
 
 @Service

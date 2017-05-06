@@ -1,9 +1,8 @@
-package com.boot.controller;
+package com.boot.book;
 
-import com.boot.models.Book;
-import com.boot.models.Borrowed;
-import com.boot.services.BookService;
-import com.boot.services.BorrowedService;
+import com.boot.book.model.Book;
+import com.boot.borrowed.model.Borrowed;
+import com.boot.borrowed.BorrowedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,6 +1,6 @@
-package com.boot.borrowed;
+package com.boot.borrowed.repository;
 
-import com.boot.borrowed.Borrowed;
+import com.boot.borrowed.model.Borrowed;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

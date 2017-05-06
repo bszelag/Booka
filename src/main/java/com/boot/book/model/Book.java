@@ -1,7 +1,7 @@
-package com.boot.book;
+package com.boot.book.model;
 
-import com.boot.department.Department;
-import com.boot.user.User;
+import com.boot.department.model.Department;
+import com.boot.user.model.User;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +11,16 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Book implements Serializable {
 
     @Id
@@ -34,121 +43,4 @@ public class Book implements Serializable {
     @ManyToOne
     private Department department;
 
-    public Book() {
-    }
-
-    public Book(Integer id, String title, String author, Character format, String path, String status,
-                Character ownerType, User user, Department department) {
-        this.id = id;
-        this.title = title;
-        this.author = author;
-        this.format = format;
-        this.path = path;
-        this.status = status;
-        this.ownerType = ownerType;
-        this.user = user;
-        this.department = department;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public Character getFormat() {
-        return format;
-    }
-
-    public void setFormat(Character format) {
-        this.format = format;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Character getOwnerType() {
-        return ownerType;
-    }
-
-    public void setOwnerType(Character ownerType) {
-        this.ownerType = ownerType;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Book book = (Book) o;
-
-        return id.equals(book.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id;
-    }
-
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", format=" + format +
-                ", path='" + path + '\'' +
-                ", status='" + status + '\'' +
-                ", ownerType=" + ownerType +
-                ", user=" + user +
-                ", department=" + department +
-                '}';
-    }
 }

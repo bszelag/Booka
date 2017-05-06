@@ -1,6 +1,6 @@
-package com.boot.services;
+package com.boot.book;
 
-import com.boot.models.Book;
+import com.boot.book.model.Book;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;

@@ -1,6 +1,9 @@
-package com.boot.user;
+package com.boot.user.impl;
 
 
+import com.boot.user.UserService;
+import com.boot.user.model.User;
+import com.boot.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Component
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Autowired
     public UserRepository userRepository;

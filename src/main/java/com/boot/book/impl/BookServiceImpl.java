@@ -1,5 +1,8 @@
-package com.boot.book;
+package com.boot.book.impl;
 
+import com.boot.book.BookService;
+import com.boot.book.model.Book;
+import com.boot.book.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
