@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Booka</title>
+    <link rel="stylesheet" type="text/css" href="static/css/styles.css"/>
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="vendor/font-awesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="views/main/main.styles.css"/>
+</head>
+
+<body ng-app="booka">
+
+<div class="main-view">
+    <div class="container-fluid navbar-all">
+        <div class="sliding-menu">
+            <a ui-sref="home" style="margin-left: 20px;"><img src="static/img/booka_logo_light.png" style="height: 30px;"></a>
+            <a onclick="openMenu()"><i class="fa fa-bars"></i></a>
+        </div>
+        <div class="navbar">
+            <a ui-sref="books"><i class="fa fa-book"></i> </a>
+            <a ui-sref="messages"><i class="fa fa-envelope"></i> </a>
+            <a ui-sref="friends"><i class="fa fa-users"></i> </a>
+            <a ui-sref="search"><i class="fa fa-search"></i> </a>
+            <a ui-sref="account"><i class="fa fa-user"></i> </a>
+        </div>
+    </div>
+
+    <div class="container-fluid col-md-12" style="display: flex">
+        <div id="menu" class="sidenav menu">
+            <ul>
+                <li><a ui-sref="books">Books<i class="fa fa-book"></i></a></li>
+                <li><a ui-sref="friends">Friends<i class="fa fa-users"></i></a></li>
+                <li><a ui-sref="search">Search<i class="fa fa-search"></i></a></li>
+                <li><a ui-sref="institutions">Institutions<i class="fa fa-building"></i></a> </li>
+                <li><a ui-sref="messages">Messages<i class="fa fa-envelope"></i></a></li>
+                <li><a ui-sref="account">Account<i class="fa fa-user"></i></a></li>
+            </ul>
+        </div>
+
+        <div class="container col-md-11 ui-view-container">
+            <div class="main-container" ui-view>
+
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container-fluid">
+            <p class="text-center">Booka, 2017</p>
+        </div>
+    </footer>
+</div>
+
+<script>
+    function openMenu() {
+        if (document.getElementById("menu").style.height === "0px")
+            document.getElementById("menu").style.height = "100%";
+        else document.getElementById("menu").style.height = "0px";
+    }
+</script>
+
+
+<script type="text/javascript" src="vendor/lodash/dist/lodash.min.js"></script>
+<script type="text/javascript" src="vendor/moment/min/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="vendor/jquery/dist/jquery.min.js" ></script>
+<script type="text/javascript" src="vendor/jquery-ui/jquery-ui.min.js" ></script>
+<script type="text/javascript" src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="vendor/angular/angular.min.js"></script>
+<script type="text/javascript" src="vendor/angular-cookies/angular-cookies.min.js"></script>
+<script type="text/javascript" src="vendor/angular-resource/angular-resource.min.js"></script>
+<script type="text/javascript" src="vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
+
+<script type="text/javascript" src="lib/require.js"></script>
+
+<!-- App & Config -->
+<script src="js/app.js"></script>
+<script src="js/config/app.config.js"></script>
+
+<!-- Books -->
+<script src="views/books/books.module.js"></script>
+<script src="views/books/books.controller.js"></script>
+
+</body>
+</html>
