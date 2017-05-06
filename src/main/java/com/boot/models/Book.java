@@ -2,6 +2,8 @@ package com.boot.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
@@ -10,6 +12,7 @@ import java.io.Serializable;
 public class Book implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false)
@@ -23,12 +26,16 @@ public class Book implements Serializable {
     private Character ownerType;
 
     @ManyToOne
-    private User owner;
+    private User user;
+
+    @ManyToOne
+    private Department department;
 
     public Book() {
     }
 
-    public Book(Integer id, String title, String author, Character format, String path, String status, Character ownerType, User owner) {
+    public Book(Integer id, String title, String author, Character format, String path, String status,
+                Character ownerType, User user, Department department) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -36,7 +43,16 @@ public class Book implements Serializable {
         this.path = path;
         this.status = status;
         this.ownerType = ownerType;
-        this.owner = owner;
+        this.user = user;
+        this.department = department;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     public Integer getId() {
@@ -95,12 +111,12 @@ public class Book implements Serializable {
         this.ownerType = ownerType;
     }
 
-    public User getOwner() {
-        return owner;
+    public User getUser() {
+        return user;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -128,7 +144,8 @@ public class Book implements Serializable {
                 ", path='" + path + '\'' +
                 ", status='" + status + '\'' +
                 ", ownerType=" + ownerType +
-                ", owner=" + owner +
+                ", user=" + user +
+                ", department=" + department +
                 '}';
     }
 }

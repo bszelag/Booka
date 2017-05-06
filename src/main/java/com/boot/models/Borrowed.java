@@ -2,6 +2,8 @@ package com.boot.models;
 
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import java.io.Serializable;
@@ -11,6 +13,7 @@ import java.util.Date;
 public class Borrowed implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @OneToOne(optional = false)
@@ -31,6 +34,54 @@ public class Borrowed implements Serializable {
         this.borrower = borrower;
         this.message = message;
         this.dateStart = dateStart;
+        this.dateStop = dateStop;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
+    public User getBorrower() {
+        return borrower;
+    }
+
+    public void setBorrower(User borrower) {
+        this.borrower = borrower;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Date getDateStart() {
+        return dateStart;
+    }
+
+    public void setDateStart(Date dateStart) {
+        this.dateStart = dateStart;
+    }
+
+    public Date getDateStop() {
+        return dateStop;
+    }
+
+    public void setDateStop(Date dateStop) {
         this.dateStop = dateStop;
     }
 

@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class User implements Serializable {
 
     @Id
-    private Integer id;
+    private String login;
     @Column(nullable = false)
     private String password;
     @Column(nullable = false)
@@ -25,19 +25,19 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Integer id, String password, String email, Address address) {
-        this.id = id;
+    public User(String login, String password, String email, Address address) {
+        this.login = login;
         this.password = password;
         this.email = email;
         this.address = address;
     }
 
-    public Integer getId() {
-        return id;
+    public String getLogin() {
+        return login;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getPassword() {
@@ -71,18 +71,18 @@ public class User implements Serializable {
 
         User user = (User) o;
 
-        return id.equals(user.id);
+        return login.equals(user.login);
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return login.hashCode();
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "login=" + login +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", address=" + address +

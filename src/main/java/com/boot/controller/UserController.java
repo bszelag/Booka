@@ -1,0 +1,42 @@
+package com.boot.controller;
+
+import com.boot.models.User;
+import com.boot.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.RequestEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
+
+@RestController
+@RequestMapping(value = "/users")
+public class UserController {
+
+    @Autowired
+    public UserService userService;
+
+    @RequestMapping(method = RequestMethod.GET)
+    public Collection<User> getAll() {
+        return userService.getAll();
+    }
+
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    public User getById(@PathVariable String id){
+        return userService.getById(id);
+    }
+
+    @RequestMapping(value = "{id}", method = RequestMethod.PUT)
+    public void modify(@PathVariable String id, @RequestBody User user){
+        userService.modify(user);
+    }
+
+    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable String id){
+        userService.delete(id);
+    }
+
+    @RequestMapping(value = "sign_in", method = RequestMethod.POST)
+    public void add(@PathVariable String id, @RequestBody User user){
+        userService.add(user);
+    }
+}
