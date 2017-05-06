@@ -19,12 +19,12 @@ public class HashingServiceImpl implements HashingService {
     private static final int DEFAULT_ITERATIONS = 10;
     private static final int DEFAULT_KEY_LENGTH = 128 * 8;
     private static final int DEFAULT_SALT_LENGTH = 64;
-    private final Random rng = new SecureRandom();
+    private final Random random = new SecureRandom();
 
     @Override
     public byte[] generateSalt(int length){
         val salt = new byte[length];
-        rng.nextBytes(salt);
+        random.nextBytes(salt);
         return salt;
     }
 

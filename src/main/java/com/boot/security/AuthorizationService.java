@@ -1,7 +1,7 @@
 package com.boot.security;
 
-import com.boot.security.model.Credentials;
-import com.boot.security.model.Session;
+import com.boot.security.utility.Credentials;
+import com.boot.security.utility.Session;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.UUID;

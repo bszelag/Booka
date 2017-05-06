@@ -2,8 +2,8 @@ package com.boot.security.impl;
 
 import com.boot.security.AuthorizationService;
 import com.boot.security.HashingService;
-import com.boot.security.model.Credentials;
-import com.boot.security.model.Session;
+import com.boot.security.utility.Credentials;
+import com.boot.security.utility.Session;
 import com.boot.user.UserService;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +29,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
     @Override
     public Optional<Session> getSession(UUID token) {
-        return Optional.of(
-                sessions.compute(token, (t, s) ->
-                        Optional.ofNullable(s).
+        return Optional.of(sessions.compute(token, (t, s) -> Optional.ofNullable(s).
                                 filter(es -> es.getExpiration().isAfter(Instant.now())).
                                 orElse(null)));
     }

@@ -1,4 +1,4 @@
-package com.boot.security.model;
+package com.boot.security.utility;
 
 import com.boot.user.model.User;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public class Session {
 
-    public static final String COOKIE_NAME = "session_token";
+    public static final String COOKIE_NAME = "session";
     public static final Duration VALIDITY_DURATION = Duration.of(15, ChronoUnit.MINUTES);
 
     @Getter
@@ -30,16 +30,5 @@ public class Session {
         token = UUID.randomUUID();
         expiration = Instant.now().plus(VALIDITY_DURATION);
         this.user = user;
-    }
-
-    public <T> T getData(String key) {
-        return (T) data.get(key);
-    }
-
-    public void putData(String key, Object data) {
-        if (data == null)
-            this.data.remove(key);
-        else
-            this.data.put(key, data);
     }
 }

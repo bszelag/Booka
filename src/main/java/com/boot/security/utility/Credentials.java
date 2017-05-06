@@ -1,6 +1,5 @@
-package com.boot.security.model;
+package com.boot.security.utility;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
