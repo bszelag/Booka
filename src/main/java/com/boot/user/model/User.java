@@ -24,10 +24,15 @@ public class User implements Serializable {
 
     @Id
     private String login;
+
     @Column(nullable = false)
     private String password;
+
     @Column(nullable = false)
     private String email;
+
+    @Column(nullable = false)
+    private String salt;
 
     @OneToOne
     private Address address;
