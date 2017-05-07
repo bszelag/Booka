@@ -2,6 +2,8 @@ package com.boot.user;
 
 import com.boot.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -19,8 +21,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public User getById(@PathVariable String id){
-        return userService.getById(id);
+    public ResponseEntity<User>  getById(@PathVariable String id){
+        return userService.getById(id).map(u -> new ResponseEntity<>(u, HttpStatus.OK)).
+                orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
