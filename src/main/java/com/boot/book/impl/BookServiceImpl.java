@@ -6,7 +6,9 @@ import com.boot.book.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Base64;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -17,22 +19,20 @@ public class BookServiceImpl implements BookService {
     private BookRepository bookRepository;
 
     @Override
-    public Collection<Book> getAll(int user_id) {
-        return StreamSupport.stream(bookRepository.findAll().spliterator(), false).collect(Collectors.toList());
+    public Collection<Book> getUserAll(String user_id) {
+        return StreamSupport.stream(bookRepository.findByUserId(user_id).spliterator(), false).
+                collect(Collectors.toList());
     }
 
     @Override
-    public Book getBook(int book_id) {
-        return bookRepository.findOne(book_id);
+    public Optional<Book> getBook(int book_id) {
+        return Optional.ofNullable(bookRepository.findOne(book_id));
     }
 
     @Override
-    public boolean addBook(Book book) {
-        if(bookRepository.exists(book.getId())){
+    public Book addBook(Book book) {
             bookRepository.save(book);
-            return true;
-        } else
-            return false;
+            return book;
     }
 
     @Override
