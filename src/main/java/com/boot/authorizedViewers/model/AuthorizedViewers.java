@@ -1,4 +1,4 @@
-package com.boot.authorizedViewers;
+package com.boot.authorizedViewers.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
