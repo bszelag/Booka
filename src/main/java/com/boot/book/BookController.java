@@ -24,18 +24,15 @@ public class BookController {
     @Autowired
     public BorrowedService borrowedService;
 
-    @Autowired
-    public AuthorizationService authorizationService;
 
 
-    @RequestMapping(method = RequestMethod.GET)
-    public Collection<Book> getLoggedUserBooks(@CookieValue(Session.COOKIE_NAME) String sessionToken){
-        return authorizationService.getSession(UUID.fromString(sessionToken)).
-                map(u -> bookService.getUserAll(u.getUser().getLogin())).orElse(null);
+    @RequestMapping(value = "user/{user_id}", method = RequestMethod.GET)
+    public Collection<Book> getUserBooks(@PathVariable String user_id){
+        return bookService.getUserAll(user_id);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Book> addLoggedUserBook(@RequestBody Book book){
+    public ResponseEntity<Book> addUserBook(@RequestBody Book book){
         return new ResponseEntity<>(bookService.addBook(book), HttpStatus.OK);
     }
 
