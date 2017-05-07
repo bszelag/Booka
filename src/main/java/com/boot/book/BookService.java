@@ -9,7 +9,7 @@ import java.util.Optional;
 @Service
 public interface BookService {
 
-    public Collection<Book> getUserAll(String user_id);
+    public Collection<Book> getAllUserBooks(String user_id);
 
     public Optional<Book> getBook(int book_id);
 

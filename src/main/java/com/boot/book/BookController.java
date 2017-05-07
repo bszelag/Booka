@@ -5,6 +5,7 @@ import com.boot.borrowed.model.Borrowed;
 import com.boot.borrowed.BorrowedService;
 import com.boot.security.AuthorizationService;
 import com.boot.security.utility.Session;
+import com.boot.user.UserService;
 import com.boot.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -24,6 +26,8 @@ public class BookController {
     @Autowired
     public BorrowedService borrowedService;
 
+    @Autowired
+    public UserService userService;
 
 
     @RequestMapping(value = "user/{user_id}", method = RequestMethod.GET)
@@ -31,9 +35,15 @@ public class BookController {
         return bookService.getUserAll(user_id);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Book> addUserBook(@RequestBody Book book){
-        return new ResponseEntity<>(bookService.addBook(book), HttpStatus.OK);
+    @RequestMapping(value = "user/{user_id}", method = RequestMethod.POST)
+    public ResponseEntity<Book> addUserBook(@RequestBody Book book, @PathVariable String user_id){
+        Optional<User> user = userService.getById(user_id);
+        if (user.isPresent())
+        {
+            book.setUser(user.get());
+            return new ResponseEntity<>(bookService.addBook(book), HttpStatus.OK); }
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @RequestMapping(value = "{book_id}", method = RequestMethod.GET)

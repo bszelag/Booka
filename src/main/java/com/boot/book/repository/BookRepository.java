@@ -14,4 +14,7 @@ public interface BookRepository extends CrudRepository<Book, Integer> {
             " JOIN b.user u" +
             " WHERE u.login = :user_id")
     List<Book> findByUserId(@Param("user_id") String user_id);
+
+
+
 }

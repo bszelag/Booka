@@ -19,7 +19,7 @@ public class BookServiceImpl implements BookService {
     private BookRepository bookRepository;
 
     @Override
-    public Collection<Book> getUserAll(String user_id) {
+    public Collection<Book> getAllUserBooks(String user_id) {
         return StreamSupport.stream(bookRepository.findByUserId(user_id).spliterator(), false).
                 collect(Collectors.toList());
     }
