@@ -24,7 +24,6 @@ public class Session {
     @Getter
     private User user;
 
-    private Map<String, Object> data = new HashMap<>();
 
     public Session(User user) {
         token = UUID.randomUUID();
