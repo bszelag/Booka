@@ -10,7 +10,12 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -29,7 +34,7 @@ public class Borrowed implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Book book;
 
-    @OneToOne(optional = true, fetch = FetchType.LAZY)
+    @OneToOne
     private User borrower;
     private String name;
     private String email;
