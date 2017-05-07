@@ -2,5 +2,5 @@
     'use strict';
 
     angular
-        .module('booka.books', []);
+        .module('booka.books', ['ngTable']);
 })();
