@@ -32,7 +32,7 @@ public class BookController {
 
     @RequestMapping(value = "user/{user_id}", method = RequestMethod.GET)
     public Collection<Book> getUserBooks(@PathVariable String user_id){
-        return bookService.getUserAll(user_id);
+        return bookService.getAllUserBooks(user_id);
     }
 
     @RequestMapping(value = "user/{user_id}", method = RequestMethod.POST)
