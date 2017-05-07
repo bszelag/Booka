@@ -34,7 +34,7 @@ public class Book implements Serializable {
     @Column(nullable = false)
     private Character format;
     private String path;
-    private String status;
+    private Boolean status;
     private Character ownerType;
 
     @ManyToOne
