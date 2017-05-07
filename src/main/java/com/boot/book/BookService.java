@@ -4,15 +4,16 @@ import com.boot.book.model.Book;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public interface BookService {
 
-    public Collection<Book> getAll(int user_id);
+    public Collection<Book> getAllUserBooks(String user_id);
 
-    public Book getBook(int book_id);
+    public Optional<Book> getBook(int book_id);
 
-    public boolean addBook(Book book);
+    public Book addBook(Book book);
 
     public boolean modifyBook(Book book);
 
