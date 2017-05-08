@@ -33,15 +33,17 @@ public class BorrowedServiceImpl implements BorrowedService {
 
     @Override
     public boolean modifyBorrowed(Borrowed borrowed) {
-        borrowedRepository.save(borrowed);
-        return true;
+        if (borrowedRepository.exists(borrowed.getId())) {
+            borrowedRepository.save(borrowed);
+            return true; }
+        else
+            return false;
     }
 
     @Override
-    public boolean deleteBorrowed(int book_id) {
-        Borrowed borrowed = borrowedRepository.findByBookId(book_id);
-        if(borrowedRepository.exists(borrowed.getId())) {
-            borrowedRepository.delete(borrowed.getId());
+    public boolean deleteBorrowed(Integer book_id) {
+        if(borrowedRepository.exists(book_id)) {
+            borrowedRepository.delete(book_id);
             return true;
         } else
             return false;

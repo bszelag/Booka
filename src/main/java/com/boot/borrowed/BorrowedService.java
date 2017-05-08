@@ -18,5 +18,5 @@ public interface BorrowedService {
 
     boolean modifyBorrowed(Borrowed borrowed);
 
-    boolean deleteBorrowed(int borrowed_id);
+    boolean deleteBorrowed(Integer borrowed_id);
 }
