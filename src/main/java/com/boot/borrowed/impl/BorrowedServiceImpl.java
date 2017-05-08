@@ -16,8 +16,13 @@ public class BorrowedServiceImpl implements BorrowedService {
     private BorrowedRepository borrowedRepository;
 
     @Override
-    public Optional<Borrowed> getBorrowedById(int borrowed_id) {
+    public Optional<Borrowed> getBorrowedById(Integer borrowed_id) {
         return Optional.ofNullable(borrowedRepository.findOne(borrowed_id));
+    }
+
+    @Override
+    public Optional<Borrowed> getBorrowedByBookId(Integer book_id) {
+        return Optional.ofNullable(borrowedRepository.findByBookId(book_id));
     }
 
     @Override

@@ -16,7 +16,9 @@ public interface BorrowedService {
 
     Collection<Borrowed> getBorrowedByBorrower(String user_id);
 
-    Optional<Borrowed> getBorrowedById(int borrowed_id);
+    Optional<Borrowed> getBorrowedById(Integer borrowed_id);
+
+    Optional<Borrowed> getBorrowedByBookId(Integer book_id);
 
     boolean modifyBorrowed(Borrowed borrowed);
 

@@ -88,13 +88,13 @@ public class BookController {
     }
 
     @RequestMapping(value = "lend/<lend_id>", method = RequestMethod.GET)
-    public ResponseEntity<Borrowed> getUsersLend(@PathVariable Integer lend_id) {
+    public ResponseEntity<Borrowed> getLend(@PathVariable Integer lend_id) {
         return borrowedService.getBorrowedById(lend_id).map(b -> new ResponseEntity<>(b, HttpStatus.OK)).
                 orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @RequestMapping(value = "lend/<lend_id>", method = RequestMethod.PUT)
-    public ResponseEntity<Borrowed> updateUsersLend(@PathVariable Integer lend_id,  @RequestBody Borrowed borrowed) {
+    public ResponseEntity<Borrowed> updateLend(@PathVariable Integer lend_id,  @RequestBody Borrowed borrowed) {
            if (borrowedService.modifyBorrowed(borrowed))
                return new ResponseEntity<>(HttpStatus.OK);
            else
@@ -102,16 +102,22 @@ public class BookController {
     }
 
     @RequestMapping(value = "lend/<lend_id>", method = RequestMethod.DELETE)
-    public ResponseEntity<Borrowed> deleteUsersLend(@PathVariable Integer lend_id,  @RequestBody Borrowed borrowed) {
+    public ResponseEntity<Borrowed> deleteLend(@PathVariable Integer lend_id,  @RequestBody Borrowed borrowed) {
         if (borrowedService.deleteBorrowed(lend_id))
             return new ResponseEntity<>(HttpStatus.OK);
         else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "lend/<borrowed/user/user_id>", method = RequestMethod.DELETE)
+    @RequestMapping(value = "lend/<borrowed/user/<user_id>", method = RequestMethod.DELETE)
     public Collection<Borrowed> getUsersAllBorrowed(@PathVariable String user_id) {
         return borrowedService.getBorrowedByBorrower(user_id);
+    }
+
+    @RequestMapping(value = "lend/book/<book_id>", method = RequestMethod.GET)
+    public ResponseEntity<Borrowed> getBorrowedByBook(@PathVariable Integer book_id) {
+        return borrowedService.getBorrowedByBookId(book_id).map(b -> new ResponseEntity<>(b, HttpStatus.OK)).
+                orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
 }
