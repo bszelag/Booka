@@ -1,5 +1,6 @@
 package com.boot.search.impl;
 
+import com.boot.department.model.Department;
 import com.boot.department.repository.DepartmentRepository;
 import com.boot.search.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,49 +21,25 @@ public class SearchServiceImpl implements SearchService{
     DepartmentRepository departmentRepository;
 
     @Override
-    public String searchQuery(String query, Integer department, String language, String format) {
+    public String searchQuery(String title, String author, Integer department) {
 
         HttpURLConnection connection = null;
-        String targetURL ="https://katalog.biblioteka.wroc.pl/F?func=find-c&ccl_term=(WRD=("+query+"))";
-        switch (format){
-            case "BK" :
-                targetURL = targetURL + "AND(WFT=(BK))";
-                break;
-            case "SE" :
-                targetURL = targetURL + "AND(WFT=(SE))";
-                break;
-            case "MU" :
-                targetURL = targetURL + "AND(WFT=(MU))";
-                break;
-            case "MP" :
-                targetURL = targetURL + "AND(WFT=(MP))";
-                break;
-            case "CF" :
-                targetURL = targetURL + "AND(WFT=(CF))";
-                break;
-            case "VM" :
-                targetURL = targetURL + "AND(WFT=(VM))";
-                break;
-            case "PD" :
-                targetURL = targetURL + "AND(WFT=(PD))";
-                break;
+        String targetURL ="https://katalog.biblioteka.wroc.pl/F?func=find-c&ccl_term=";
+        if (title != null && author != null)
+            targetURL = targetURL +"(WTI=("+title+"?))AND(WAU="+author+"?)";
+        else {
+            if (title != null){
+                targetURL = targetURL +"(WTI=("+title+"?))";
+            }
+            else{
+                targetURL = targetURL +"(WAU="+author+"?)";
+            }
         }
-        switch (language){
-            case "POL" :
-                targetURL = targetURL + "AND(WLN=(POL))";
-                break;
-            case "ENG" :
-                targetURL = targetURL + "AND(WLN=(ENG))";
-                break;
-            case "FRE" :
-                targetURL = targetURL + "AND(WLN=(FRE))";
-                break;
-            case "GER" :
-                targetURL = targetURL + "AND(WLN=(GER))";
-                break;
-        }
-        if (departmentRepository.exists(department)){
-            targetURL = targetURL + "&local_base=" + department;
+        if (department != null) {
+            if (departmentRepository.exists(department)) {
+                Department department1 = departmentRepository.findOne(department);
+                targetURL = targetURL + "&local_base=" + department1.getCode();
+            }
         }
         /*
         try {
