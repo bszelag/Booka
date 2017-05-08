@@ -14,7 +14,7 @@ public class SearchController {
     private SearchService searchService;
 
     @RequestMapping(value = {"{query}-{department}-{language}-{format}"}, method = RequestMethod.GET)
-    public String searchQuery(@PathVariable String query, @PathVariable String department, @PathVariable String language,@PathVariable String format){
+    public String searchQuery(@PathVariable String query, @PathVariable Integer department, @PathVariable String language,@PathVariable String format){
         return searchService.searchQuery(query, department, language, format);
     }
 }

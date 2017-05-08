@@ -1,6 +1,8 @@
 package com.boot.search.impl;
 
+import com.boot.department.repository.DepartmentRepository;
 import com.boot.search.SearchService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.DataOutputStream;
@@ -14,10 +16,55 @@ import java.net.URL;
 @Component
 public class SearchServiceImpl implements SearchService{
 
+    @Autowired
+    DepartmentRepository departmentRepository;
+
     @Override
-    public String searchQuery(String query, String department, String language, String format) {
+    public String searchQuery(String query, Integer department, String language, String format) {
+
         HttpURLConnection connection = null;
-        String targetURL ="";
+        String targetURL ="https://katalog.biblioteka.wroc.pl/F?func=find-c&ccl_term=(WRD=("+query+"))";
+        switch (format){
+            case "BK" :
+                targetURL = targetURL + "AND(WFT=(BK))";
+                break;
+            case "SE" :
+                targetURL = targetURL + "AND(WFT=(SE))";
+                break;
+            case "MU" :
+                targetURL = targetURL + "AND(WFT=(MU))";
+                break;
+            case "MP" :
+                targetURL = targetURL + "AND(WFT=(MP))";
+                break;
+            case "CF" :
+                targetURL = targetURL + "AND(WFT=(CF))";
+                break;
+            case "VM" :
+                targetURL = targetURL + "AND(WFT=(VM))";
+                break;
+            case "PD" :
+                targetURL = targetURL + "AND(WFT=(PD))";
+                break;
+        }
+        switch (language){
+            case "POL" :
+                targetURL = targetURL + "AND(WLN=(POL))";
+                break;
+            case "ENG" :
+                targetURL = targetURL + "AND(WLN=(ENG))";
+                break;
+            case "FRE" :
+                targetURL = targetURL + "AND(WLN=(FRE))";
+                break;
+            case "GER" :
+                targetURL = targetURL + "AND(WLN=(GER))";
+                break;
+        }
+        if (departmentRepository.exists(department)){
+            targetURL = targetURL + "&local_base=" + department;
+        }
+        /*
         try {
             //Create connection
             targetURL = "https://katalog.biblioteka.wroc.pl/F?func=find-c&ccl_term=WRD=(George%20Martin%20Pie%C5%9B%C5%84?)and(WFT=(BK))&local_base=31";
@@ -52,7 +99,7 @@ public class SearchServiceImpl implements SearchService{
             if (connection != null){
                 connection.disconnect();
             }
-        }
+        }*/
         return targetURL;
     }
 }
