@@ -6,6 +6,8 @@ import com.boot.borrowed.repository.BorrowedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+
 @Component
 public class BorrowedServiceImpl implements BorrowedService {
 
@@ -18,9 +20,14 @@ public class BorrowedServiceImpl implements BorrowedService {
     }
 
     @Override
-    public boolean createBorrowed(Borrowed borrowed) {
+    public Borrowed addBorrowed(Borrowed borrowed) {
         borrowedRepository.save(borrowed);
-        return true;
+        return borrowed;
+    }
+
+    @Override
+    public Collection<Borrowed> getBorrowedByOwner(String user_id) {
+        return borrowedRepository.findByOwner(user_id);
     }
 
     @Override

@@ -4,14 +4,18 @@ package com.boot.borrowed;
 import com.boot.borrowed.model.Borrowed;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+
 @Service
 public interface BorrowedService {
 
-    public Borrowed getBorrowed(int book_id);
+    Borrowed addBorrowed(Borrowed borrowed);
 
-    public Borrowed addBorrowed(Borrowed borrowed);
+    Collection<Borrowed> getBorrowedByOwner(String user_id);
 
-    public boolean modifyBorrowed(Borrowed borrowed);
+    Borrowed getBorrowed(int book_id);
 
-    public boolean deleteBorrowed(int borrowed_id);
+    boolean modifyBorrowed(Borrowed borrowed);
+
+    boolean deleteBorrowed(int borrowed_id);
 }
