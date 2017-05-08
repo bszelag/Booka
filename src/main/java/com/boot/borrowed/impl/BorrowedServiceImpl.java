@@ -32,6 +32,11 @@ public class BorrowedServiceImpl implements BorrowedService {
     }
 
     @Override
+    public Collection<Borrowed> getBorrowedByBorrower(String user_id) {
+        return null;
+    }
+
+    @Override
     public boolean modifyBorrowed(Borrowed borrowed) {
         if (borrowedRepository.exists(borrowed.getId())) {
             borrowedRepository.save(borrowed);

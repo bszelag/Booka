@@ -93,7 +93,7 @@ public class BookController {
                 orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @RequestMapping(value = "lend/<lend_id>", method = RequestMethod.DELETE)
+    @RequestMapping(value = "lend/<lend_id>", method = RequestMethod.PUT)
     public ResponseEntity<Borrowed> updateUsersLend(@PathVariable Integer lend_id,  @RequestBody Borrowed borrowed) {
            if (borrowedService.modifyBorrowed(borrowed))
                return new ResponseEntity<>(HttpStatus.OK);
@@ -107,6 +107,11 @@ public class BookController {
             return new ResponseEntity<>(HttpStatus.OK);
         else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @RequestMapping(value = "lend/<borrowed/user/user_id>", method = RequestMethod.DELETE)
+    public Collection<Borrowed> getUsersAllBorrowed(@PathVariable String user_id) {
+        return borrowedService.getBorrowedByBorrower(user_id);
     }
 
 }

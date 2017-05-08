@@ -19,6 +19,13 @@ public interface BorrowedRepository extends CrudRepository<Borrowed, Integer> {
     @Query("SELECT br" +
             " FROM Borrowed br" +
             " JOIN br.book bk" +
-            " WHERE bk.user_login = :user_id")
+            " JOIN bk.user u" +
+            " WHERE u.login = :user_id")
     List<Borrowed> findByOwner(@Param("user_id") String user_id);
+
+    @Query("SELECT br" +
+            " FROM Borrowed br" +
+            " JOIN br.borrower bo" +
+            " WHERE bo.login = :user_id")
+    List<Borrowed> findByBorrowerId(@Param("user_id") String user_id);
 }
