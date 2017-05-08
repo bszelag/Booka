@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Component
 public class BorrowedServiceImpl implements BorrowedService {
@@ -15,8 +16,8 @@ public class BorrowedServiceImpl implements BorrowedService {
     private BorrowedRepository borrowedRepository;
 
     @Override
-    public Borrowed getBorrowed(int book_id) {
-        return borrowedRepository.findByBookId(book_id);
+    public Optional<Borrowed> getBorrowedById(int borrowed_id) {
+        return Optional.ofNullable(borrowedRepository.findOne(borrowed_id));
     }
 
     @Override

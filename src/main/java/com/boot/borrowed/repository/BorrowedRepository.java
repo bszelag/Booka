@@ -21,5 +21,4 @@ public interface BorrowedRepository extends CrudRepository<Borrowed, Integer> {
             " JOIN br.book bk" +
             " WHERE bk.user_login = :user_id")
     List<Borrowed> findByOwner(@Param("user_id") String user_id);
-
 }

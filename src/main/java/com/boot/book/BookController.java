@@ -87,4 +87,10 @@ public class BookController {
         return borrowedService.getBorrowedByOwner(user_id);
     }
 
+    @RequestMapping(value = "lend/<lend_id>", method = RequestMethod.GET)
+    public ResponseEntity<Borrowed> getUsersAllLend(@PathVariable Integer lend_id) {
+        return borrowedService.getBorrowedById(lend_id).map(b -> new ResponseEntity<>(b, HttpStatus.OK)).
+                orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
 }

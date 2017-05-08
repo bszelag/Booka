@@ -5,6 +5,7 @@ import com.boot.borrowed.model.Borrowed;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public interface BorrowedService {
@@ -13,7 +14,7 @@ public interface BorrowedService {
 
     Collection<Borrowed> getBorrowedByOwner(String user_id);
 
-    Borrowed getBorrowed(int book_id);
+    Optional<Borrowed> getBorrowedById(int borrowed_id);
 
     boolean modifyBorrowed(Borrowed borrowed);
 
