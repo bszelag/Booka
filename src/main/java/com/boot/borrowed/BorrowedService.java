@@ -9,7 +9,7 @@ public interface BorrowedService {
 
     public Borrowed getBorrowed(int book_id);
 
-    public boolean createBorrowed(Borrowed borrowed);
+    public Borrowed addBorrowed(Borrowed borrowed);
 
     public boolean modifyBorrowed(Borrowed borrowed);
 

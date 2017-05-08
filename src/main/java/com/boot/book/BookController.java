@@ -66,24 +66,20 @@ public class BookController {
         else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "{book_id}/lend", method = RequestMethod.GET)
-    public Borrowed getBorrowed(@PathVariable int book_id){
-        return borrowedService.getBorrowed(book_id);
-    }
+    @RequestMapping(value = "lend/<book_id>/<user_id>", method = RequestMethod.POST)
+    public ResponseEntity<Borrowed> addBorrowed(@PathVariable Integer book_id, @PathVariable String user_id,
+                                  @RequestBody Borrowed borrowed){
 
-    @RequestMapping(value = "{book_id}/lend", method = RequestMethod.POST)
-    public boolean modifyBorrowed(@PathVariable int book_id, @RequestBody Borrowed borrowed){
-        return borrowedService.modifyBorrowed(borrowed);
-    }
+        Optional<User> user = userService.getById(user_id);
+        Optional<Book> book = bookService.getBook(book_id);
+        if (user.isPresent() && book.isPresent() && !book.get().getStatus()) {
+            borrowed.setBorrower(user.get());
+            borrowed.setBook(book.get());
+            return new ResponseEntity<>(borrowedService.addBorrowed(borrowed), HttpStatus.OK) ;
 
-    @RequestMapping(value = "{book_id}/lend", method = RequestMethod.PUT)
-    public boolean createBorrowed(@PathVariable int book_id, @RequestBody Borrowed borrowed){
-        return borrowedService.createBorrowed(borrowed);
-    }
-
-    @RequestMapping(value = "{book_id}/lend", method = RequestMethod.DELETE)
-    public boolean deleteBorrowed(@PathVariable int book_id){
-        return borrowedService.deleteBorrowed(book_id);
+        }
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }
