@@ -17,24 +17,12 @@ class Query implements Serializable {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
     public Integer getDepartment() {
         return department;
-    }
-
-    public void setDepartment(Integer department) {
-        this.department = department;
     }
 }
 
