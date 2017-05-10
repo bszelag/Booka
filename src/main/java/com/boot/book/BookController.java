@@ -73,6 +73,8 @@ public class BookController {
         Optional<User> user = userService.getById(user_id);
         Optional<Book> book = bookService.getBook(book_id);
         if (user.isPresent() && book.isPresent() && !book.get().getStatus()) {
+            book.get().setStatus(true);
+            bookService.modifyBook(book.get());
             borrowed.setBorrower(user.get());
             borrowed.setBook(book.get());
             return new ResponseEntity<>(borrowedService.addBorrowed(borrowed), HttpStatus.OK) ;
@@ -102,11 +104,18 @@ public class BookController {
     }
 
     @RequestMapping(value = "lend/<lend_id>", method = RequestMethod.DELETE)
-    public ResponseEntity<Borrowed> deleteLend(@PathVariable Integer lend_id,  @RequestBody Borrowed borrowed) {
-        if (borrowedService.deleteBorrowed(lend_id))
-            return new ResponseEntity<>(HttpStatus.OK);
-        else
+    public ResponseEntity<Borrowed> deleteLend(@PathVariable Integer lend_id) {
+        Borrowed borrowed = borrowedService.getBorrowedById(lend_id).orElse(null);
+
+        if (borrowed == null)
+        {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        borrowed.getBook().setStatus(false);
+        bookService.modifyBook(borrowed.getBook());
+        borrowedService.deleteBorrowed(lend_id);
+        return new ResponseEntity<>(HttpStatus.OK);
+
     }
 
     @RequestMapping(value = "lend/<borrowed/user/<user_id>", method = RequestMethod.DELETE)
