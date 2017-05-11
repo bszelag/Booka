@@ -1,12 +1,17 @@
 package com.boot.user.impl;
 
 
+import com.boot.book.repository.BookRepository;
+import com.boot.borrowed.repository.BorrowedRepository;
+import com.boot.security.HashingService;
 import com.boot.user.UserService;
 import com.boot.user.model.User;
 import com.boot.user.repository.UserRepository;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,6 +22,15 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     public UserRepository userRepository;
+
+    @Autowired
+    public HashingService hashingService;
+
+    @Autowired
+    private BookRepository bookRepository;
+
+    @Autowired
+    private BorrowedRepository borrowedRepository;
 
     @Override
     public Collection<User> getAll() {
@@ -44,6 +58,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean delete(String id) {
         if(userRepository.exists(id)){
+            User user = userRepository.findByLogin(id);
+            bookRepository.removeBookByUserId(id);
+            String name = user.getName() + " " + user.getSurname();
+            borrowedRepository.updateBorrowerName(id,name);
+            borrowedRepository.removeBorrowedsByUserId(id, user.getEmail(), user.getFacebook());
             userRepository.delete(id);
             return true;
         }
@@ -51,11 +70,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean add(User user) {
+    public User add(User user) {
         if(userRepository.exists(user.getLogin())){
-            return false;
+            return null;
         }
-        userRepository.save(user);
-        return true;
+        val salt = hashingService.generateSalt();
+        user.setSalt(Base64.getEncoder().encodeToString(salt));
+        user.setPassword(Base64.getEncoder().encodeToString(hashingService.hash(user.getPassword().toCharArray(),salt)));
+        return userRepository.save(user);
     }
 }
