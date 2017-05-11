@@ -30,13 +30,13 @@
         }
 
         function signIn(credentials) {
-            return $http.post('/api/v1/users/login', credentials)
+            return $http.post('/api/v1/users/sign_in', credentials)
                 .then(handleResponse())
                 .catch(handleError("Wrong username or password"));
         }
 
         function signOut() {
-            return $http.post('/api/v1/users/logout')
+            return $http.post('/api/v1/users/sign_out')
                 .then(handleResponse("Successfully logged out"))
                 .catch(handleError("An error occurred while logging out"));
         }

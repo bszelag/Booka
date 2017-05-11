@@ -10,30 +10,37 @@
     function LoginController(authorizationService, $location) {
         var vm = this;
 
-        vm.signin = {};
+        vm.signInForm = {};
 
-        vm.login = login;
+        vm.signIn = signIn;
+        vm.signInWithFacebook = signInWithFacebook;
 
         init();
         ///////////////
 
         function init() {
-            vm.signin.email = "";
-            vm.signin.password = "";
+            vm.signInForm.login = "";
+            vm.signInForm.password = "";
         }
 
-        function login(isValid) {
+        function signIn(isValid) {
             if(isValid) {
                 var credentials = {};
-                credentials.login = vm.signin.email;
-                credentials.password = vm.signin.password;
+                credentials.login = vm.signInForm.login;
+                credentials.password = vm.signInForm.password;
 
-                authorizationService.login(credentials).then(() => {
+                authorizationService.signIn(credentials).then(() => {
                     authorizationService.getSessionUser().then((response) => {
                         authorizationService.setUserData(response.data);
                         $location.path('/');
                     });
                 });
+            }
+        }
+
+        function signInWithFacebook(isValid) {
+            if (isValid) {
+                console.log("Facebook: Not implemented yet");
             }
         }
     }
