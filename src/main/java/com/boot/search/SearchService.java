@@ -4,5 +4,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface SearchService {
-    String searchQuery(String title, String author, Integer department);
+    String searchQuery(LibraryQuery query);
 }

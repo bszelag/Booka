@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/api/v1//search")
+@RequestMapping(value = "/api/v1/search")
 public class SearchController {
 
     @Autowired
@@ -15,7 +15,7 @@ public class SearchController {
 
 
     @RequestMapping(method = RequestMethod.POST)
-    public String searchQuery(@RequestBody Query query){
-        return searchService.searchQuery(query.getTitle(), query.getAuthor(), query.getDepartment());
+    public String searchQuery(@RequestBody LibraryQuery query){
+        return searchService.searchQuery(query);
     }
 }
