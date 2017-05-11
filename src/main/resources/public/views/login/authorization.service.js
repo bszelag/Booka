@@ -26,8 +26,7 @@
         ////////////////
 
         function isAuthorized() {
-            //return !!$cookies.get(COOKIE_KEY);
-            return true;
+            return !!$cookies.get(COOKIE_KEY);
         }
 
         function signIn(credentials) {
