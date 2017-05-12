@@ -38,7 +38,7 @@ public class BorrowedServiceImpl implements BorrowedService {
 
     @Override
     public Collection<Borrowed> getBorrowedByBorrower(String user_id) {
-        return null;
+        return borrowedRepository.findByBorrowerId(user_id);
     }
 
     @Override
