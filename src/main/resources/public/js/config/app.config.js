@@ -34,12 +34,6 @@
                 templateUrl: bookaPrefix + "books/books.view.html",
                 controller: 'BooksController',
                 controllerAs: 'vm',
-                params: {
-                    userId : {
-                        value: null
-                    },
-                    hiddenParam: 'YES'
-                }
             })
 
             .state('friends', {

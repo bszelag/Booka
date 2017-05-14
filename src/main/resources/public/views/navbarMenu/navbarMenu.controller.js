@@ -11,7 +11,7 @@
         var vm = this;
 
         vm.isAuthorized = authorizationService.isAuthorized;
-        vm.userData = {"id" : 11}; //authorizationService.getUserData;
+        vm.userData = authorizationService.getUserData;
         vm.goToLoginPage = goToLoginPage;
         vm.signOut = signOut;
 
@@ -19,12 +19,11 @@
         //////////////
 
         function init() {
-            /*if(authorizationService.isAuthorized()) {
+            if(authorizationService.isAuthorized()) {
                 authorizationService.getSessionUser().then((response) => {
                     authorizationService.setUserData(response.data);
                 });
-            }*/
-            console.log(vm.isAuthorized);
+            }
         }
 
         function goToLoginPage() {
@@ -35,6 +34,7 @@
             authorizationService.signOut().then(() => {
                 authorizationService.setUserData({});
             });
+            $state.go('home')
         }
     }
 })();

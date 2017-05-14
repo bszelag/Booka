@@ -5,7 +5,7 @@
             <a ng-show="vm.isAuthorized()" onclick="openMenu()"><i class="fa fa-bars"></i></a>
         </div>
         <ul class="navbar" style="display: inline-flex; justify-content: flex-end">
-            <li ng-if="vm.isAuthorized()"><a ui-sref="books({userId: {{vm.userData.id}}})"><i class="fa fa-book"></i></a></li>
+            <li ng-if="vm.isAuthorized()"><a ui-sref="books"><i class="fa fa-book"></i></a></li>
             <li ng-if="vm.isAuthorized()"><a ui-sref="messages"><i class="fa fa-envelope"></i></a></li>
             <li ng-if="vm.isAuthorized()"><a ui-sref="friends"><i class="fa fa-users"></i></a></li>
             <li ng-if="vm.isAuthorized()"><a ui-sref="search"><i class="fa fa-search"></i></a></li>
@@ -16,7 +16,7 @@
                         <div class="col-md-12 text-center" style="padding-bottom: 5px; font-weight: bold">
                             <a ng-if="!vm.isAuthorized()" ui-sref="login">Sign in</a>
                             <div ng-if="vm.isAuthorized()" style="display: grid">
-                                <p>user</p>
+                                <p style="font-weight: bold; text-decoration: underline"> {{ vm.userData().login }} </p>
                                 <a class="text-center" ui-sref="account">Account</a>
                                 <button class="btn" ng-click="vm.signOut()">Sign out</button>
                             </div>

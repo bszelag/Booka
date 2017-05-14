@@ -5,18 +5,23 @@
         .module('booka.books')
         .controller('BooksController', BooksController);
 
-    BooksController.$inject = ['$scope', '$state', '$stateParams'];
+    BooksController.$inject = ['$state', 'authorizationService'];
 
-    function BooksController($scope, $state, $stateParams) {
+    function BooksController($state, authorizationService) {
         var vm = this;
 
-        vm.user = $stateParams.userId;
-        console.log($stateParams.userId);
+        vm.isAuthorized = authorizationService.isAuthorized;
+        vm.userData = authorizationService.getUserData;
 
-        $scope.state = $state.current;
-        $scope.params = $stateParams;
-
-        console.log($scope.params);
+        init();
         //////////////
+
+        function init() {
+            if(authorizationService.isAuthorized()) {
+                authorizationService.getSessionUser().then((response) => {
+                    authorizationService.setUserData(response.data);
+                });
+            }
+        }
     }
 })();
