@@ -125,7 +125,7 @@ public class BookController {
 
     }
 
-    @RequestMapping(value = "lend/borrowed/user/{user_id}", method = RequestMethod.GET)
+    @RequestMapping(value = "borrowed/user/{user_id}", method = RequestMethod.GET)
     public Collection<Borrowed> getUsersAllBorrowed(@PathVariable String user_id) {
         return borrowedService.getBorrowedByBorrower(user_id);
     }
