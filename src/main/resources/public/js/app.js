@@ -1,7 +1,10 @@
 (function() {
     angular
         .module('booka', ['ui.router',
-            'ngResource',
-            'booka.books'
+                            'ngResource',
+                            'ngCookies',
+                            'booka.books',
+                            'booka.login',
+                            'booka.navbarMenu'
         ]);
 })();
