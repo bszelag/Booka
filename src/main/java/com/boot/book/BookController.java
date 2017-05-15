@@ -32,12 +32,12 @@ public class BookController {
 
 
     @RequestMapping(value = "user/{user_id}", method = RequestMethod.GET)
-    public Collection<Book> getUserBooks(@PathVariable String user_id){
+    public Collection<Book> getUserBooks(@PathVariable Integer user_id){
         return bookService.getAllUserBooks(user_id);
     }
 
     @RequestMapping(value = "user/{user_id}", method = RequestMethod.POST)
-    public ResponseEntity<Book> addUserBook(@RequestBody Book book, @PathVariable String user_id){
+    public ResponseEntity<Book> addUserBook(@RequestBody Book book, @PathVariable Integer user_id){
         Optional<User> user = userService.getById(user_id);
         if (user.isPresent())
         {
@@ -68,7 +68,7 @@ public class BookController {
     }
 
     @RequestMapping(value = "lend/{book_id}/{user_id}", method = RequestMethod.POST)
-    public ResponseEntity<Borrowed> addBorrowed(@PathVariable Integer book_id, @PathVariable String user_id,
+    public ResponseEntity<Borrowed> addBorrowed(@PathVariable Integer book_id, @PathVariable Integer user_id,
                                   @RequestBody Borrowed borrowed){
 
         Optional<User> user = userService.getById(user_id);
@@ -86,7 +86,7 @@ public class BookController {
     }
 
     @RequestMapping(value = "lend/user/{user_id}", method = RequestMethod.GET)
-    public Collection<Borrowed> getUsersAllLend(@PathVariable String user_id) {
+    public Collection<Borrowed> getUsersAllLend(@PathVariable Integer user_id) {
         return borrowedService.getBorrowedByOwner(user_id);
     }
 
@@ -126,7 +126,7 @@ public class BookController {
     }
 
     @RequestMapping(value = "borrowed/user/{user_id}", method = RequestMethod.GET)
-    public Collection<Borrowed> getUsersAllBorrowed(@PathVariable String user_id) {
+    public Collection<Borrowed> getUsersAllBorrowed(@PathVariable Integer user_id) {
         return borrowedService.getBorrowedByBorrower(user_id);
     }
 

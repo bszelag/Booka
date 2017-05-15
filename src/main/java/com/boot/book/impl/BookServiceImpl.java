@@ -19,7 +19,7 @@ public class BookServiceImpl implements BookService {
     private BookRepository bookRepository;
 
     @Override
-    public Collection<Book> getAllUserBooks(String user_id) {
+    public Collection<Book> getAllUserBooks(Integer user_id) {
         return StreamSupport.stream(bookRepository.findByUserId(user_id).spliterator(), false).
                 collect(Collectors.toList());
     }
@@ -45,7 +45,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean deleteBook(int book_id) {
+    public boolean deleteBook(Integer book_id) {
         if(bookRepository.exists(book_id)) {
             bookRepository.delete(book_id);
             return true;

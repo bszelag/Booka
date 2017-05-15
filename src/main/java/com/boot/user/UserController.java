@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
 
 @RestController
-@RequestMapping(value = "/api/v1//users") ///api/v1/ required till nginx
+@RequestMapping(value = "/api/v1/users") ///api/v1/ required till nginx
 public class UserController {
 
     @Autowired
@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public ResponseEntity<User>  getById(@PathVariable String id){
+    public ResponseEntity<User>  getById(@PathVariable Integer id){
         return userService.getById(id).map(u -> new ResponseEntity<>(u, HttpStatus.OK)).
                 orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -78,12 +78,12 @@ public class UserController {
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
-    public void modify(@PathVariable String id, @RequestBody User user){
+    public void modify(@PathVariable Integer id, @RequestBody User user){
         userService.modify(user);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable String id, HttpServletResponse response) {
+    public void delete(@PathVariable Integer id, HttpServletResponse response) {
         if (userService.delete(id)) {
             val sessionCookie = new Cookie(Session.COOKIE_NAME, "");
             sessionCookie.setMaxAge(0);

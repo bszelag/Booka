@@ -14,15 +14,15 @@ public interface BookRepository extends CrudRepository<Book, Integer> {
     @Query("Select b" +
             " FROM Book b" +
             " JOIN b.user u" +
-            " WHERE u.login = :user_id")
-    List<Book> findByUserId(@Param("user_id") String user_id);
+            " WHERE u.id = :user_id")
+    List<Book> findByUserId(@Param("user_id") Integer user_id);
 
     @Modifying
     @Transactional
     @Query("UPDATE Book b" +
             " SET b.user = null" +
-            " WHERE b.user.login = :user_id" +
+            " WHERE b.user.id = :user_id" +
             " AND b in (SELECT br.book FROM Borrowed br)")
-    void removeBookByUserId(@Param("user_id") String user_id);
+    void removeBookByUserId(@Param("user_id") Integer user_id);
 
 }

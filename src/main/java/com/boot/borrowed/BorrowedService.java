@@ -12,9 +12,9 @@ public interface BorrowedService {
 
     Borrowed addBorrowed(Borrowed borrowed);
 
-    Collection<Borrowed> getBorrowedByOwner(String user_id);
+    Collection<Borrowed> getBorrowedByOwner(Integer user_id);
 
-    Collection<Borrowed> getBorrowedByBorrower(String user_id);
+    Collection<Borrowed> getBorrowedByBorrower(Integer user_id);
 
     Optional<Borrowed> getBorrowedById(Integer borrowed_id);
 

@@ -9,7 +9,7 @@ import java.util.Optional;
 @Service
 public interface BookService {
 
-    public Collection<Book> getAllUserBooks(String user_id);
+    public Collection<Book> getAllUserBooks(Integer user_id);
 
     public Optional<Book> getBook(int book_id);
 
@@ -17,5 +17,5 @@ public interface BookService {
 
     public boolean modifyBook(Book book);
 
-    public boolean deleteBook(int book_id);
+    public boolean deleteBook(Integer book_id);
 }
