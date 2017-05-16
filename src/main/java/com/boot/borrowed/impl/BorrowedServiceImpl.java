@@ -32,12 +32,12 @@ public class BorrowedServiceImpl implements BorrowedService {
     }
 
     @Override
-    public Collection<Borrowed> getBorrowedByOwner(String user_id) {
+    public Collection<Borrowed> getBorrowedByOwner(Integer user_id) {
         return borrowedRepository.findByOwner(user_id);
     }
 
     @Override
-    public Collection<Borrowed> getBorrowedByBorrower(String user_id) {
+    public Collection<Borrowed> getBorrowedByBorrower(Integer user_id) {
         return borrowedRepository.findByBorrowerId(user_id);
     }
 

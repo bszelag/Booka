@@ -12,7 +12,7 @@ public interface UserService {
 
     public Collection<User> getAll();
 
-    public Optional<User> getById(String id);
+    public Optional<User> getById(Integer id);
 
     public Optional<User> getByLogin(String login);
 
@@ -20,7 +20,7 @@ public interface UserService {
 
     public User add(User user);
 
-    public boolean delete(String id);
+    public boolean delete(Integer id);
 
 
 }

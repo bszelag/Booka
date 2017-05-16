@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getById(String id) {
+    public Optional<User> getById(Integer id) {
         return Optional.ofNullable(userRepository.findOne(id));
     }
 
@@ -50,15 +50,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User modify(User user) {
-        if (user.getLogin() == null || !userRepository.exists(user.getLogin()))
+        if (user.getLogin() == null || !userRepository.exists(user.getId()))
             return null;
         return userRepository.save(user);
     }
 
     @Override
-    public boolean delete(String id) {
+    public boolean delete(Integer id) {
         if(userRepository.exists(id)){
-            User user = userRepository.findByLogin(id);
+            User user = userRepository.findOne(id);
             bookRepository.removeBookByUserId(id);
             String name = user.getName() + " " + user.getSurname();
             borrowedRepository.updateBorrowerName(id,name);
@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User add(User user) {
-        if(userRepository.exists(user.getLogin())){
+        if(userRepository.findByLogin(user.getLogin())!=null){
             return null;
         }
         val salt = hashingService.generateSalt();
