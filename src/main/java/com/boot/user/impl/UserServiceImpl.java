@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User add(User user) {
-        if(userRepository.exists(user.getId())){
+        if(userRepository.findByLogin(user.getLogin())!=null){
             return null;
         }
         val salt = hashingService.generateSalt();
