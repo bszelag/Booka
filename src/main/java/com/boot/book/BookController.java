@@ -3,10 +3,19 @@ package com.boot.book;
 import com.boot.book.model.Book;
 import com.boot.borrowed.model.Borrowed;
 import com.boot.borrowed.BorrowedService;
+import com.boot.security.AuthorizationService;
+import com.boot.security.utility.Session;
+import com.boot.user.UserService;
+import com.boot.user.model.User;
+import com.boot.utilities.mergeTool;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/api/v1/books") //"/api/v1/" is required till we use nginx
@@ -18,50 +27,113 @@ public class BookController {
     @Autowired
     public BorrowedService borrowedService;
 
+    @Autowired
+    public UserService userService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public Collection<Book> getAllReaderBooks(int user_id){
-        return bookService.getAll(user_id);
+
+    @RequestMapping(value = "user/{user_id}", method = RequestMethod.GET)
+    public Collection<Book> getUserBooks(@PathVariable Integer user_id){
+        return bookService.getAllUserBooks(user_id);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public boolean getAllReaderBooks( @RequestBody Book book){
-        return bookService.addBook(book);
+    @RequestMapping(value = "user/{user_id}", method = RequestMethod.POST)
+    public ResponseEntity<Book> addUserBook(@RequestBody Book book, @PathVariable Integer user_id){
+        Optional<User> user = userService.getById(user_id);
+        if (user.isPresent())
+        {
+            book.setUser(user.get());
+            return new ResponseEntity<>(bookService.addBook(book), HttpStatus.OK); }
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @RequestMapping(value = "{book_id}", method = RequestMethod.GET)
-    public Book getBook(@PathVariable int book_id){
-        return bookService.getBook(book_id);
+    public ResponseEntity<Book> getUserBook(@PathVariable int book_id){
+        return bookService.getBook(book_id).map(b -> new ResponseEntity<>(b, HttpStatus.OK)).
+                orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @RequestMapping(value = "{book_id}", method = RequestMethod.PUT)
-    public boolean modifyBook(@PathVariable int book_id, @RequestBody Book book){
-        return bookService.modifyBook(book);
+    public ResponseEntity<Book> modifyUserBook(@RequestBody Book book){
+        if (bookService.modifyBook(book))
+           return new ResponseEntity<>(HttpStatus.OK);
+        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @RequestMapping(value = "{book_id}", method = RequestMethod.DELETE)
-    public boolean deleteBook(@PathVariable int book_id){
-        return bookService.deleteBook(book_id);
+    public ResponseEntity<Book> deleteUserBook(@PathVariable int book_id){
+        if (bookService.deleteBook(book_id))
+            return new ResponseEntity<>(HttpStatus.OK);
+        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "{book_id}/lend", method = RequestMethod.GET)
-    public Borrowed getBorrowed(@PathVariable int book_id){
-        return borrowedService.getBorrowed(book_id);
+    @RequestMapping(value = "lend/{book_id}/{user_id}", method = RequestMethod.POST)
+    public ResponseEntity<Borrowed> addBorrowed(@PathVariable Integer book_id, @PathVariable Integer user_id,
+                                  @RequestBody Borrowed borrowed){
+
+        Optional<User> user = userService.getById(user_id);
+        Optional<Book> book = bookService.getBook(book_id);
+        if (user.isPresent() && book.isPresent() && !book.get().getStatus()) {
+            book.get().setStatus(true);
+            bookService.modifyBook(book.get());
+            borrowed.setBorrower(user.get());
+            borrowed.setBook(book.get());
+            return new ResponseEntity<>(borrowedService.addBorrowed(borrowed), HttpStatus.OK) ;
+
+        }
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "{book_id}/lend", method = RequestMethod.POST)
-    public boolean modifyBorrowed(@PathVariable int book_id, @RequestBody Borrowed borrowed){
-        return borrowedService.modifyBorrowed(borrowed);
+    @RequestMapping(value = "lend/user/{user_id}", method = RequestMethod.GET)
+    public Collection<Borrowed> getUsersAllLend(@PathVariable Integer user_id) {
+        return borrowedService.getBorrowedByOwner(user_id);
     }
 
-    @RequestMapping(value = "{book_id}/lend", method = RequestMethod.PUT)
-    public boolean createBorrowed(@PathVariable int book_id, @RequestBody Borrowed borrowed){
-        return borrowedService.createBorrowed(borrowed);
+    @RequestMapping(value = "lend/{lend_id}", method = RequestMethod.GET)
+    public ResponseEntity<Borrowed> getLend(@PathVariable Integer lend_id) {
+        return borrowedService.getBorrowedById(lend_id).map(b -> new ResponseEntity<>(b, HttpStatus.OK)).
+                orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @RequestMapping(value = "{book_id}/lend", method = RequestMethod.DELETE)
-    public boolean deleteBorrowed(@PathVariable int book_id){
-        return borrowedService.deleteBorrowed(book_id);
+    @RequestMapping(value = "lend/{lend_id}", method = RequestMethod.PUT)
+    public ResponseEntity<Borrowed> updateLend(@PathVariable Integer lend_id, @RequestBody Borrowed borrowed)
+            throws InstantiationException, IllegalAccessException {
+
+            Optional<Borrowed> originalBorrowed = borrowedService.getBorrowedById(lend_id);
+            if (originalBorrowed.isPresent()) {
+                Borrowed finalBorrowed = mergeTool.mergeObjects(borrowed,originalBorrowed.get());
+                borrowedService.modifyBorrowed(finalBorrowed);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            else
+               return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @RequestMapping(value = "lend/{lend_id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Borrowed> deleteLend(@PathVariable Integer lend_id) {
+        Borrowed borrowed = borrowedService.getBorrowedById(lend_id).orElse(null);
+
+        if (borrowed == null)
+        {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        borrowed.getBook().setStatus(false);
+        bookService.modifyBook(borrowed.getBook());
+        borrowedService.deleteBorrowed(lend_id);
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
+    @RequestMapping(value = "borrowed/user/{user_id}", method = RequestMethod.GET)
+    public Collection<Borrowed> getUsersAllBorrowed(@PathVariable Integer user_id) {
+        return borrowedService.getBorrowedByBorrower(user_id);
+    }
+
+    @RequestMapping(value = "lend/book/{book_id}", method = RequestMethod.GET)
+    public ResponseEntity<Borrowed> getBorrowedByBook(@PathVariable Integer book_id) {
+        return borrowedService.getBorrowedByBookId(book_id).map(b -> new ResponseEntity<>(b, HttpStatus.OK)).
+                orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
 }

@@ -5,19 +5,27 @@
         .module('booka.books')
         .controller('BooksController', BooksController);
 
-    BooksController.$inject = ['showBooksService', 'NgTableParams'];
+    BooksController.$inject = ['$state', 'authorizationService',
+        'showBooksService', 'NgTableParams'];
 
-    function BooksController(showBooksService, NgTableParams) {
+    function BooksController($state, authorizationService, showBooksService,
+                             NgTableParams) {
         var vm = this;
-        
+
+        vm.isAuthorized = authorizationService.isAuthorized;
+        vm.userData = authorizationService.getUserData;
         vm.booksTable = {};
-        vm.userId = 1;
-        
+
         init();
         //////////////
-        
+
         function init() {
-            getBooks(vm.userId);
+            if(authorizationService.isAuthorized()) {
+                authorizationService.getSessionUser().then((response) => {
+                    authorizationService.setUserData(response.data);
+                    getBooks(vm.userData.id);
+                });
+            }
         }
 
         function initBooksTable(books) {
@@ -32,19 +40,11 @@
         }
 
         function getBooks(userId) {
-
-            // TODO uncomment this part after successful implementation of /books API
-            // showBooksService.getBooks(userId).then((response) => {
-            //     initBooksTable(response.data);
-            //     }).catch((error) => {
-            //             console.log(error);
-            //     });
-
-            initBooksTable([{
-                "title" : "Zamek", "author" : "Kafka", "status" : "Borrowed", "format" : "book"
-            }, {
-                "title" : "Ameryka", "author" : "Kafka", "status" : "Viable", "format" : "ebook"
-            }]);
+            showBooksService.getBooks(userId).then((response) => {
+                initBooksTable(response.data);
+            }).catch((error) => {
+                        console.log(error);
+            });
         }
     }
 })();

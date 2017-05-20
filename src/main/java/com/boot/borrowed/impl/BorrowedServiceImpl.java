@@ -6,6 +6,9 @@ import com.boot.borrowed.repository.BorrowedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+import java.util.Optional;
+
 @Component
 public class BorrowedServiceImpl implements BorrowedService {
 
@@ -13,27 +16,44 @@ public class BorrowedServiceImpl implements BorrowedService {
     private BorrowedRepository borrowedRepository;
 
     @Override
-    public Borrowed getBorrowed(int book_id) {
-        return borrowedRepository.findByBookId(book_id);
+    public Optional<Borrowed> getBorrowedById(Integer borrowed_id) {
+        return Optional.ofNullable(borrowedRepository.findOne(borrowed_id));
     }
 
     @Override
-    public boolean createBorrowed(Borrowed borrowed) {
+    public Optional<Borrowed> getBorrowedByBookId(Integer book_id) {
+        return Optional.ofNullable(borrowedRepository.findByBookId(book_id));
+    }
+
+    @Override
+    public Borrowed addBorrowed(Borrowed borrowed) {
         borrowedRepository.save(borrowed);
-        return true;
+        return borrowed;
+    }
+
+    @Override
+    public Collection<Borrowed> getBorrowedByOwner(Integer user_id) {
+        return borrowedRepository.findByOwner(user_id);
+    }
+
+    @Override
+    public Collection<Borrowed> getBorrowedByBorrower(Integer user_id) {
+        return borrowedRepository.findByBorrowerId(user_id);
     }
 
     @Override
     public boolean modifyBorrowed(Borrowed borrowed) {
-        borrowedRepository.save(borrowed);
-        return true;
+        if (borrowedRepository.exists(borrowed.getId())) {
+            borrowedRepository.save(borrowed);
+            return true; }
+        else
+            return false;
     }
 
     @Override
-    public boolean deleteBorrowed(int book_id) {
-        Borrowed borrowed = borrowedRepository.findByBookId(book_id);
-        if(borrowedRepository.exists(borrowed.getId())) {
-            borrowedRepository.delete(borrowed.getId());
+    public boolean deleteBorrowed(Integer book_id) {
+        if(borrowedRepository.exists(book_id)) {
+            borrowedRepository.delete(book_id);
             return true;
         } else
             return false;

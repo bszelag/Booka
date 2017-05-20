@@ -1,4 +1,4 @@
-package com.boot.contact.model;
+package com.boot.authorizedViewers.model;
 
 import com.boot.user.model.User;
 import lombok.AllArgsConstructor;
@@ -17,13 +17,13 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ContactId implements Serializable {
+public class AuthorizedViewersId implements Serializable{
 
     @ManyToOne(optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private User contact1;
+    private User owner;
 
     @ManyToOne(optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private User contact2;
+    private User authorizedViewer;
 }
