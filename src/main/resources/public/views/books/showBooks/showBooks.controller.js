@@ -17,6 +17,7 @@
         vm.booksTable = {};
 
         vm.showBookDetails = showBookDetails;
+        vm.showLentBooks = showLentBooks;
 
         init();
         //////////////
@@ -51,6 +52,10 @@
 
         function showBookDetails(bookId) {
             $state.go('book', {bookId: bookId});
+        }
+
+        function showLentBooks() {
+            $state.go('lent');
         }
     }
 })();

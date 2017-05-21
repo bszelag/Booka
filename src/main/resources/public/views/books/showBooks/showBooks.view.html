@@ -1,4 +1,5 @@
 <div class="show-books">
+    <button class="btn btn-primary" ng-click="vm.showLentBooks()">Show lent books</button>
     <table ng-table="vm.booksTable" show-filter="true" class="table table-bordered filled-cells">
         <tr ng-repeat="book in $data">
             <td title="'Title'" filter="{title : 'text'}" sortable="'title'"> {{ book.title }} </td>

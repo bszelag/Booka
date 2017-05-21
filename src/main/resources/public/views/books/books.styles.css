@@ -66,3 +66,62 @@
     font-weight: bold;
     width: 25%;
 }
+
+
+/************************************************LENT / BORROWED***************************************/
+.lent {
+    background-color: var(--background_purple_dark);
+    width: 100%;
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 1px 1px 5px #999999;
+}
+
+.lent-books-bar {
+    width: 100%;
+    margin: 20px 5px 0px 5px;
+    background-color: var(--background_purple_dark);
+    border: none;
+}
+
+.lent-books-item {
+    padding: 5px 30px;
+    margin: 0px;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.lent-books-bar button.active-tab {
+    background-color: var(--background_grey_light);
+    color: var(--background_purple_dark);
+}
+
+.lent-books-bar button.non-active-tab {
+    background-color: var(--background_purple_dark);
+    color: var(--background_grey_light);
+}
+
+.lent-books-bar button.non-active-tab:hover {
+    color: var(--background_grey_dark);
+}
+
+.lent-card {
+    font-size: 16px;
+    background-color: var(--background_grey_light);
+    margin: 0px 5px 20px 5px;
+}
+
+.lent-card table {
+    width: 100%;
+    background-color: var(--background_grey_light);
+    word-break: break-all;
+    word-wrap: break-word;
+    border: none !important;
+}
+
+.ng-table-pagination {
+    display: flex !important;
+    justify-content: center !important;
+}
+

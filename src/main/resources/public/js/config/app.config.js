@@ -46,6 +46,13 @@
                 }
             })
 
+            .state('lent', {
+                url: '/lent',
+                templateUrl: bookaPrefix + "books/lent/lentBooks.view.html",
+                controller: 'LentBooksController',
+                controllerAs: 'vm',
+            })
+
             .state('drive', {
                 url: '/drive',
                 templateUrl: bookaPrefix + "gdrive/gdrive.view.html",
