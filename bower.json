@@ -26,8 +26,7 @@
     "angular-messages": "1.6.4",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
     "ng-table": "0.8.3",
-    "angular-growl-v2": "angular-growl-2#^0.7.9",
-    "ng-pdf-viewer" : "0.1.3"
+    "angular-growl-v2": "angular-growl-2#^0.7.9"
   },
   "homepage": "https://github.com/bszelag/Booka",
   "authors": [

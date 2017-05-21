@@ -1,3 +1,5 @@
+// Resource: https://github.com/sashee/drive-api-from-js/
+
 (function() {
     'use strict';
 
