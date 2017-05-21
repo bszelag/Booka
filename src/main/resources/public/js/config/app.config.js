@@ -31,9 +31,26 @@
 
             .state('books', {
                 url: '/books',
-                templateUrl: bookaPrefix + "books/books.view.html",
-                controller: 'BooksController',
+                templateUrl: bookaPrefix + "books/showBooks/showBooks.view.html",
+                controller: 'ShowBooksController',
                 controllerAs: 'vm',
+            })
+
+            .state('book', {
+                url: '/book',
+                templateUrl: bookaPrefix + "books/bookDetails/bookDetails.view.html",
+                controller: 'BookDetailsController',
+                controllerAs: 'vm',
+                params: {
+                    bookId : null
+                }
+            })
+
+            .state('drive', {
+                url: '/drive',
+                templateUrl: bookaPrefix + "gdrive/gdrive.view.html",
+                controller: 'GoogleDriveController',
+                controllerAs: 'vm'
             })
 
             .state('friends', {

@@ -1,0 +1,39 @@
+<div class="container-fluid">
+    <div class="col-md-12 book-details">
+        <table class="col-md-6 table">
+            <tr class="title">
+                <th>Book Details</th>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <th>{{ vm.book.title }}</th>
+            </tr>
+            <tr>
+                <th>Author</th>
+                <th>{{ vm.book.author }}</th>
+            </tr>
+            <tr>
+            <tr>
+                <th>Status</th>
+                <th>{{vm.book.status === 'true' ? 'Borrowed' : 'Available' }}</th>
+            </tr>
+            <tr>
+                <th>Owner</th>
+                <th>{{ vm.book.ownerType === 'l' ?  'Library' : vm.book.user.login }}</th>
+            </tr>
+            <tr ng-if="vm.book.format==='e'">
+                <th>Path</th>
+                <th>
+                    <a target="_blank" ng-href="{{vm.book.path}}"> {{ vm.book.path }} </a>
+                </th>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+    function openPdf(path) {
+        window.open(path);
+        return false;
+    }
+</script>

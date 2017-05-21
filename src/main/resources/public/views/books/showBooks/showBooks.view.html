@@ -4,10 +4,10 @@
             <td title="'Title'" filter="{title : 'text'}" sortable="'title'"> {{ book.title }} </td>
             <td title="'Author'" filter="{author : 'text'}" sortable="'author'"> {{ book.author }} </td>
             <td title="'Format'" filter="{format : 'text'}" sortable="'format'"> {{ book.format }} </td>
-            <td title="'Status'" filter="{status : 'text'}" sortable="'userId'"> {{ book.status }} </td>
+            <td title="'Status'" filter="{status : 'text'}" sortable="'status'"> {{ book.status }} </td>
             <td class="Details" title="'Details'">
                 <div class="details-container">
-                    <a ui-href="books/{{book.id}}"><i class="fa fa-info-circle"></i></a>
+                    <span class="glyphicon glyphicon-book" ng-click="vm.showBookDetails(book.id)"></span>
                 </div>
             </td>
         </tr>

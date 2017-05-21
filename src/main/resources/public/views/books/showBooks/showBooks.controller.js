@@ -2,19 +2,21 @@
     'use strict';
 
     angular
-        .module('booka.books')
-        .controller('BooksController', BooksController);
+        .module('booka.books.showBooks')
+        .controller('ShowBooksController', ShowBooksController);
 
-    BooksController.$inject = ['$state', 'authorizationService',
-        'showBooksService', 'NgTableParams'];
+    ShowBooksController.$inject = ['$state', 'authorizationService',
+        'booksService', 'NgTableParams'];
 
-    function BooksController($state, authorizationService, showBooksService,
+    function ShowBooksController($state, authorizationService, booksService,
                              NgTableParams) {
         var vm = this;
 
         vm.isAuthorized = authorizationService.isAuthorized;
         vm.userData = authorizationService.getUserData;
         vm.booksTable = {};
+
+        vm.showBookDetails = showBookDetails;
 
         init();
         //////////////
@@ -23,7 +25,7 @@
             if(authorizationService.isAuthorized()) {
                 authorizationService.getSessionUser().then((response) => {
                     authorizationService.setUserData(response.data);
-                    getBooks(vm.userData.id);
+                    getBooks(response.data.id);
                 });
             }
         }
@@ -40,11 +42,15 @@
         }
 
         function getBooks(userId) {
-            showBooksService.getBooks(userId).then((response) => {
+            booksService.getBooks(userId).then((response) => {
                 initBooksTable(response.data);
             }).catch((error) => {
                         console.log(error);
             });
+        }
+
+        function showBookDetails(bookId) {
+            $state.go('book', {bookId: bookId});
         }
     }
 })();

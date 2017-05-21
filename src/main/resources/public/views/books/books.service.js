@@ -3,13 +3,14 @@
 
     angular
         .module('booka.books')
-        .service('showBooksService', showBooksService);
+        .service('booksService', booksService);
 
-    showBooksService.$inject = ['$http', '$q'];
+    booksService.$inject = ['$http', '$q'];
 
-    function showBooksService($http, $q) {
+    function booksService($http, $q) {
         var service = {
-            getBooks: getBooks
+            getBooks : getBooks,
+            getBook : getBook
         };
 
         return service;
@@ -19,7 +20,12 @@
             return $http.get('/api/v1/books/user/' + userId )
                 .then(handleResponse())
                 .catch(handleError())
+        }
 
+        function getBook(bookId) {
+            return $http.get('/api/v1/books/' + bookId )
+                .then(handleResponse())
+                .catch(handleError())
         }
 
         function handleResponse(msg) {
