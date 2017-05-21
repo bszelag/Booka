@@ -1,0 +1,68 @@
+/************************************************SHOW BOOKS***************************************/
+.show-books {
+    background-color: var(--background_grey_light);
+    width: 100%;
+    padding: 10px;
+    margin: 10px;
+}
+
+.show-books .filled-cells {
+    background-color: var(--background_grey_lighter) !important;
+    text-align: center;
+}
+
+.show-books .ng-table-pagination {
+    display: flex !important;
+    justify-content: center !important;
+}
+
+.show-books .details-container {
+    display: flex;
+    justify-content: center;
+}
+
+.show-books .details a {
+    cursor: pointer;
+    margin: 0 5px 0 5px;
+    color: var(--font_grey);
+}
+
+.show-books .details a:hover {
+    color: var(--font_grey_light)
+}
+
+.show-books .details .fa {
+    font-size: 1.2em;
+}
+
+
+
+/************************************************BOOK DETAILS***************************************/
+.book-details {
+    padding: 10px;
+    margin: 20px;
+    background-color: var(--background_grey_light);
+}
+
+.book-details tr {
+    margin-left: 20px;
+}
+
+.book-details tr.title {
+    border-top: 5px solid var(--font_grey);
+    border-bottom: 2px solid var(--font_grey);
+    font-size: 26px;
+    width: 100%;
+}
+
+.book-details th {
+    margin: 10px 20px 10px 20px;
+    font-size: 22px;
+    color: var(--font_grey);
+    font-weight: normal;
+}
+
+.book-details th:first-child {
+    font-weight: bold;
+    width: 25%;
+}

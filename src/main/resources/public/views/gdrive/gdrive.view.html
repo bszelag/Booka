@@ -1,0 +1,61 @@
+<!-- Resource: https://github.com/sashee/drive-api-from-js/-->
+
+<script>
+    window.gapiCallbacks=[];
+    function gapiLoaded(){
+        gapi.auth.init(function() {
+            gapi.client.load('drive', 'v2').then(function () {
+                var GapiQueue = function () {
+                    this.push = function (callback) {
+                        setTimeout(callback, 0);
+                    };
+                };
+                var _old_gapiCallbacks = window.gapiCallbacks;
+                window.gapiCallbacks = new GapiQueue();
+                _old_gapiCallbacks.forEach(function (callback) {
+                    window.gapiCallbacks.push(callback);
+                });
+            },function(reason){
+                console.err(reason);
+            });
+        });
+    }
+</script>
+
+<div>
+    <h2>Auth section</h2>
+    <div ng-show="checkingLogin">Checking login status...</div>
+    Login status:{{loggedIn}}
+    <button ng-disabled="checkingLogin || loggedIn" ng-click="login()">Log In</button>
+
+    <div ng-show="loggedIn">
+        <h2>Google Drive</h2>
+        <button ng-disabled="uploading" ng-click="clickFileUpload()">Upload file to your Google Drive</button>
+        <input type="file" id="uploadFile" onchange="angular.element(this).scope().upload()" style="display:none;">
+        <div ng-show="uploading">Uploading...</div>
+
+        <h3>Uploaded files:</h3>
+        <div ng-show="!files.length">No uploaded files yet</div>
+        <div>
+            <ul>
+                <li ng-repeat="file in files"><a target="_blank" ng-href="{{file}}">{{ file }}</a></li>
+            </ul>
+        </div>
+
+        <!-- NOT SUPPORTED YET -->
+        <!--<h3>Files from Google Drive:</h3>-->
+        <!--<button ng-click="vm.showFiles()">Show files</button>-->
+        <!--<div ng-show="!vm.files.length">No files</div>-->
+        <!--<div>-->
+            <!--<ul>-->
+                <!--<li ng-repeat="file in vm.files"> {{ file.name }} &nbsp; {{ file.id }} </li>-->
+            <!--</ul>-->
+        <!--</div>-->
+
+    </div>
+
+</div>
+
+
+
+<script src="https://apis.google.com/js/client.js?onload=gapiLoaded"></script>

@@ -5,6 +5,7 @@
                             'ngCookies',
                             'booka.books',
                             'booka.login',
-                            'booka.navbarMenu'
+                            'booka.navbarMenu',
+                            'booka.gdrive'
         ]);
 })();
