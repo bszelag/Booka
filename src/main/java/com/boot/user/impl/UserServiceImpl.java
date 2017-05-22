@@ -50,26 +50,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User modify(User user) {
-        if (user.getLogin() == null || !userRepository.exists(user.getId()))
-            return null;
-        User user1 = userRepository.findOne(user.getId());
-        if (user.getPassword() == null) {
-            user.setPassword(user1.getPassword());
-            user.setSalt(user1.getSalt());
-        }
-        else{
+        User originalUser = userRepository.findOne(user.getId());
+        if (user.getPassword() != originalUser.getPassword()) {
             val salt = hashingService.generateSalt();
             user.setSalt(Base64.getEncoder().encodeToString(salt));
             user.setPassword(Base64.getEncoder().encodeToString(hashingService.hash(user.getPassword().toCharArray(),salt)));
         }
-        if (user.getFacebook() == null)
-            user.setFacebook(user1.getFacebook());
-        if (user.getName() == null)
-            user.setName(user1.getName());
-        if (user.getSurname() == null)
-            user.setSurname(user1.getSurname());
-        if (user.getAddress() == null)
-            user.setAddress(user1.getAddress());
         return userRepository.save(user);
     }
 
