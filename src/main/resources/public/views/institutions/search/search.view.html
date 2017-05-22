@@ -1,0 +1,34 @@
+<div class="institutions-search-view">
+    <div class="institutions-search">
+        <h3>Search books in library</h3>
+        <form name="institutionsSearchForm" ng-submit='vm.institutionsSearch()'>
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" id="title" placeholder="Title" ng-model="vm.searchQuery.title" >
+            </div>
+            <div class="form-group">
+                <label for="author">Author</label>
+                <input type="text" class="form-control" id="author" placeholder="Author" ng-model="vm.searchQuery.author" >
+            </div>
+            <div class="form-group">
+                <label for="department">Library</label>
+                <select class="form-control" id="department" ng-options="department.id as department.institution.name for department in vm.departments"
+                        ng-value="department.id" ng-model="vm.searchQuery.department">
+                    <option ></option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary btn-search" ng-disabled="institutionsSearchForm.$invalid"> Search &nbsp; <i class="fa fa-search" aria-hidden="true"></i></button>
+        </form>
+    </div>
+
+    <div class="institutions-results" ng-show="vm.responseAvailable">
+        <table ng-table="vm.resultsTable" show-filter="true" class="table table-bordered filled-cells">
+            <tr ng-repeat="result in $data">
+                <td title="'Title'" filter="{title : 'text'}" sortable="'title'"> {{ result.title }} </td>
+                <td title="'Author'" filter="{author : 'text'}" sortable="'author'"> {{ result.author }} </td>
+                <td title="'Department'" filter="{department : 'text'}" sortable="'department.id'"> {{ result.department.id }} </td>
+            </tr>
+        </table>
+    </div>
+
+</div>

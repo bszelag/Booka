@@ -75,6 +75,13 @@
                 templateUrl: bookaPrefix + "friends/friends.html"
             })
 
+            .state('institutions-search', {
+                url: '/institutions/search',
+                templateUrl: bookaPrefix + "institutions/search/search.view.html",
+                controller: 'InstitutionsSearchController',
+                controllerAs: 'vm',
+            })
+
             .state('messages', {
                 url: '/friends',
                 templateUrl: bookaPrefix + "friends/friends.html"
