@@ -67,8 +67,28 @@ public class SearchServiceImpl implements SearchService{
                     String title[] = tds.get(3).text().split("/");
                     book.setTitle(title[0]);
                     book.setFormat('f');
-                    books.add(book);
-                    System.out.println(tds.get(5).text());
+                    Element link  = tds.get(5);
+                    Element Link = link.select("a").first();
+                    if (Link != null) {
+                        String departmentsURL = Link.attr("abs:href"); // "http://jsoup.org/"
+
+                        Document departmentsDoc = Jsoup.connect(departmentsURL).get();
+
+                        Elements departmentsTables = departmentsDoc.select("table");
+                        Element departments = departmentsTables.get(5);
+                        for (Element element : departments.select("tr")) {
+                            Elements elements = element.select("td");
+                            String list[] = elements.get(5).text().split(" - ");
+                            for (int i = 0 ; i<(list.length-1) ; i++) {
+                                String split[] = list[i].split(" ");
+                                Department department = departmentRepository.getByCode(split[split.length-1]);
+                                if (department != null) {
+                                    book.setDepartment(department);
+                                    books.add(book);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         } catch (IOException e) {
