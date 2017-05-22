@@ -50,8 +50,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User modify(User user) {
-        if (user.getLogin() == null || !userRepository.exists(user.getId()))
-            return null;
+        User originalUser = userRepository.findOne(user.getId());
+        if (user.getPassword() != originalUser.getPassword()) {
+            val salt = hashingService.generateSalt();
+            user.setSalt(Base64.getEncoder().encodeToString(salt));
+            user.setPassword(Base64.getEncoder().encodeToString(hashingService.hash(user.getPassword().toCharArray(),salt)));
+        }
         return userRepository.save(user);
     }
 

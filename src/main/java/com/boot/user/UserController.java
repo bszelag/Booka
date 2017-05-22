@@ -4,6 +4,7 @@ import com.boot.security.AuthorizationService;
 import com.boot.security.utility.Credentials;
 import com.boot.security.utility.Session;
 import com.boot.user.model.User;
+import com.boot.utilities.mergeTool;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
 import java.util.UUID;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -78,8 +80,18 @@ public class UserController {
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
-    public void modify(@PathVariable Integer id, @RequestBody User user){
-        userService.modify(user);
+    public ResponseEntity<User> modify(@PathVariable Integer id, @RequestBody User user)
+            throws InstantiationException, IllegalAccessException {
+        if(user.getId() != null) {
+            Optional<User> originalUser = userService.getById(user.getId());
+            if (originalUser.isPresent()) {
+                User finalUser = mergeTool.mergeObjects(user, originalUser.get());
+                userService.modify(finalUser);
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
