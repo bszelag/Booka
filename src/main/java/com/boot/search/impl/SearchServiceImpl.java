@@ -66,11 +66,12 @@ public class SearchServiceImpl implements SearchService{
                     book.setAuthor(tds.get(2).text());
                     String title[] = tds.get(3).text().split("/");
                     book.setTitle(title[0]);
-                    book.setFormat('f');
+                    book.setFormat('b');
+                    book.setOwnerType('l');
                     Element link  = tds.get(5);
                     Element Link = link.select("a").first();
                     if (Link != null) {
-                        String departmentsURL = Link.attr("abs:href"); // "http://jsoup.org/"
+                        String departmentsURL = Link.attr("abs:href");
 
                         Document departmentsDoc = Jsoup.connect(departmentsURL).get();
 
