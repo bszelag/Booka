@@ -10,7 +10,9 @@
     function booksService($http, $q) {
         var service = {
             getBooks : getBooks,
-            getBook : getBook
+            getBook : getBook,
+            getLentBooks : getLentBooks,
+            getBorrowedBooks : getBorrowedBooks
         };
 
         return service;
@@ -24,6 +26,18 @@
 
         function getBook(bookId) {
             return $http.get('/api/v1/books/' + bookId )
+                .then(handleResponse())
+                .catch(handleError())
+        }
+
+        function getLentBooks(userId) {
+            return $http.get('/api/v1/books/lend/user/' + userId )
+                .then(handleResponse())
+                .catch(handleError())
+        }
+
+        function getBorrowedBooks(userId) {
+            return $http.get('/api/v1/books/borrowed/user/' + userId )
                 .then(handleResponse())
                 .catch(handleError())
         }

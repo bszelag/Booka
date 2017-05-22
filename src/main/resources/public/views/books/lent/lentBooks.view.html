@@ -1,0 +1,38 @@
+<div class="lent">
+    <div class="lent-books-bar">
+        <button class="lent-books-item" ng-click="vm.activeTab = 0" ng-class="vm.activeTab === 0 ? 'active-tab' : 'non-active-tab'">Lent Books</button>
+        <button class="lent-books-item" ng-click="vm.activeTab = 1" ng-class="vm.activeTab === 1 ? 'active-tab' : 'non-active-tab'">Borrowed Books</button>
+    </div>
+
+    <div id="lent" class="lent-card" ng-show="vm.activeTab === 0">
+        <table ng-table="vm.lentBooksTable" show-filter="true" class="table table-bordered filled-cells">
+            <tr ng-repeat="book in $data">
+                <td title="'Title'" filter="{title : 'text'}" sortable="'title'"> {{ book.book.title }} </td>
+                <td title="'Author'" filter="{author : 'text'}" sortable="'author'"> {{ book.book.author }} </td>
+                <td title="'To'" filter="{format : 'text'}" sortable="'format'"> {{ book.borrower.login }} </td>
+                <td title="'Message'" filter="{status : 'text'}" sortable="'status'"> {{ book.message }} </td>
+                <td class="Details" title="'Details'">
+                    <div class="details-container">
+                        <span class="glyphicon glyphicon-book" ng-click="vm.showLentDetails(book.id)"></span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="borrowed" class="lent-card" ng-show="vm.activeTab === 1">
+        <table ng-table="vm.borrowedBooksTable" show-filter="true" class="table table-bordered filled-cells">
+            <tr ng-repeat="book in $data">
+                <td title="'Title'" filter="{title : 'text'}" sortable="'title'"> {{ book.book.title }} </td>
+                <td title="'Author'" filter="{author : 'text'}" sortable="'author'"> {{ book.book.author }} </td>
+                <td title="'From'" filter="{format : 'text'}" sortable="'format'"> {{ book.book.user.login}} </td>
+                <td title="'Message'" filter="{status : 'text'}" sortable="'status'"> {{ book.message }} </td>
+                <td class="Details" title="'Details'">
+                    <div class="details-container">
+                        <span class="glyphicon glyphicon-book" ng-click="vm.showBorrowingDetails(book.id)"></span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
