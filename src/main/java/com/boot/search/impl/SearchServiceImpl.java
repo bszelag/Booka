@@ -40,6 +40,7 @@ public class SearchServiceImpl implements SearchService{
                 targetURL = targetURL +"(WAU="+author+"?)";
             }
         }
+        targetURL = targetURL +"AND(WFT=BK)";
         if (department != null) {
             if (departmentRepository.exists(department)) {
                 Department department1 = departmentRepository.findOne(department);
@@ -63,9 +64,11 @@ public class SearchServiceImpl implements SearchService{
                 if (tds.size() > 6) {
                     Book book = new Book();
                     book.setAuthor(tds.get(2).text());
-                    book.setTitle(tds.get(3).text());
+                    String title[] = tds.get(3).text().split("/");
+                    book.setTitle(title[0]);
                     book.setFormat('f');
                     books.add(book);
+                    System.out.println(tds.get(5).text());
                 }
             }
         } catch (IOException e) {
