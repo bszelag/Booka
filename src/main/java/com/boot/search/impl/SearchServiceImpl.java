@@ -54,38 +54,48 @@ public class SearchServiceImpl implements SearchService{
     public Collection<Book> searchBook(String URL) {
         Collection<Book> books = new ArrayList<>();
         try {
-            Document doc = Jsoup.connect(URL).get();
+            Document doc = Jsoup.connect(URL)
+                    .userAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.0 Safari/537.36")
+                    .timeout(30000).get();
 
             Elements tables = doc.select("table");
 
-            Element table = tables.get(3);
-            for (Element row : table.select("tr")) {
-                Elements tds = row.select("td");
-                if (tds.size() > 6) {
-                    Book book = new Book();
-                    book.setAuthor(tds.get(2).text());
-                    String title[] = tds.get(3).text().split("/");
-                    book.setTitle(title[0]);
-                    book.setFormat('b');
-                    book.setOwnerType('l');
-                    Element link  = tds.get(5);
-                    Element Link = link.select("a").first();
-                    if (Link != null) {
-                        String departmentsURL = Link.attr("abs:href");
+            if(tables.size()>2) {
+                Element table = tables.get(3);
+                for (Element row : table.select("tr")) {
+                    Elements tds = row.select("td");
+                    if (tds.size() > 6) {
+                        Book book = new Book();
+                        book.setAuthor(tds.get(2).text());
+                        String title[] = tds.get(3).text().split("/");
+                        book.setTitle(title[0]);
+                        book.setFormat('b');
+                        book.setOwnerType('l');
+                        if(tds.size()>4) {
+                            Element link = tds.get(5);
+                            Element Link = link.select("a").first();
+                            if (Link != null) {
+                                String departmentsURL = Link.attr("abs:href");
 
-                        Document departmentsDoc = Jsoup.connect(departmentsURL).get();
+                                Document departmentsDoc = Jsoup.connect(departmentsURL).get();
 
-                        Elements departmentsTables = departmentsDoc.select("table");
-                        Element departments = departmentsTables.get(5);
-                        for (Element element : departments.select("tr")) {
-                            Elements elements = element.select("td");
-                            String list[] = elements.get(5).text().split(" - ");
-                            for (int i = 0 ; i<(list.length-1) ; i++) {
-                                String split[] = list[i].split(" ");
-                                Department department = departmentRepository.getByCode(split[split.length-1]);
-                                if (department != null) {
-                                    book.setDepartment(department);
-                                    books.add(book);
+                                Elements departmentsTables = departmentsDoc.select("table");
+                                if (departmentsTables.size()>4) {
+                                    Element departments = departmentsTables.get(5);
+                                    for (Element element : departments.select("tr")) {
+                                        Elements elements = element.select("td");
+                                        if (elements.size() > 4) {
+                                            String list[] = elements.get(5).text().split(" - ");
+                                            for (int i = 0; i < (list.length - 1); i++) {
+                                                String split[] = list[i].split(" ");
+                                                Department department = departmentRepository.getByCode(split[split.length - 1]);
+                                                if (department != null) {
+                                                    book.setDepartment(department);
+                                                    books.add(book);
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
