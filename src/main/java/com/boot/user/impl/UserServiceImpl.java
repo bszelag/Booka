@@ -74,6 +74,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void hashAll() {
+        userRepository.save(StreamSupport.stream(userRepository.findAll().spliterator(), false).
+            map(user -> {
+                val salt = hashingService.generateSalt();
+
+                user.setSalt(Base64.getEncoder().encodeToString(salt));
+                user.setPassword(Base64.getEncoder().encodeToString(hashingService.hash(user.getPassword().toCharArray(), salt)));
+
+                return user;
+            }).collect(Collectors.toList()));
+    }
+
+    @Override
     public User add(User user) {
         if(userRepository.findByLogin(user.getLogin())!=null){
             return null;

@@ -22,5 +22,5 @@ public interface UserService {
 
     public boolean delete(Integer id);
 
-
+    void hashAll();
 }
