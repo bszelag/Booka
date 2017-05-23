@@ -26,7 +26,7 @@
             <tr ng-repeat="result in $data">
                 <td title="'Title'" filter="{title : 'text'}" sortable="'title'"> {{ result.title }} </td>
                 <td title="'Author'" filter="{author : 'text'}" sortable="'author'"> {{ result.author }} </td>
-                <td title="'Department'" filter="{department : 'text'}" sortable="'department.id'"> {{ result.department.id }} </td>
+                <td title="'Department'" filter="{department : 'select'}" sortable="'department.id'"> {{ result.department.id }} </td>
             </tr>
         </table>
     </div>
