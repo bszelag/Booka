@@ -36,7 +36,6 @@
         function institutionsSearch() {
             institutionsService.searchInLibrary(vm.searchQuery).then((response) => {
                 initResultsTable(response.data);
-                console.log(response.data);
             }).catch((error) => {
                 console.log(error);
             });
@@ -55,24 +54,24 @@
         }
 
         function getDepartments() {
-            // institutionsService.getDepartments.then((response) => {
-            //     vm.departments = response.data;
-            //     console.log(response.data);
-            // }).catch((error) => {
-            //     console.log(error);
-            // });
+            institutionsService.getDepartments().then((response) => {
+                vm.departments = response.data;
+                console.log(response.data);
+            }).catch((error) => {
+                console.log(error);
+            });
 
-            vm.departments = [{
-                "id" : 1,
-                "institution" : {
-                    "name" : "bib1"
-                }
-            }, {
-                "id" : 2,
-                "institution" : {
-                    "name" : "bib2"
-                }
-            }];
+            // vm.departments = [{
+            //     "id" : 1,
+            //     "institution" : {
+            //         "name" : "bib1"
+            //     }
+            // }, {
+            //     "id" : 2,
+            //     "institution" : {
+            //         "name" : "bib2"
+            //     }
+            // }];
         }
     }
 })();
