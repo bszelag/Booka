@@ -60,34 +60,45 @@
                 controllerAs: 'vm'
             })
 
-            .state('friends', {
+            .state('show-friends', {
                 url: '/friends',
-                templateUrl: bookaPrefix + "friends/friends.html"
+                templateUrl: bookaPrefix + "friends/showFriends/showFriends.view.html",
+                controller: 'ShowFriendsController',
+                controllerAs: 'vm'
+            })
+
+            .state('add-friend', {
+                url: '/friends/add',
+                templateUrl: bookaPrefix + "friends/addFriend/addFriend.view.html",
+                controller: 'AddFriendController',
+                controllerAs: 'vm'
+            })
+
+            .state('chat', {
+                url: '/friends/chat',
+                templateUrl: bookaPrefix + "friends/chat/chat.view.html",
+                controller: 'ChatController',
+                controllerAs: 'vm'
             })
 
             .state('account', {
                 url: '/friends',
-                templateUrl: bookaPrefix + "friends/friends.html"
+                templateUrl: bookaPrefix + "friends/showFriends/showFriends.view.html",
             })
 
             .state('institutions', {
                 url: '/friends',
-                templateUrl: bookaPrefix + "friends/friends.html"
-            })
-
-            .state('messages', {
-                url: '/friends',
-                templateUrl: bookaPrefix + "friends/friends.html"
+                templateUrl: bookaPrefix + "friends/showFriends/showFriends.view.html",
             })
 
             .state('search', {
                 url: '/friends',
-                templateUrl: bookaPrefix + "friends/friends.html"
+                templateUrl: bookaPrefix + "friends/showFriends/showFriends.view.html",
             })
 
             .state('error', {
                 url: '/friends',
-                templateUrl: bookaPrefix + "friends/friends.html"
+                templateUrl: bookaPrefix + "friends/showFriends/showFriends.view.html",
             });
 
         function getCurrentUser($state, authorizationService) {
