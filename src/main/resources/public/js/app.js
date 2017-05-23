@@ -6,6 +6,7 @@
                             'booka.books',
                             'booka.login',
                             'booka.navbarMenu',
-                            'booka.gdrive'
+                            'booka.gdrive',
+                            'booka.institutions'
         ]);
 })();

@@ -1,0 +1,21 @@
+.institutions-search-view {
+    background-color: var(--background_grey_light);
+    width: 100%;
+    padding: 10px;
+    margin: 10px;
+}
+
+.institutions-results .filled-cells {
+    background-color: var(--background_grey_lighter) !important;
+    text-align: center;
+}
+
+.institutions-results .ng-table-pagination {
+    display: flex !important;
+    justify-content: center !important;
+}
+
+.institutions-search button.btn-search {
+    background-color: var(--background_purple_dark);
+    border-color: var(--background_purple_dark) !important;
+}
