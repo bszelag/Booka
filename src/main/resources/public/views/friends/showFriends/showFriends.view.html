@@ -1,10 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<div class="show-friends">
+    <button class="btn btn-primary" ng-click="vm.addFriend()">
+        Add a friend
+        <i class="fa fa-user-plus"></i>
+    </button>
+    <table class="table table-bordered filled-cells">
+        <tr ng-repeat="(key, friend) in vm.friends">
+            <td title="'Login'"> {{ friend.login }} </td>
+            <td title="'Authorized'"> {{ friend.authorized }} </td>
+            <td class="Details" title="'Details'">
+                <div class="details-container">
+                    <span class="glyphicon glyphicon-book" ng-click=""></span>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

@@ -1,3 +1,6 @@
-/**
- * Created by Ja on 23.05.2017.
- */
+(function() {
+    'use strict';
+
+    angular
+        .module('booka.friends.showFriends', []);
+})();
