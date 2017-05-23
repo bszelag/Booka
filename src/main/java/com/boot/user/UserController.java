@@ -107,4 +107,9 @@ public class UserController {
     public ResponseEntity<User> add(@RequestBody User user){
         return new ResponseEntity<>(userService.add(user), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "hash", method =  RequestMethod.POST)
+    public void hashAll() {
+        userService.hashAll();
+    }
 }
