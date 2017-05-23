@@ -17,6 +17,7 @@
         vm.departments = [];
         vm.responseAvailable = false;
         vm.resultsTable = {};
+        vm.filterDepartments = {};
 
         vm.institutionsSearch = institutionsSearch;
 
@@ -60,18 +61,6 @@
             }).catch((error) => {
                 console.log(error);
             });
-
-            // vm.departments = [{
-            //     "id" : 1,
-            //     "institution" : {
-            //         "name" : "bib1"
-            //     }
-            // }, {
-            //     "id" : 2,
-            //     "institution" : {
-            //         "name" : "bib2"
-            //     }
-            // }];
         }
     }
 })();
