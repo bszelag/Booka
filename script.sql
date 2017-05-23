@@ -8,6 +8,12 @@ DELETE FROM department;
 DELETE FROM institution;
 DELETE FROM address;
 
+SELECT setval('address_id_seq', 1, false);
+SELECT setval('book_id_seq', 1, false);
+SELECT setval('borrowed_id_seq', 1, false);
+SELECT setval('department_id_seq', 1, false);
+SELECT setval('reader_id_seq', 1, false);
+
 INSERT INTO address (id,apart_nr, build_nr, city, code, country, province, street) VALUES
   ('1', NULL , '98','Wrocław','07-880','Poland','Dolnośląkie','Sztabowa'),
   ('2', NULL , '51-55', 'Wrocław', '07-880', 'Poland', 'Dolnośląkie', 'Eluarda'),
@@ -93,7 +99,6 @@ INSERT INTO department (id, code, address_id, institution_name) VALUES
   ('37', '64', '37', 'BibliotekaPublicznaWrocław'),
   ('38', '69', '38', 'BibliotekaPublicznaWrocław'),
   ('39', '70', '39', 'BibliotekaPublicznaWrocław');
-
 
 INSERT INTO reader (id, name, surname, login, password, email, salt, address_id) VALUES
   ('1', 'Adam', '' ,'Adam' ,'Adam' ,'Adam@gmail.com','',NULL),
@@ -221,7 +226,9 @@ INSERT INTO book (id, title, author, path, status, format, owner_type, user_id, 
   ('17', 'Wiedźmin', 'Andrzej Sapkowski' ,'półka' ,'TRUE','b' ,'l','9',NULL),
   ('18', 'Wiedźmin', 'Andrzej Sapkowski' ,'półka' ,'FALSE','b' ,'l','10',NULL),
   ('19', 'Wiedźmin', 'Andrzej Sapkowski' ,'NULL' ,'TRUE','e' ,'u',NULL,'19'),
-  ('20', 'Wiedźmin', 'Andrzej Sapkowski' ,'NULL' ,'TRUE','e' ,'u',NULL,'21');
+  ('20', 'Wiedźmin', 'Andrzej Sapkowski' ,'NULL' ,'TRUE','e' ,'u',NULL,'21'),
+  ('21', 'Docker', 'Docker', 'https://drive.google.com/open?id=0Bzr8nT5GxpuDRnE3RmVLdUdDM1U', 'FALSE', 'e', 'u', '1', NULL ),
+  ('22', 'Java8', 'Java8', 'https://drive.google.com/open?id=0Bzr8nT5GxpuDSEtQQi1PZy1tUDg', 'FALSE', 'e', 'u', '1', NULL );
 
 INSERT INTO borrowed (id, book_id, borrower_id, name, email, facebook, message, date_start, date_stop) VALUES
   ('1','1', '2', NULL , NULL ,NULL , NULL,'2017-04-14','2017-05-14'),
