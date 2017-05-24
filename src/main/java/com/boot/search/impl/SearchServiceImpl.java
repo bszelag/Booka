@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public class SearchServiceImpl implements SearchService{
@@ -30,10 +32,10 @@ public class SearchServiceImpl implements SearchService{
         Integer department = query.getDepartment();
 
         String targetURL ="https://katalog.biblioteka.wroc.pl/F?func=find-c&ccl_term=";
-        if (title != null && author != null)
+        if (title != null && author != null && title != "" && author != "")
             targetURL = targetURL +"(WTI=("+title+"?))AND(WAU="+author+"?)";
         else {
-            if (title != null){
+            if (title != null && title != ""){
                 targetURL = targetURL +"(WTI=("+title+"?))";
             }
             else{
@@ -76,20 +78,17 @@ public class SearchServiceImpl implements SearchService{
                             Element Link = link.select("a").first();
                             if (Link != null) {
                                 String departmentsURL = Link.attr("abs:href");
-
                                 Document departmentsDoc = Jsoup.connect(departmentsURL).get();
-
                                 Elements departmentsTables = departmentsDoc.select("table");
-                                if (departmentsTables.size()>4) {
-                                    Element departments = departmentsTables.get(5);
-                                    for (Element element : departments.select("tr")) {
-                                        Elements elements = element.select("td");
-                                        if (elements.size() > 4) {
-                                            String list[] = elements.get(5).text().split(" - ");
-                                            for (int i = 0; i < (list.length - 1); i++) {
-                                                String split[] = list[i].split(" ");
-                                                Department department = departmentRepository.getByCode(split[split.length - 1]);
-                                                if (department != null) {
+                                if (departmentsTables.size()>7){
+                                    Element departments = departmentsTables.get(7).select("table").get(0);
+                                    Elements currentRow = departments.select("tr");
+                                    if(currentRow.size()>1) {
+                                        for (int i = 1; i < currentRow.size(); i++) {
+                                            String list[] = currentRow.get(i).text().split(" ");
+                                            if (list.length>9) {
+                                                Department department = departmentRepository.getByCode(list[1]);
+                                                if (department != null && list[9].split("/")[0] == list[9]) {
                                                     book.setDepartment(department);
                                                     books.add(book);
                                                 }
@@ -105,6 +104,13 @@ public class SearchServiceImpl implements SearchService{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Map<Book,Long> map = books.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
+        books.clear();
+        books = new ArrayList<>(map.keySet());
+        for (Book book: books) {
+            book.setId((int)(long)map.get(book));
+        }
+
         return books;
     }
 }
