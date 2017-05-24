@@ -4,6 +4,9 @@
     angular
         .module('booka.friends', ['ngTable',
             'booka.friends.showFriends',
-            'booka.friends.addFriend',
-            'booka.friends.chat']);
+            'booka.friends.chat'
+            // ,
+            // 'booka.friends.addFriend',
+            //
+        ]);
 })();

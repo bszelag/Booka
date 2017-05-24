@@ -77,8 +77,11 @@
             .state('chat', {
                 url: '/friends/chat',
                 templateUrl: bookaPrefix + "friends/chat/chat.view.html",
-                controller: 'ChatController',
-                controllerAs: 'vm'
+                controller: 'chat',
+                controllerAs: 'vm',
+                params: {
+                    friendId : null
+                }
             })
 
             .state('account', {

@@ -1,0 +1,18 @@
+<!--<h1>{{ vm.users[0] }} - {{ vm.users[1] }}</h1>-->
+<!--<ul>-->
+    <!--<li ng-repeat="message in vm.messages">message</li>-->
+<!--</ul>-->
+
+
+<div style="display: block; padding: 10px; box-shadow: 2px 2px 10px var(--box_shadow);">
+    <h2 style="margin: 20px; padding: 10px;"> Messages with {{vm.friendId}} </h2>
+
+    <ul style="margin: 20px; padding: 10px;  box-shadow: 2px 2px 10px var(--box_shadow);">
+        <li ng-repeat="message in messages">{{message.user.name}} : {{message.data}}</li>
+    </ul>
+
+    <form style="margin: 20px; padding: 10px;  box-shadow: 2px 2px 10px var(--box_shadow)%;" ng-submit="send()">
+        <input style="width: 60%" ng-model="textbox">
+        <button class="btn btn-success" type="submit">Send</button>
+    </form>
+</div>

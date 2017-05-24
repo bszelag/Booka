@@ -1,0 +1,8 @@
+.show-friends {
+
+}
+
+.details-container span:hover {
+    color: var(--background_purple_dark);
+    cursor: pointer;
+}

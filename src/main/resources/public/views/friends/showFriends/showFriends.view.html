@@ -4,12 +4,27 @@
         <i class="fa fa-user-plus"></i>
     </button>
     <table class="table table-bordered filled-cells">
+        <tr>
+            <td>Login</td>
+            <td>Name</td>
+            <td>Surname</td>
+            <td>Has access to your books</td>
+            <td>Grant access</td>
+            <td>Write a message</td>
+        </tr>
         <tr ng-repeat="(key, friend) in vm.friends">
             <td title="'Login'"> {{ friend.login }} </td>
+            <td title="'Name'"> {{ friend.name }} </td>
+            <td title="'Surname'"> {{ friend.surname }} </td>
             <td title="'Authorized'"> {{ friend.authorized }} </td>
-            <td class="Details" title="'Details'">
+            <td title="'Grant Access'">
                 <div class="details-container">
-                    <span class="glyphicon glyphicon-book" ng-click=""></span>
+                    <span class="glyphicon glyphicon-check" ng-click="vm.addAccess(key)"></span>
+                </div>
+            </td>
+            <td title="'Message'">
+                <div class="details-container">
+                    <span class="glyphicon glyphicon-envelope" ng-click="vm.chat(key)"></span>
                 </div>
             </td>
         </tr>
