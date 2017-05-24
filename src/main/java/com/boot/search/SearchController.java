@@ -23,7 +23,7 @@ public class SearchController {
     }
 
     @RequestMapping(value = "library", method = RequestMethod.POST)
-    public Collection<Book> searchBook(@RequestBody LibraryQuery query){
+    public Collection<Object> searchBook(@RequestBody LibraryQuery query){
         return searchService.searchBook(searchService.searchQuery(query));
     }
 }

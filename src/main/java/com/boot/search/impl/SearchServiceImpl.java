@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -53,7 +54,7 @@ public class SearchServiceImpl implements SearchService{
     }
 
     @Override
-    public Collection<Book> searchBook(String URL) {
+    public Collection<Object> searchBook(String URL) {
         Collection<Book> books = new ArrayList<>();
         try {
             Document doc = Jsoup.connect(URL)
@@ -106,11 +107,8 @@ public class SearchServiceImpl implements SearchService{
         }
         Map<Book,Long> map = books.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
         books.clear();
-        books = new ArrayList<>(map.keySet());
-        for (Book book: books) {
-            book.setId((int)(long)map.get(book));
-        }
+        List<Object> booksOut = new ArrayList<Object>(map.keySet());
 
-        return books;
+        return booksOut.stream().map(b -> new JsonWrapper<>(b, (int)(long)map.get(b))).collect(Collectors.toList());
     }
 }
