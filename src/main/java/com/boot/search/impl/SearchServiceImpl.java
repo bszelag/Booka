@@ -68,12 +68,6 @@ public class SearchServiceImpl implements SearchService{
                 for (Element row : table.select("tr")) {
                     Elements tds = row.select("td");
                     if (tds.size() > 6) {
-                        Book book = new Book();
-                        book.setAuthor(tds.get(2).text());
-                        String title[] = tds.get(3).text().split("/");
-                        book.setTitle(title[0]);
-                        book.setFormat('b');
-                        book.setOwnerType('l');
                         if(tds.size()>4) {
                             Element link = tds.get(5);
                             Element Link = link.select("a").first();
@@ -86,13 +80,16 @@ public class SearchServiceImpl implements SearchService{
                                     Elements currentRow = departments.select("tr");
                                     if(currentRow.size()>1) {
                                         for (int i = 1; i < currentRow.size(); i++) {
-                                            String list[] = currentRow.get(i).text().split(" ");
-                                            if (list.length>9) {
-                                                Department department = departmentRepository.getByCode(list[1]);
-                                                if (department != null && list[9].split("/")[0] == list[9]) {
-                                                    book.setDepartment(department);
-                                                    books.add(book);
-                                                }
+                                            Elements newRow = currentRow.get(i).select("td");
+                                            Department department = departmentRepository.getByCode(newRow.get(1).text().split(" - ")[0]);
+                                            if (department != null && !newRow.get(4).hasText()) {
+                                                Book book = new Book();
+                                                book.setAuthor(tds.get(2).text());
+                                                book.setTitle(tds.get(3).text().split("/")[0]);
+                                                book.setFormat('b');
+                                                book.setOwnerType('l');
+                                                book.setDepartment(department);
+                                                books.add(book);
                                             }
                                         }
                                     }
