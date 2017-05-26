@@ -12,7 +12,8 @@
             getBooks : getBooks,
             getBook : getBook,
             getLentBooks : getLentBooks,
-            getBorrowedBooks : getBorrowedBooks
+            getBorrowedBooks : getBorrowedBooks,
+            lentBook : lentBook
         };
 
         return service;
@@ -38,6 +39,12 @@
 
         function getBorrowedBooks(userId) {
             return $http.get('/api/v1/books/borrowed/user/' + userId )
+                .then(handleResponse())
+                .catch(handleError())
+        }
+
+        function lentBook(bookId, userId) {
+            return $http.post('/api/v1/books/lend/' + bookId + '/' + userId)
                 .then(handleResponse())
                 .catch(handleError())
         }

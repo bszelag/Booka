@@ -39,7 +39,7 @@
         // Send Messages
         $scope.send = function() {
             Messages.send({
-                //to: friendId,
+                to: friendId,
                 data: $scope.textbox,
                 user: Messages.user()
             });

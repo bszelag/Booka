@@ -19,7 +19,7 @@
             <td title="'Authorized'"> {{ friend.authorized }} </td>
             <td title="'Grant Access'">
                 <div class="details-container">
-                    <span class="glyphicon glyphicon-check" ng-click="vm.addAccess(key)"></span>
+                    <span ng-disabled="friend.authorized" class="glyphicon glyphicon-check" ng-click="vm.addAccess(key)"></span>
                 </div>
             </td>
             <td title="'Message'">

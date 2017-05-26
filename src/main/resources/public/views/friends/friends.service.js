@@ -12,9 +12,10 @@
             getFriends : getFriends,
             getAuthorizedViewers : getAuthorizedViewers,
             addAccess : addAccess,
-            addFriend : addFriend,
+            addNewFriend : addNewFriend,
             createQueue : createQueue,
-            getMessages : getMessages
+            getMessages : getMessages,
+            getUsers : getUsers
         };
 
         return service;
@@ -38,8 +39,14 @@
                 .catch(handleError())
         }
 
-        function addFriend(friend) {
+        function addNewFriend(friend) {
             return $http.post('/api/v1/friends', friend)
+                .then(handleResponse())
+                .catch(handleError())
+        }
+
+        function getUsers() {
+            return $http.get('/api/v1/users')
                 .then(handleResponse())
                 .catch(handleError())
         }
