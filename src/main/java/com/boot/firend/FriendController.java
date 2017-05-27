@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "api/v1/friendss")
+@RequestMapping(value = "api/v1/friends")
 public class FriendController {
 
     @Autowired
@@ -40,6 +40,9 @@ public class FriendController {
                 friendId.setFriend1(user1.get());
                 friendId.setFriend2(user2.get());
                 friend.setFriend(friendId);
+                friend.setFriend1Allow(false);
+                friend.setFriend2Allow(false);
+                friend.setFriendConfirm(false);
                 if (user1.get().getId() > user2.get().getId()){
                     User user = friend.getFriend().getFriend1();
                     friendId.setFriend1(friend.getFriend().getFriend2());
