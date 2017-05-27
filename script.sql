@@ -13,6 +13,7 @@ SELECT setval('book_id_seq', 1, false);
 SELECT setval('borrowed_id_seq', 1, false);
 SELECT setval('department_id_seq', 1, false);
 SELECT setval('reader_id_seq', 1, false);
+SELECT setval('institution_id_seq', 1, false);
 
 INSERT INTO address (id,apart_nr, build_nr, city, code, country, province, street) VALUES
   ('1', NULL , '98','Wrocław','07-880','Poland','Dolnośląkie','Sztabowa'),
@@ -55,50 +56,50 @@ INSERT INTO address (id,apart_nr, build_nr, city, code, country, province, stree
   ('38', NULL , '1-5', 'Wrocław', '07-880', 'Poland', 'Dolnośląkie', 'Wróblewskiego'),
   ('39', NULL , '10', 'Wrocław', '07-880', 'Poland', 'Dolnośląkie', 'Wittiga');
 
-INSERT INTO institution (name, contact, type, url) VALUES
-  ('BibliotekaPublicznaWrocław','070088074 zadzwoń teraz','l','katalog.biblioteka.wroc.pl'),
-  ('BibliotekaPWr','Jak będziesz chciał to znajdziesz numer','l','katalog.bg.pwr.wroc.pl');
+INSERT INTO institution (id, name, contact, type, url) VALUES
+  ('1', 'Biblioteka Publiczna Wrocław','070088074 zadzwoń teraz','l','katalog.biblioteka.wroc.pl'),
+  ('2', 'Biblioteka PWr','Jak będziesz chciał to znajdziesz numer','l','katalog.bg.pwr.wroc.pl');
 
-INSERT INTO department (id, code, address_id, institution_name) VALUES
-  ('1', '01', '1', 'BibliotekaPublicznaWrocław'),
-  ('2', '02', '2', 'BibliotekaPublicznaWrocław'),
-  ('3', '03', '3', 'BibliotekaPublicznaWrocław'),
-  ('4', '04', '4', 'BibliotekaPublicznaWrocław'),
-  ('5', '05', '5', 'BibliotekaPublicznaWrocław'),
-  ('6', '06', '6', 'BibliotekaPublicznaWrocław'),
-  ('7', '07', '7', 'BibliotekaPublicznaWrocław'),
-  ('8', '08', '8', 'BibliotekaPublicznaWrocław'),
-  ('9', '09', '9', 'BibliotekaPublicznaWrocław'),
-  ('10', '10', '10', 'BibliotekaPublicznaWrocław'),
-  ('11', '11', '11', 'BibliotekaPublicznaWrocław'),
-  ('12', '15', '12', 'BibliotekaPublicznaWrocław'),
-  ('13', '16', '13', 'BibliotekaPublicznaWrocław'),
-  ('14', '17', '14', 'BibliotekaPublicznaWrocław'),
-  ('15', '18', '15', 'BibliotekaPublicznaWrocław'),
-  ('16', '20', '16', 'BibliotekaPublicznaWrocław'),
-  ('17', '22', '17', 'BibliotekaPublicznaWrocław'),
-  ('18', '23', '18', 'BibliotekaPublicznaWrocław'),
-  ('19', '26', '19', 'BibliotekaPublicznaWrocław'),
-  ('20', '27', '20', 'BibliotekaPublicznaWrocław'),
-  ('21', '29', '21', 'BibliotekaPublicznaWrocław'),
-  ('22', '31', '22', 'BibliotekaPublicznaWrocław'),
-  ('23', '32', '23', 'BibliotekaPublicznaWrocław'),
-  ('24', '37', '24', 'BibliotekaPublicznaWrocław'),
-  ('25', '40', '25', 'BibliotekaPublicznaWrocław'),
-  ('26', '41', '26', 'BibliotekaPublicznaWrocław'),
-  ('27', '42', '27', 'BibliotekaPublicznaWrocław'),
-  ('28', '44', '28', 'BibliotekaPublicznaWrocław'),
-  ('29', '45', '29', 'BibliotekaPublicznaWrocław'),
-  ('30', '46', '30', 'BibliotekaPublicznaWrocław'),
-  ('31', '47', '31', 'BibliotekaPublicznaWrocław'),
-  ('32', '53', '32', 'BibliotekaPublicznaWrocław'),
-  ('33', '54', '33', 'BibliotekaPublicznaWrocław'),
-  ('34', '55', '34', 'BibliotekaPublicznaWrocław'),
-  ('35', '57', '35', 'BibliotekaPublicznaWrocław'),
-  ('36', '58', '36', 'BibliotekaPublicznaWrocław'),
-  ('37', '64', '37', 'BibliotekaPublicznaWrocław'),
-  ('38', '69', '38', 'BibliotekaPublicznaWrocław'),
-  ('39', '70', '39', 'BibliotekaPublicznaWrocław');
+INSERT INTO department (id, code, address_id, institution_id) VALUES
+  ('1', '01', '1', '1'),
+  ('2', '02', '2', '1'),
+  ('3', '03', '3', '1'),
+  ('4', '04', '4', '1'),
+  ('5', '05', '5', '1'),
+  ('6', '06', '6', '1'),
+  ('7', '07', '7', '1'),
+  ('8', '08', '8', '1'),
+  ('9', '09', '9', '1'),
+  ('10', '10', '10', '1'),
+  ('11', '11', '11', '1'),
+  ('12', '15', '12', '1'),
+  ('13', '16', '13', '1'),
+  ('14', '17', '14', '1'),
+  ('15', '18', '15', '1'),
+  ('16', '20', '16', '1'),
+  ('17', '22', '17', '1'),
+  ('18', '23', '18', '1'),
+  ('19', '26', '19', '1'),
+  ('20', '27', '20', '1'),
+  ('21', '29', '21', '1'),
+  ('22', '31', '22', '1'),
+  ('23', '32', '23', '1'),
+  ('24', '37', '24', '1'),
+  ('25', '40', '25', '1'),
+  ('26', '41', '26', '1'),
+  ('27', '42', '27', '1'),
+  ('28', '44', '28', '1'),
+  ('29', '45', '29', '1'),
+  ('30', '46', '30', '1'),
+  ('31', '47', '31', '1'),
+  ('32', '53', '32', '1'),
+  ('33', '54', '33', '1'),
+  ('34', '55', '34', '1'),
+  ('35', '57', '35', '1'),
+  ('36', '58', '36', '1'),
+  ('37', '64', '37', '1'),
+  ('38', '69', '38', '1'),
+  ('39', '70', '39', '1');
 
 INSERT INTO reader (id, name, surname, login, password, email, salt, address_id) VALUES
   ('1', 'Adam', '' ,'Adam' ,'Adam' ,'Adam@gmail.com','',NULL),
