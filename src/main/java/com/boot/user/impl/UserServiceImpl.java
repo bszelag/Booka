@@ -79,7 +79,12 @@ public class UserServiceImpl implements UserService {
             String name = user.getName() + " " + user.getSurname();
             borrowedRepository.updateBorrowerName(id,name);
             borrowedRepository.removeBorrowedsByUserId(id, user.getEmail(), user.getFacebook());
-            userRepository.delete(id);
+            try {
+                userRepository.delete(id);
+            }
+            catch (DataAccessException e){
+                throw new IllegalArgumentException(e);
+            }
         }
         throw new IllegalArgumentException("Cannot delete not existing user");
     }
