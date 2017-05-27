@@ -9,6 +9,7 @@ import com.boot.user.model.User;
 import com.boot.user.repository.UserRepository;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 import java.util.Base64;
@@ -49,28 +50,43 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User modify(User user) {
+    public User modify(User user) throws IllegalArgumentException {
+        if (!userRepository.exists(user.getId()))
+            throw new IllegalArgumentException("User does not exist");
+
         User originalUser = userRepository.findOne(user.getId());
-        if (user.getPassword() != originalUser.getPassword()) {
+        if (!user.getPassword().equals(originalUser.getPassword())) {
             val salt = hashingService.generateSalt();
             user.setSalt(Base64.getEncoder().encodeToString(salt));
             user.setPassword(Base64.getEncoder().encodeToString(hashingService.hash(user.getPassword().toCharArray(),salt)));
         }
-        return userRepository.save(user);
+        try {
+            return userRepository.save(user); }
+        catch (DataAccessException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     @Override
-    public boolean delete(Integer id) {
+    public void delete(Integer id) throws IllegalArgumentException {
+
+        if (id == null)
+            throw new IllegalArgumentException("Cannot delete user with unspecified id");
+
         if(userRepository.exists(id)){
             User user = userRepository.findOne(id);
             bookRepository.removeBookByUserId(id);
             String name = user.getName() + " " + user.getSurname();
             borrowedRepository.updateBorrowerName(id,name);
             borrowedRepository.removeBorrowedsByUserId(id, user.getEmail(), user.getFacebook());
-            userRepository.delete(id);
-            return true;
+            try {
+                userRepository.delete(id);
+            }
+            catch (DataAccessException e){
+                throw new IllegalArgumentException(e);
+            }
         }
-        return false;
+        throw new IllegalArgumentException("Cannot delete not existing user");
     }
 
     @Override
@@ -87,13 +103,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User add(User user) {
+    public User add(User user) throws IllegalArgumentException {
         if(userRepository.findByLogin(user.getLogin())!=null){
-            return null;
+            throw new IllegalArgumentException("User with that login already exists");
         }
+
+        if(userRepository.findByEmail(user.getEmail())!=null){
+            throw new IllegalArgumentException("User with that email already exists");
+        }
+
         val salt = hashingService.generateSalt();
         user.setSalt(Base64.getEncoder().encodeToString(salt));
         user.setPassword(Base64.getEncoder().encodeToString(hashingService.hash(user.getPassword().toCharArray(),salt)));
-        return userRepository.save(user);
+        try {
+            return userRepository.save(user);
+        }
+        catch (DataAccessException e){
+            throw new IllegalArgumentException(e);
+        }
     }
 }

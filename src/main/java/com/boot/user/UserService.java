@@ -10,17 +10,17 @@ import java.util.Optional;
 @Service
 public interface UserService {
 
-    public Collection<User> getAll();
+    Collection<User> getAll();
 
-    public Optional<User> getById(Integer id);
+    Optional<User> getById(Integer id);
 
-    public Optional<User> getByLogin(String login);
+    Optional<User> getByLogin(String login);
 
-    public User modify(User user);
+    User modify(User user) throws IllegalArgumentException;
 
-    public User add(User user);
+    User add(User user) throws IllegalArgumentException;
 
-    public boolean delete(Integer id);
+    void delete(Integer id) throws IllegalArgumentException;
 
     void hashAll();
 }
