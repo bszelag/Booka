@@ -1,6 +1,6 @@
 package com.boot.institution;
 
-import com.boot.department.model.Department;
+import com.boot.institution.department.model.Department;
 import com.boot.institution.model.Institution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,4 +1,4 @@
-package com.boot.department.model;
+package com.boot.institution.department.model;
 
 import com.boot.address.model.Address;
 import com.boot.institution.model.Institution;

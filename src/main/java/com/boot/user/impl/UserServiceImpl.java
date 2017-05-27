@@ -2,7 +2,7 @@ package com.boot.user.impl;
 
 
 import com.boot.book.repository.BookRepository;
-import com.boot.borrowed.repository.BorrowedRepository;
+import com.boot.book.repository.BorrowedRepository;
 import com.boot.security.HashingService;
 import com.boot.user.UserService;
 import com.boot.user.model.User;

@@ -1,12 +1,10 @@
 package com.boot.book;
 
 import com.boot.book.model.Book;
-import com.boot.borrowed.model.Borrowed;
-import com.boot.borrowed.BorrowedService;
+import com.boot.book.model.Borrowed;
 import com.boot.security.AuthorizationService;
 import com.boot.security.utility.Session;
 import com.boot.user.UserService;
-import com.boot.user.model.User;
 import com.boot.utilities.mergeTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -14,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.Null;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
@@ -30,7 +27,7 @@ public class BookController {
     public BorrowedService borrowedService;
 
     @Autowired
-    public UserService userService;
+    public AuthorizationService authorizationService;
 
 
     @RequestMapping(value = "user/{user_id}", method = RequestMethod.GET)
@@ -63,8 +60,7 @@ public class BookController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         Book finalBook = mergeTool.mergeObjects(book, originalBook.get());
         try {
-            bookService.modifyBook(finalBook);
-            return new ResponseEntity<>(HttpStatus.OK); }
+            return new ResponseEntity<>(bookService.modifyBook(finalBook), HttpStatus.OK); }
         catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND); }
     }
@@ -106,9 +102,10 @@ public class BookController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
-    @RequestMapping(value = "lend/user/{user_id}", method = RequestMethod.GET)
-    public Collection<Borrowed> getUsersAllLend(@PathVariable Integer user_id) {
-        return borrowedService.getBorrowedByOwner(user_id);
+    @RequestMapping(value = "lend/user", method = RequestMethod.GET)
+    public Collection<Borrowed> getUsersAllLend(@CookieValue(Session.COOKIE_NAME) String sessionToken) {
+        return borrowedService.getBorrowedByOwner(authorizationService.getSession(UUID.fromString(sessionToken)).
+                map(Session::getUser).map(u -> u.getId()).orElse(0));
     }
 
     @RequestMapping(value = "lend/{lend_id}", method = RequestMethod.GET)
@@ -157,9 +154,10 @@ public class BookController {
 
     }
 
-    @RequestMapping(value = "borrowed/user/{user_id}", method = RequestMethod.GET)
-    public Collection<Borrowed> getUsersAllBorrowed(@PathVariable Integer user_id) {
-        return borrowedService.getBorrowedByBorrower(user_id);
+    @RequestMapping(value = "borrowed/user", method = RequestMethod.GET)
+    public Collection<Borrowed> getUsersAllBorrowed(@CookieValue(Session.COOKIE_NAME) String sessionToken) {
+        return borrowedService.getBorrowedByBorrower(authorizationService.getSession(UUID.fromString(sessionToken)).
+                map(Session::getUser).map(u -> u.getId()).orElse(0));
     }
 
     @RequestMapping(value = "lend/book/{book_id}", method = RequestMethod.GET)

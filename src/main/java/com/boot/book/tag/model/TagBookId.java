@@ -1,4 +1,4 @@
-package com.boot.tag.model;
+package com.boot.book.tag.model;
 
 import com.boot.book.model.Book;
 import lombok.AllArgsConstructor;

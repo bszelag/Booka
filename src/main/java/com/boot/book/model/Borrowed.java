@@ -1,4 +1,4 @@
-package com.boot.borrowed.model;
+package com.boot.book.model;
 
 
 import com.boot.book.model.Book;

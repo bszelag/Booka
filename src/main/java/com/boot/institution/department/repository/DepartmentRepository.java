@@ -1,6 +1,6 @@
-package com.boot.department.repository;
+package com.boot.institution.department.repository;
 
-import com.boot.department.model.Department;
+import com.boot.institution.department.model.Department;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

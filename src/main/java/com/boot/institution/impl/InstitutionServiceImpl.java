@@ -1,7 +1,7 @@
 package com.boot.institution.impl;
 
-import com.boot.department.model.Department;
-import com.boot.department.repository.DepartmentRepository;
+import com.boot.institution.department.model.Department;
+import com.boot.institution.department.repository.DepartmentRepository;
 import com.boot.institution.InstitutionService;
 import com.boot.institution.model.Institution;
 import com.boot.institution.repository.InstitutionRepository;
