@@ -4,6 +4,7 @@ import com.boot.borrowed.BorrowedService;
 import com.boot.borrowed.model.Borrowed;
 import com.boot.borrowed.repository.BorrowedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -27,8 +28,13 @@ public class BorrowedServiceImpl implements BorrowedService {
 
     @Override
     public Borrowed addBorrowed(Borrowed borrowed) {
-        borrowedRepository.save(borrowed);
-        return borrowed;
+        if (borrowedRepository.exists(borrowed.getId()))
+            throw new IllegalArgumentException("Cannot add borrowed that already exists");
+        try {
+            return borrowedRepository.save(borrowed);
+        } catch (DataAccessException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     @Override
@@ -42,20 +48,29 @@ public class BorrowedServiceImpl implements BorrowedService {
     }
 
     @Override
-    public boolean modifyBorrowed(Borrowed borrowed) {
-        if (borrowedRepository.exists(borrowed.getId())) {
-            borrowedRepository.save(borrowed);
-            return true; }
+    public void modifyBorrowed(Borrowed borrowed) throws IllegalArgumentException {
+        if (borrowedRepository.exists(borrowed.getId()))
+            try {
+                borrowedRepository.save(borrowed);
+            }
+            catch (DataAccessException e) {
+                throw new IllegalArgumentException(e); }
         else
-            return false;
+            throw new IllegalArgumentException("Borrowed does not exist");
     }
 
     @Override
-    public boolean deleteBorrowed(Integer book_id) {
-        if(borrowedRepository.exists(book_id)) {
+    public void deleteBorrowed(Integer book_id) {
+        if (book_id == null)
+            throw new IllegalArgumentException("Cannot delete borrowed with unspecified id");
+
+        if (!borrowedRepository.exists(book_id))
+            throw new IllegalArgumentException("Cannot delete borrowed that does not exist");
+
+        try {
             borrowedRepository.delete(book_id);
-            return true;
-        } else
-            return false;
+        }
+        catch (DataAccessException e) {
+            throw new IllegalArgumentException(e); }
     }
 }
