@@ -1,8 +1,8 @@
-package com.boot.firend.repository;
+package com.boot.friend.repository;
 
 
-import com.boot.firend.model.Friend;
-import com.boot.firend.model.FriendId;
+import com.boot.friend.model.Friend;
+import com.boot.friend.model.FriendId;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -13,23 +13,21 @@ public interface FriendRepository extends CrudRepository<Friend,FriendId>{
 
     @Query("Select f" +
             " FROM Friend f" +
-            " JOIN f.friend fi" +
-            " JOIN fi.friend1 u1" +
-            " JOIN fi.friend2 u2" +
+            " JOIN f.friendId.friend1 u1" +
+            " JOIN f.friendId.friend2 u2" +
             " WHERE (u1.id = :user_id" +
             " OR u2.id = :user_id)" +
-            " AND f.friendConfirm = true ")
+            " AND f.friendshipConfirmed = true ")
     Collection<Friend> getFriends(@Param("user_id") Integer user_id);
 
     @Query("Select f" +
             " FROM Friend f" +
-            " JOIN f.friend fi" +
-            " JOIN fi.friend1 u1" +
-            " JOIN fi.friend2 u2" +
+            " JOIN f.friendId.friend1 u1" +
+            " JOIN f.friendId.friend2 u2" +
             " WHERE (u1.id = :user_id" +
             " AND f.friend2Allow = true )" +
             " OR (u2.id = :user_id" +
             " AND f.friend1Allow = true )" +
-            " AND f.friendConfirm = true ")
+            " AND f.friendshipConfirmed = true ")
     Collection<Friend> getAuthorizedFriends (@Param("user_id") Integer user_id);
 }

@@ -158,7 +158,7 @@ INSERT INTO borrowed (id, book_id, borrower_id, name, email, facebook, message, 
   ('9','12', NULL, 'Hubert' ,'Hubert@gmail.com' ,'HubKul' ,'NULL','2017-05-08','2017-06-08'),
   ('10','15', '8', NULL , NULL ,NULL , NULL,'2017-04-21','2017-05-21');
 
-INSERT INTO friend (friend1_id, friend2_id, friend1allow, friend2allow, friend_confirm) VALUES
+INSERT INTO friend (friend1_id, friend2_id, friend1allow, friend2allow, friendship_confirmed) VALUES
   (1,2,FALSE, FALSE, FALSE),
   (1,3,TRUE , FALSE, FALSE),
   (1,4,FALSE, TRUE, FALSE),

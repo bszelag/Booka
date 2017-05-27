@@ -1,4 +1,4 @@
-package com.boot.firend.model;
+package com.boot.friend.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,11 +17,11 @@ import javax.persistence.Entity;
 public class Friend implements Serializable{
 
     @EmbeddedId
-    private FriendId friend;
+    private FriendId friendId;
 
     private Boolean friend1Allow;
     private Boolean friend2Allow;
 
-    private Boolean friendConfirm;
+    private Boolean friendshipConfirmed;
 
 }

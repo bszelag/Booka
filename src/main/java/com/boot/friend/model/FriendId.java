@@ -1,4 +1,4 @@
-package com.boot.firend.model;
+package com.boot.friend.model;
 
 
 import com.boot.user.model.User;

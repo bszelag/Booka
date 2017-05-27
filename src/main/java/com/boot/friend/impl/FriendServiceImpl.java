@@ -1,9 +1,9 @@
-package com.boot.firend.impl;
+package com.boot.friend.impl;
 
-import com.boot.firend.FriendService;
-import com.boot.firend.model.Friend;
-import com.boot.firend.model.FriendId;
-import com.boot.firend.repository.FriendRepository;
+import com.boot.friend.FriendService;
+import com.boot.friend.model.Friend;
+import com.boot.friend.model.FriendId;
+import com.boot.friend.repository.FriendRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +28,7 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public Friend addFriend(Friend friend) {
-        if(friendRepository.findOne(friend.getFriend())!=null){
+        if(friendRepository.exists(friend.getFriendId())){
             return null;
         }
         return friendRepository.save(friend);
@@ -40,8 +40,8 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public Friend addAuthorizedFriend(Friend authorizedFriend) {
-        if(friendRepository.exists(authorizedFriend.getFriend())){
+    public Friend modify(Friend authorizedFriend) {
+        if(friendRepository.exists(authorizedFriend.getFriendId())){
             friendRepository.save(authorizedFriend);
         }
         return null;
