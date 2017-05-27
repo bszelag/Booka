@@ -66,9 +66,14 @@ public class BookController {
     @RequestMapping(value = "lend", method = RequestMethod.POST)
     public ResponseEntity<Borrowed> addBorrowed(@RequestBody Borrowed borrowed){
 
-        if (borrowed.getBook() == null || borrowed.getBorrower() == null) {
+        if (borrowed.getBook() == null || borrowed.getBook().getId()==null || borrowed.getBorrower() == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        Optional<Book> originalBook = bookService.getBook(borrowed.getBook().getId());
+        if (!originalBook.isPresent())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        borrowed.setBook(originalBook.get());
         if (!borrowed.getBook().getStatus()) {
             borrowed.getBook().setStatus(true);
             try {
