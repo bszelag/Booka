@@ -32,9 +32,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book addBook(Book book) throws IllegalArgumentException  {
-        if (bookRepository.exists(book.getId())) {
-            throw new IllegalArgumentException("Book already exists");
-        }
         try {
             return bookRepository.save(book);
         }

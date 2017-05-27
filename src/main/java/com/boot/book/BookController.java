@@ -54,9 +54,15 @@ public class BookController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<Book> modifyUserBook(@RequestBody Book book) {
+    public ResponseEntity<Book> modifyUserBook(@RequestBody Book book)
+            throws InstantiationException, IllegalAccessException {
+
+        Optional<Book> originalBook = bookService.getBook(book.getId());
+        if (!originalBook.isPresent())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        Book finalBook = mergeTool.mergeObjects(book, originalBook.get());
         try {
-            bookService.modifyBook(book);
+            bookService.modifyBook(finalBook);
             return new ResponseEntity<>(HttpStatus.OK); }
         catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND); }
