@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Null;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
@@ -36,15 +37,9 @@ public class BookController {
         return bookService.getAllUserBooks(user_id);
     }
 
-    @RequestMapping(value = "user/{user_id}", method = RequestMethod.POST)
-    public ResponseEntity<Book> addUserBook(@RequestBody Book book, @PathVariable Integer user_id){
-        Optional<User> user = userService.getById(user_id);
-        if (user.isPresent())
-        {
-            book.setUser(user.get());
-            return new ResponseEntity<>(bookService.addBook(book), HttpStatus.OK); }
-        else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Book> addBook(@RequestBody Book book) {
+            return new ResponseEntity<>(bookService.addBook(book), HttpStatus.OK);
     }
 
     @RequestMapping(value = "{book_id}", method = RequestMethod.GET)
@@ -53,7 +48,7 @@ public class BookController {
                 orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @RequestMapping(value = "{book_id}", method = RequestMethod.PUT)
+    @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<Book> modifyUserBook(@RequestBody Book book){
         if (bookService.modifyBook(book))
            return new ResponseEntity<>(HttpStatus.OK);
@@ -67,22 +62,19 @@ public class BookController {
         else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "lend/{book_id}/{user_id}", method = RequestMethod.POST)
-    public ResponseEntity<Borrowed> addBorrowed(@PathVariable Integer book_id, @PathVariable Integer user_id,
-                                  @RequestBody Borrowed borrowed){
+    @RequestMapping(value = "lend", method = RequestMethod.POST)
+    public ResponseEntity<Borrowed> addBorrowed(@RequestBody Borrowed borrowed){
 
-        Optional<User> user = userService.getById(user_id);
-        Optional<Book> book = bookService.getBook(book_id);
-        if (user.isPresent() && book.isPresent() && !book.get().getStatus()) {
-            book.get().setStatus(true);
-            bookService.modifyBook(book.get());
-            borrowed.setBorrower(user.get());
-            borrowed.setBook(book.get());
+        if (borrowed.getBook() == null || borrowed.getBorrower() == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        if (!borrowed.getBook().getStatus()) {
+            borrowed.getBook().setStatus(true);
+            bookService.modifyBook(borrowed.getBook());
             return new ResponseEntity<>(borrowedService.addBorrowed(borrowed), HttpStatus.OK) ;
-
         }
         else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
     @RequestMapping(value = "lend/user/{user_id}", method = RequestMethod.GET)
@@ -96,11 +88,13 @@ public class BookController {
                 orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @RequestMapping(value = "lend/{lend_id}", method = RequestMethod.PUT)
-    public ResponseEntity<Borrowed> updateLend(@PathVariable Integer lend_id, @RequestBody Borrowed borrowed)
+    @RequestMapping(value = "lend", method = RequestMethod.PUT)
+    public ResponseEntity<Borrowed> updateLend(@RequestBody Borrowed borrowed)
             throws InstantiationException, IllegalAccessException {
-
-            Optional<Borrowed> originalBorrowed = borrowedService.getBorrowedById(lend_id);
+            if (borrowed.getId() == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            Optional<Borrowed> originalBorrowed = borrowedService.getBorrowedById(borrowed.getId());
             if (originalBorrowed.isPresent()) {
                 Borrowed finalBorrowed = mergeTool.mergeObjects(borrowed,originalBorrowed.get());
                 borrowedService.modifyBorrowed(finalBorrowed);
