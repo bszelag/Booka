@@ -28,8 +28,6 @@ public class BorrowedServiceImpl implements BorrowedService {
 
     @Override
     public Borrowed addBorrowed(Borrowed borrowed) {
-        if (borrowedRepository.exists(borrowed.getId()))
-            throw new IllegalArgumentException("Cannot add borrowed that already exists");
         try {
             return borrowedRepository.save(borrowed);
         } catch (DataAccessException e) {
