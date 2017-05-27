@@ -39,7 +39,12 @@ public class BookController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Book> addBook(@RequestBody Book book) {
-            return new ResponseEntity<>(bookService.addBook(book), HttpStatus.OK);
+        try {
+            return ResponseEntity.ok(bookService.addBook(book));
+        }
+        catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
     }
 
     @RequestMapping(value = "{book_id}", method = RequestMethod.GET)
@@ -49,17 +54,30 @@ public class BookController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<Book> modifyUserBook(@RequestBody Book book){
-        if (bookService.modifyBook(book))
-           return new ResponseEntity<>(HttpStatus.OK);
-        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<Book> modifyUserBook(@RequestBody Book book)
+            throws InstantiationException, IllegalAccessException {
+
+        Optional<Book> originalBook = bookService.getBook(book.getId());
+        if (!originalBook.isPresent())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        Book finalBook = mergeTool.mergeObjects(book, originalBook.get());
+        try {
+            bookService.modifyBook(finalBook);
+            return new ResponseEntity<>(HttpStatus.OK); }
+        catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); }
     }
+
 
     @RequestMapping(value = "{book_id}", method = RequestMethod.DELETE)
     public ResponseEntity<Book> deleteUserBook(@PathVariable int book_id){
-        if (bookService.deleteBook(book_id))
+        try {
+            bookService.deleteBook(book_id);
             return new ResponseEntity<>(HttpStatus.OK);
-        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @RequestMapping(value = "lend", method = RequestMethod.POST)

@@ -9,13 +9,13 @@ import java.util.Optional;
 @Service
 public interface BookService {
 
-    public Collection<Book> getAllUserBooks(Integer user_id);
+    Collection<Book> getAllUserBooks(Integer user_id);
 
-    public Optional<Book> getBook(int book_id);
+    Optional<Book> getBook(int book_id);
 
-    public Book addBook(Book book);
+    Book addBook(Book book)  throws IllegalArgumentException;
 
-    public boolean modifyBook(Book book);
+    void modifyBook(Book book) throws IllegalArgumentException;
 
-    public boolean deleteBook(Integer book_id);
+    void deleteBook(Integer book_id) throws IllegalArgumentException;
 }
