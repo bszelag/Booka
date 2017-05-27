@@ -4,6 +4,7 @@ import com.boot.book.BookService;
 import com.boot.book.model.Book;
 import com.boot.book.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 import java.util.Base64;
@@ -30,26 +31,37 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book addBook(Book book) {
-            bookRepository.save(book);
-            return book;
+    public Book addBook(Book book) throws IllegalArgumentException  {
+        if (bookRepository.exists(book.getId())) {
+            throw new IllegalArgumentException("Book already exists");
+        }
+        try {
+            return bookRepository.save(book);
+        }
+        catch (DataAccessException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     @Override
-    public boolean modifyBook(Book book) {
-        if(bookRepository.exists(book.getId())){
+    public void modifyBook(Book book) throws IllegalArgumentException {
+        if (bookRepository.exists(book.getId())) {
             bookRepository.save(book);
-            return true;
         } else
-            return false;
+            throw new IllegalArgumentException("Book does not exist");
     }
 
     @Override
-    public boolean deleteBook(Integer book_id) {
-        if(bookRepository.exists(book_id)) {
-            bookRepository.delete(book_id);
-            return true;
-        } else
-            return false;
+    public void deleteBook(Integer book_id) throws IllegalArgumentException {
+        if (book_id == null)
+            throw new IllegalArgumentException("Cannot delete book with unspecified id");
+
+        if (!bookRepository.exists(book_id))
+            throw new IllegalArgumentException("Cannot delete book that does not exist");
+
+        bookRepository.delete(book_id);
     }
 }
+
+
+
