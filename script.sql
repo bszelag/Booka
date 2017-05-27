@@ -166,10 +166,10 @@ INSERT INTO friend (friend1_id, friend2_id, friend1allow, friend2allow, friendsh
   (1,6,TRUE, FALSE, TRUE),
   (1,7,FALSE, TRUE, TRUE),
   (1,8,FALSE, TRUE, TRUE),
-  (9,2,FALSE, FALSE, FALSE),
-  (9,3,TRUE , FALSE, FALSE),
-  (9,4,FALSE, TRUE, FALSE),
-  (9,5,FALSE, FALSE, TRUE),
-  (9,6,TRUE, FALSE, TRUE),
-  (9,7,FALSE, TRUE, TRUE),
-  (9,1,TRUE, TRUE, TRUE);
+  (2,9,FALSE, FALSE, FALSE),
+  (3,9,TRUE , FALSE, FALSE),
+  (4,9,FALSE, TRUE, FALSE),
+  (5,9,FALSE, FALSE, TRUE),
+  (6,9,TRUE, FALSE, TRUE),
+  (7,9,FALSE, TRUE, TRUE),
+  (1,9,TRUE, TRUE, TRUE);
