@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public class SearchServiceImpl implements SearchService{
@@ -30,10 +33,10 @@ public class SearchServiceImpl implements SearchService{
         Integer department = query.getDepartment();
 
         String targetURL ="https://katalog.biblioteka.wroc.pl/F?func=find-c&ccl_term=";
-        if (title != null && author != null)
+        if (title != null && author != null && title != "" && author != "")
             targetURL = targetURL +"(WTI=("+title+"?))AND(WAU="+author+"?)";
         else {
-            if (title != null){
+            if (title != null && title != ""){
                 targetURL = targetURL +"(WTI=("+title+"?))";
             }
             else{
@@ -51,7 +54,7 @@ public class SearchServiceImpl implements SearchService{
     }
 
     @Override
-    public Collection<Book> searchBook(String URL) {
+    public Collection<Object> searchBook(String URL) {
         Collection<Book> books = new ArrayList<>();
         try {
             Document doc = Jsoup.connect(URL)
@@ -65,34 +68,28 @@ public class SearchServiceImpl implements SearchService{
                 for (Element row : table.select("tr")) {
                     Elements tds = row.select("td");
                     if (tds.size() > 6) {
-                        Book book = new Book();
-                        book.setAuthor(tds.get(2).text());
-                        String title[] = tds.get(3).text().split("/");
-                        book.setTitle(title[0]);
-                        book.setFormat('b');
-                        book.setOwnerType('l');
                         if(tds.size()>4) {
                             Element link = tds.get(5);
                             Element Link = link.select("a").first();
                             if (Link != null) {
                                 String departmentsURL = Link.attr("abs:href");
-
                                 Document departmentsDoc = Jsoup.connect(departmentsURL).get();
-
                                 Elements departmentsTables = departmentsDoc.select("table");
-                                if (departmentsTables.size()>4) {
-                                    Element departments = departmentsTables.get(5);
-                                    for (Element element : departments.select("tr")) {
-                                        Elements elements = element.select("td");
-                                        if (elements.size() > 4) {
-                                            String list[] = elements.get(5).text().split(" - ");
-                                            for (int i = 0; i < (list.length - 1); i++) {
-                                                String split[] = list[i].split(" ");
-                                                Department department = departmentRepository.getByCode(split[split.length - 1]);
-                                                if (department != null) {
-                                                    book.setDepartment(department);
-                                                    books.add(book);
-                                                }
+                                if (departmentsTables.size()>7){
+                                    Element departments = departmentsTables.get(7).select("table").get(0);
+                                    Elements currentRow = departments.select("tr");
+                                    if(currentRow.size()>1) {
+                                        for (int i = 1; i < currentRow.size(); i++) {
+                                            Elements newRow = currentRow.get(i).select("td");
+                                            Department department = departmentRepository.getByCode(newRow.get(1).text().split(" - ")[0]);
+                                            if (department != null && !newRow.get(4).hasText()) {
+                                                Book book = new Book();
+                                                book.setAuthor(tds.get(2).text());
+                                                book.setTitle(tds.get(3).text().split("/")[0]);
+                                                book.setFormat('b');
+                                                book.setOwnerType('l');
+                                                book.setDepartment(department);
+                                                books.add(book);
                                             }
                                         }
                                     }
@@ -105,6 +102,10 @@ public class SearchServiceImpl implements SearchService{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return books;
+        Map<Book,Long> map = books.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
+        books.clear();
+        List<Object> booksOut = new ArrayList<Object>(map.keySet());
+
+        return booksOut.stream().map(b -> new JsonWrapper<>(b, (int)(long)map.get(b))).collect(Collectors.toList());
     }
 }
