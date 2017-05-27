@@ -22,6 +22,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
 
+import static org.springframework.http.ResponseEntity.ok;
+
 @RestController
 @RequestMapping(value = "/api/v1/users") ///api/v1/ required till nginx
 public class UserController {
@@ -86,8 +88,11 @@ public class UserController {
             Optional<User> originalUser = userService.getById(user.getId());
             if (originalUser.isPresent()) {
                 User finalUser = mergeTool.mergeObjects(user, originalUser.get());
-                userService.modify(finalUser);
-                return new ResponseEntity<>(HttpStatus.OK);
+                try {
+                    userService.modify(finalUser);
+                    return new ResponseEntity<>(HttpStatus.OK); }
+                catch (IllegalArgumentException e) {
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND); }
             } else
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -95,17 +100,24 @@ public class UserController {
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable Integer id, HttpServletResponse response) {
-        if (userService.delete(id)) {
+    public ResponseEntity<?> delete(@PathVariable Integer id, HttpServletResponse response) {
+        try {
+            userService.delete(id);
             val sessionCookie = new Cookie(Session.COOKIE_NAME, "");
             sessionCookie.setMaxAge(0);
             response.addCookie(sessionCookie);
+            return new ResponseEntity<>(HttpStatus.OK);}
+        catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @RequestMapping(value = "sign_up", method = RequestMethod.POST)
     public ResponseEntity<User> add(@RequestBody User user){
-        return new ResponseEntity<>(userService.add(user), HttpStatus.OK);
+        try {
+            return ResponseEntity.ok(userService.add(user)); }
+        catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);}
     }
 
     @RequestMapping(value = "hash", method =  RequestMethod.POST)
