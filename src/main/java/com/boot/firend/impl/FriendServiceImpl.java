@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Component
 public class FriendServiceImpl implements FriendService {
@@ -21,8 +22,8 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public Friend getFriend(FriendId friendId) {
-        return friendRepository.findOne(friendId);
+    public Optional<Friend> getFriendById(FriendId friendId) {
+        return Optional.ofNullable(friendRepository.findOne(friendId));
     }
 
     @Override

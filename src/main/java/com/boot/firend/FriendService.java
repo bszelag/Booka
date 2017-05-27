@@ -5,13 +5,14 @@ import com.boot.firend.model.FriendId;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public interface FriendService {
 
     public Collection<Friend> getFriends(Integer user_id);
 
-    public Friend getFriend(FriendId friendId);
+    public Optional<Friend> getFriendById(FriendId friendId);
 
     public Friend addFriend(Friend contact);
 

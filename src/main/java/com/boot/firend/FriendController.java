@@ -65,10 +65,16 @@ public class FriendController {
         if (authorizedFriend.getFriend().getFriend1() != null && authorizedFriend.getFriend().getFriend2() != null
                 && (authorizedFriend.getFriend1Allow() != null || authorizedFriend.getFriend2Allow() != null
                     || authorizedFriend.getFriendConfirm() != null)){
-            Optional<Friend> originalFriend = friendService.getFriend(authorizedFriend.getFriend());
+            Optional<Friend> originalFriend = friendService.getFriendById(authorizedFriend.getFriend());
             if (originalFriend.isPresent()) {
-                Friend finalfriend = mergeTool.mergeObjects(authorizedFriend,originalFriend.get());
-                return new ResponseEntity<>(friendService.addAuthorizedFriend(finalfriend), HttpStatus.OK);
+                if(authorizedFriend.getFriend1Allow() != originalFriend.get().getFriend1Allow() ||
+                        authorizedFriend.getFriend2Allow() != originalFriend.get().getFriend2Allow() ||
+                        authorizedFriend.getFriendConfirm() != originalFriend.get().getFriendConfirm()) {
+                    Friend finalFriend = mergeTool.mergeObjects(authorizedFriend, originalFriend.get());
+                    return new ResponseEntity<>(friendService.addAuthorizedFriend(finalFriend), HttpStatus.OK);
+                }
+                else
+                    return new ResponseEntity<>(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE);
             } else
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
