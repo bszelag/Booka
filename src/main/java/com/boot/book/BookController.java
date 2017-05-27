@@ -9,6 +9,7 @@ import com.boot.user.UserService;
 import com.boot.user.model.User;
 import com.boot.utilities.mergeTool;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -83,12 +84,22 @@ public class BookController {
     @RequestMapping(value = "lend", method = RequestMethod.POST)
     public ResponseEntity<Borrowed> addBorrowed(@RequestBody Borrowed borrowed){
 
-        if (borrowed.getBook() == null || borrowed.getBorrower() == null) {
+        if (borrowed.getBook() == null || borrowed.getBook().getId()==null || borrowed.getBorrower() == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        Optional<Book> originalBook = bookService.getBook(borrowed.getBook().getId());
+        if (!originalBook.isPresent())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        borrowed.setBook(originalBook.get());
         if (!borrowed.getBook().getStatus()) {
             borrowed.getBook().setStatus(true);
-            bookService.modifyBook(borrowed.getBook());
+            try {
+                bookService.modifyBook(borrowed.getBook());
+            }
+            catch  (IllegalArgumentException e) {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
             return new ResponseEntity<>(borrowedService.addBorrowed(borrowed), HttpStatus.OK) ;
         }
         else
@@ -115,7 +126,12 @@ public class BookController {
             Optional<Borrowed> originalBorrowed = borrowedService.getBorrowedById(borrowed.getId());
             if (originalBorrowed.isPresent()) {
                 Borrowed finalBorrowed = mergeTool.mergeObjects(borrowed,originalBorrowed.get());
-                borrowedService.modifyBorrowed(finalBorrowed);
+                try {
+                    borrowedService.modifyBorrowed(finalBorrowed);
+                }
+                catch (IllegalArgumentException e) {
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
                 return new ResponseEntity<>(HttpStatus.OK);
             }
             else
@@ -132,7 +148,11 @@ public class BookController {
         }
         borrowed.getBook().setStatus(false);
         bookService.modifyBook(borrowed.getBook());
-        borrowedService.deleteBorrowed(lend_id);
+        try {
+            borrowedService.deleteBorrowed(lend_id);
+        } catch (DataAccessException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
 
     }

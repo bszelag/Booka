@@ -10,7 +10,7 @@ import java.util.Optional;
 @Service
 public interface BorrowedService {
 
-    Borrowed addBorrowed(Borrowed borrowed);
+    Borrowed addBorrowed(Borrowed borrowed) throws IllegalArgumentException;
 
     Collection<Borrowed> getBorrowedByOwner(Integer user_id);
 
@@ -20,7 +20,7 @@ public interface BorrowedService {
 
     Optional<Borrowed> getBorrowedByBookId(Integer book_id);
 
-    boolean modifyBorrowed(Borrowed borrowed);
+    void modifyBorrowed(Borrowed borrowed) throws IllegalArgumentException;
 
-    boolean deleteBorrowed(Integer borrowed_id);
+    void deleteBorrowed(Integer borrowed_id) throws IllegalArgumentException;
 }
