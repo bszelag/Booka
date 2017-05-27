@@ -17,6 +17,6 @@ public interface DepartmentRepository extends CrudRepository<Department, Integer
     @Query("Select d" +
             " FROM Department d" +
             " JOIN d.institution i" +
-            " WHERE i.name = :name")
-    Collection<Department> getByInstitution(@Param("name") String name);
+            " WHERE i.id = :id")
+    Collection<Department> getByInstitution(@Param("id") Integer id);
 }

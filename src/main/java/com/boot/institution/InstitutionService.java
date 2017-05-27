@@ -11,6 +11,6 @@ public interface InstitutionService {
 
     public Collection<Institution> getAllInstitutions();
 
-    public Collection<Department> getInstitutionDepartments(String name);
+    public Collection<Department> getInstitutionDepartments(Integer name);
 
 }

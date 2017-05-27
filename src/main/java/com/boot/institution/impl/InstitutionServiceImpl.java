@@ -28,7 +28,7 @@ public class InstitutionServiceImpl implements InstitutionService{
     }
 
     @Override
-    public Collection<Department> getInstitutionDepartments(String name) {
+    public Collection<Department> getInstitutionDepartments(Integer name) {
         return departmentRepository.getByInstitution(name);
     }
 }
