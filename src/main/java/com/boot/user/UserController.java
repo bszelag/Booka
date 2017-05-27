@@ -79,8 +79,8 @@ public class UserController {
                 orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.PUT)
-    public ResponseEntity<User> modify(@PathVariable Integer id, @RequestBody User user)
+    @RequestMapping(method = RequestMethod.PUT)
+    public ResponseEntity<User> modify(@RequestBody User user)
             throws InstantiationException, IllegalAccessException {
         if(user.getId() != null) {
             Optional<User> originalUser = userService.getById(user.getId());
