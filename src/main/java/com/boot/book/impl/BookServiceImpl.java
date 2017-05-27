@@ -41,10 +41,10 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void modifyBook(Book book) throws IllegalArgumentException {
+    public Book modifyBook(Book book) throws IllegalArgumentException {
         if (bookRepository.exists(book.getId())) {
             try {
-                bookRepository.save(book);
+                return bookRepository.save(book);
             }
             catch (DataAccessException e) {
                 throw new IllegalArgumentException(e);

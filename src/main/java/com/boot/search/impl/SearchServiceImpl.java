@@ -1,8 +1,8 @@
 package com.boot.search.impl;
 
 import com.boot.book.model.Book;
-import com.boot.department.model.Department;
-import com.boot.department.repository.DepartmentRepository;
+import com.boot.institution.department.model.Department;
+import com.boot.institution.department.repository.DepartmentRepository;
 import com.boot.search.LibraryQuery;
 import com.boot.search.SearchService;
 import org.jsoup.Jsoup;

@@ -5,6 +5,7 @@ import com.boot.friend.model.Friend;
 import com.boot.friend.model.FriendId;
 import com.boot.friend.repository.FriendRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -27,23 +28,25 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public Friend addFriend(Friend friend) {
-        if(friendRepository.exists(friend.getFriendId())){
-            return null;
+    public Friend addFriend(Friend friend) throws IllegalArgumentException{
+        try {
+            return friendRepository.save(friend);
         }
-        return friendRepository.save(friend);
+        catch (DataAccessException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     @Override
-    public Collection<Friend> getAuthorizedFriends(Integer owner_id) {
-        return friendRepository.getAuthorizedFriends(owner_id);
-    }
-
-    @Override
-    public Friend modify(Friend authorizedFriend) {
-        if(friendRepository.exists(authorizedFriend.getFriendId())){
-            friendRepository.save(authorizedFriend);
-        }
-        return null;
+    public Friend modify(Friend authorizedFriend) throws IllegalArgumentException{
+        if (friendRepository.exists(authorizedFriend.getFriendId())) {
+            try {
+                return friendRepository.save(authorizedFriend);
+            }
+            catch (DataAccessException e) {
+                throw new IllegalArgumentException(e);
+            }
+        } else
+            throw new IllegalArgumentException("Friend does not exist");
     }
 }

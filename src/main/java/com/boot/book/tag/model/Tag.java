@@ -1,12 +1,12 @@
-package com.boot.tag.model;
+package com.boot.book.tag.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
@@ -14,8 +14,8 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TagBook implements Serializable {
+public class Tag implements Serializable {
 
-    @EmbeddedId
-    private TagBookId tagBook;
+    @Id
+    private String title;
 }

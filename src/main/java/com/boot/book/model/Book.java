@@ -1,6 +1,6 @@
 package com.boot.book.model;
 
-import com.boot.department.model.Department;
+import com.boot.institution.department.model.Department;
 import com.boot.user.model.User;
 
 import javax.persistence.Column;

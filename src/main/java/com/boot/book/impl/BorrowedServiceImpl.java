@@ -1,8 +1,8 @@
-package com.boot.borrowed.impl;
+package com.boot.book.impl;
 
-import com.boot.borrowed.BorrowedService;
-import com.boot.borrowed.model.Borrowed;
-import com.boot.borrowed.repository.BorrowedRepository;
+import com.boot.book.BorrowedService;
+import com.boot.book.model.Borrowed;
+import com.boot.book.repository.BorrowedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;

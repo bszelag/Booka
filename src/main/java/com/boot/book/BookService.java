@@ -15,7 +15,7 @@ public interface BookService {
 
     Book addBook(Book book)  throws IllegalArgumentException;
 
-    void modifyBook(Book book) throws IllegalArgumentException;
+    Book modifyBook(Book book) throws IllegalArgumentException;
 
     void deleteBook(Integer book_id) throws IllegalArgumentException;
 }

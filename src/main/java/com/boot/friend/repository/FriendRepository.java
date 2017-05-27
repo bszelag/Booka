@@ -20,14 +20,4 @@ public interface FriendRepository extends CrudRepository<Friend,FriendId>{
             " AND f.friendshipConfirmed = true ")
     Collection<Friend> getFriends(@Param("user_id") Integer user_id);
 
-    @Query("Select f" +
-            " FROM Friend f" +
-            " JOIN f.friendId.friend1 u1" +
-            " JOIN f.friendId.friend2 u2" +
-            " WHERE (u1.id = :user_id" +
-            " AND f.friend2Allow = true )" +
-            " OR (u2.id = :user_id" +
-            " AND f.friend1Allow = true )" +
-            " AND f.friendshipConfirmed = true ")
-    Collection<Friend> getAuthorizedFriends (@Param("user_id") Integer user_id);
 }

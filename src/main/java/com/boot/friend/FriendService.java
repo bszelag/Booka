@@ -14,9 +14,7 @@ public interface FriendService {
 
     Optional<Friend> getFriendById(FriendId friendId);
 
-    Friend addFriend(Friend friend);
+    Friend addFriend(Friend friend) throws IllegalArgumentException;
 
-    Collection<Friend> getAuthorizedFriends(Integer owner_id);
-
-    Friend modify(Friend authorizedViewer);
+    Friend modify(Friend authorizedViewer) throws IllegalArgumentException;
 }
