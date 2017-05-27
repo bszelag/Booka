@@ -56,7 +56,6 @@ public class FriendController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-
     @RequestMapping(value = "authorized-viewers/{id}", method = RequestMethod.GET)
     public Collection<Friend> getAuthorizedFriends(@PathVariable Integer id){
         return friendService.getAuthorizedFriends(id);

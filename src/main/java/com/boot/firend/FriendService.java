@@ -14,7 +14,7 @@ public interface FriendService {
 
     public Optional<Friend> getFriendById(FriendId friendId);
 
-    public Friend addFriend(Friend contact);
+    public Friend addFriend(Friend friend);
 
     public Collection<Friend> getAuthorizedFriends(Integer owner_id);
 
