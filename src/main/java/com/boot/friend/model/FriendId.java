@@ -1,4 +1,5 @@
-package com.boot.contact.model;
+package com.boot.friend.model;
+
 
 import com.boot.user.model.User;
 import lombok.AllArgsConstructor;
@@ -17,13 +18,13 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ContactId implements Serializable {
+public class FriendId implements Serializable{
 
     @ManyToOne(optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private User contact1;
+    private User friend1;
 
     @ManyToOne(optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private User contact2;
+    private User friend2;
 }
