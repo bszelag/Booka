@@ -46,7 +46,12 @@ public class BookServiceImpl implements BookService {
     @Override
     public void modifyBook(Book book) throws IllegalArgumentException {
         if (bookRepository.exists(book.getId())) {
-            bookRepository.save(book);
+            try {
+                bookRepository.save(book);
+            }
+            catch (DataAccessException e) {
+                throw new IllegalArgumentException(e);
+            }
         } else
             throw new IllegalArgumentException("Book does not exist");
     }
@@ -59,7 +64,12 @@ public class BookServiceImpl implements BookService {
         if (!bookRepository.exists(book_id))
             throw new IllegalArgumentException("Cannot delete book that does not exist");
 
-        bookRepository.delete(book_id);
+        try {
+            bookRepository.delete(book_id);
+        }
+        catch (DataAccessException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 }
 
