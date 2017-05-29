@@ -31,11 +31,11 @@
         function addNewFriend(friendId) {
             var contact = {};
             contact = {
-                "contact" : {
-                    "contact1" : {
+                "friend" : {
+                    "friend1" : {
                         "id" : vm.userData.id
                     },
-                    "contact2" : {
+                    "friend2" : {
                         "id" : friendId
                     }
                 }

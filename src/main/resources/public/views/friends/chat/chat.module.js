@@ -2,6 +2,6 @@
     'use strict';
 
     angular
-        .module('booka.friends.chat', ['chat']);
+        .module('booka.friends.chat', []);
 
 })();
