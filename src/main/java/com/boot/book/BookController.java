@@ -2,17 +2,26 @@ package com.boot.book;
 
 import com.boot.book.model.Book;
 import com.boot.book.model.Borrowed;
+import com.boot.friend.FriendService;
+import com.boot.friend.model.Friend;
 import com.boot.security.AuthorizationService;
 import com.boot.security.utility.Session;
 import com.boot.user.UserService;
+import com.boot.user.model.User;
 import com.boot.utilities.mergeTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -29,10 +38,36 @@ public class BookController {
     @Autowired
     public AuthorizationService authorizationService;
 
+    @Autowired
+    public UserService userService;
+
+    @Autowired
+    public FriendService friendService;
+
 
     @RequestMapping(value = "user/{user_id}", method = RequestMethod.GET)
-    public Collection<Book> getUserBooks(@PathVariable Integer user_id){
-        return bookService.getAllUserBooks(user_id);
+    public ResponseEntity<Collection<Book>> getUserBooks(@PathVariable Integer user_id, @CookieValue(Session.COOKIE_NAME) String sessionToken){
+        Optional<User> user = userService.getById(authorizationService.getSession(UUID.fromString(sessionToken)).
+                map(Session::getUser).map( u -> u.getId()).orElse(0));
+        if (user.isPresent()){
+            if(Objects.equals(user.get().getId(),user_id))
+                return ResponseEntity.ok(bookService.getAllUserBooks(user_id));
+            Optional<User> friend = userService.getById(user_id);
+            if(friend.isPresent()) {
+                Optional<Friend> friendship;
+                if (user.get().getId() < user_id)
+                    friendship = friendService.getIfFriends(user.get().getId(), user_id);
+                else
+                    friendship = friendService.getIfFriends(user_id, user.get().getId());
+                if(friendship.isPresent()) {
+                    if ((user.get().getId() < user_id && friendship.get().getFriend2Allow()) ||
+                            (user.get().getId() > user_id && friendship.get().getFriend1Allow()))
+                        return ResponseEntity.ok(bookService.getAllUserBooks(user_id));
+                }
+                return new ResponseEntity<>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(method = RequestMethod.POST)
