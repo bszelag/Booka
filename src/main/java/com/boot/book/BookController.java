@@ -2,9 +2,13 @@ package com.boot.book;
 
 import com.boot.book.model.Book;
 import com.boot.book.model.Borrowed;
+import com.boot.friend.FriendService;
+import com.boot.friend.model.Friend;
+import com.boot.friend.model.FriendId;
 import com.boot.security.AuthorizationService;
 import com.boot.security.utility.Session;
 import com.boot.user.UserService;
+import com.boot.user.model.User;
 import com.boot.utilities.mergeTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -13,8 +17,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/v1/books") //"/api/v1/" is required till we use nginx
@@ -29,10 +35,27 @@ public class BookController {
     @Autowired
     public AuthorizationService authorizationService;
 
+    @Autowired
+    public UserService userService;
+
+    @Autowired
+    public FriendService friendService;
+
 
     @RequestMapping(value = "user/{user_id}", method = RequestMethod.GET)
-    public Collection<Book> getUserBooks(@PathVariable Integer user_id){
-        return bookService.getAllUserBooks(user_id);
+    public ResponseEntity<Collection<Book>> getUserBooks(@PathVariable Integer user_id, @CookieValue(Session.COOKIE_NAME) String sessionToken){
+        Optional<User> user = userService.getById(authorizationService.getSession(UUID.fromString(sessionToken)).
+                map(Session::getUser).map( u -> u.getId()).orElse(0));
+        Optional<User> friend = userService.getById(user_id);
+        if (user.isPresent() && friend.isPresent()){
+            Collection<Friend> friends = friendService.getFriends(user.get().getId());
+            Collection<FriendId> friendIds = friends.stream().map(f->f.getFriendId()).collect(Collectors.toList());
+            if(Objects.equals(user.get().getId(),user_id) || friendIds.stream().anyMatch(f -> f.getFriend1() == friend.get() || f.getFriend2() == friend.get()))
+                return ResponseEntity.ok(bookService.getAllUserBooks(user_id));
+            else
+                return new ResponseEntity<>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(method = RequestMethod.POST)
