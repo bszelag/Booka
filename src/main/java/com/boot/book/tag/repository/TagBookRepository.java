@@ -23,6 +23,6 @@ public interface TagBookRepository extends CrudRepository<TagBook, TagBookId> {
             " FROM TagBook t" +
             " JOIN t.tagBook.tagTittle tt" +
             " JOIN t.tagBook.book b " +
-            " WHERE t = :book")
+            " WHERE b = :book")
     Collection<Tag> getBookTags(@Param("book") Book book);
 }

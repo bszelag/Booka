@@ -3,6 +3,7 @@ package com.boot.book;
 import com.boot.book.model.Book;
 import com.boot.book.model.Borrowed;
 import com.boot.book.tag.TagBookService;
+import com.boot.book.tag.model.Tag;
 import com.boot.book.tag.model.TagBook;
 import com.boot.security.AuthorizationService;
 import com.boot.security.utility.Session;
@@ -172,13 +173,15 @@ public class BookController {
     }
 
     @RequestMapping(value = "getBooksByTag", method = RequestMethod.GET)
-    public ResponseEntity<Book> getBooksByTag(@PathVariable Integer book_id) {
-        return null;
+    public ResponseEntity<Collection<Book>> getBooksByTag(@CookieValue(Session.COOKIE_NAME) String sessionToken, @RequestBody Tag tag) {
+        return ResponseEntity.ok(tagBookService.getBooksByTag(tag));
     }
 
-    @RequestMapping(value = "getBookTags", method = RequestMethod.GET)
-    public ResponseEntity<Book> getBookTags(@PathVariable Integer book_id) {
-        return null;
+    @RequestMapping(value = "getBookTags/{book_id}", method = RequestMethod.GET)
+    public ResponseEntity<Collection<Tag>> getBookTags(@PathVariable Integer book_id) {
+        Optional<Book> book = bookService.getBook(book_id);
+        return book.map(book1 -> ResponseEntity.ok(tagBookService.getBookTags(book1)))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
 
     @RequestMapping(value = "addTagToBook", method = RequestMethod.POST)
