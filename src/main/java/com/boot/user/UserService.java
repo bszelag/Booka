@@ -12,6 +12,8 @@ public interface UserService {
 
     Collection<User> getAll();
 
+    Collection<User> searchQuery(String query);
+
     Optional<User> getById(Integer id);
 
     Optional<User> getByLogin(String login);

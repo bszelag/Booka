@@ -40,6 +40,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Collection<User> searchQuery(String query) {
+        return userRepository.findByAny(query);
+    }
+
+    @Override
     public Optional<User> getById(Integer id) {
         return Optional.ofNullable(userRepository.findOne(id));
     }
