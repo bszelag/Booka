@@ -49,8 +49,9 @@ public class BookController {
         Optional<User> friend = userService.getById(user_id);
         if (user.isPresent() && friend.isPresent()){
             Collection<Friend> friends = friendService.getFriends(user.get().getId());
-            Collection<FriendId> friendIds = friends.stream().map(f->f.getFriendId()).collect(Collectors.toList());
-            if(Objects.equals(user.get().getId(),user_id) || friendIds.stream().anyMatch(f -> f.getFriend1() == friend.get() || f.getFriend2() == friend.get()))
+            if(Objects.equals(user.get().getId(),user_id) ||
+                    friends.stream().anyMatch(f -> (f.getFriendId().getFriend1() == friend.get() && f.getFriend1Allow()) ||
+                                                    (f.getFriendId().getFriend2() == friend.get() && f.getFriend2Allow())))
                 return ResponseEntity.ok(bookService.getAllUserBooks(user_id));
             else
                 return new ResponseEntity<>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
