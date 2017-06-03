@@ -2,6 +2,9 @@ package com.boot.book;
 
 import com.boot.book.model.Book;
 import com.boot.book.model.Borrowed;
+import com.boot.book.tag.TagBookService;
+import com.boot.book.tag.model.Tag;
+import com.boot.book.tag.model.TagBook;
 import com.boot.security.AuthorizationService;
 import com.boot.security.utility.Session;
 import com.boot.user.UserService;
@@ -28,6 +31,9 @@ public class BookController {
 
     @Autowired
     public AuthorizationService authorizationService;
+
+    @Autowired
+    public TagBookService tagBookService;
 
 
     @RequestMapping(value = "user/{user_id}", method = RequestMethod.GET)
@@ -166,4 +172,36 @@ public class BookController {
                 orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @RequestMapping(value = "getBooksByTag", method = RequestMethod.GET)
+    public ResponseEntity<Collection<Book>> getBooksByTag(@CookieValue(Session.COOKIE_NAME) String sessionToken, @RequestBody Tag tag) {
+        return ResponseEntity.ok(tagBookService.getBooksByTag(tag));
+    }
+
+    @RequestMapping(value = "getBookTags/{book_id}", method = RequestMethod.GET)
+    public ResponseEntity<Collection<Tag>> getBookTags(@PathVariable Integer book_id) {
+        Optional<Book> book = bookService.getBook(book_id);
+        return book.map(book1 -> ResponseEntity.ok(tagBookService.getBookTags(book1)))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
+    }
+
+    @RequestMapping(value = "addTagToBook", method = RequestMethod.POST)
+    public ResponseEntity<TagBook> addTagToBook(@RequestBody TagBook tagBook){
+        try {
+            return ResponseEntity.ok(tagBookService.addTagToBook(tagBook));
+        }
+        catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+    }
+
+    @RequestMapping(value = "removeTagFromBook", method = RequestMethod.DELETE)
+    public ResponseEntity<TagBook> removeTagFromBook(@RequestBody TagBook tagBook){
+        try {
+            tagBookService.removeTagFromBook(tagBook.getTagBook());
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

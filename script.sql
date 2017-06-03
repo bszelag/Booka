@@ -174,3 +174,16 @@ INSERT INTO friend (friend1_id, friend2_id, friend1allow, friend2allow, friendsh
   (6,9,TRUE, FALSE, TRUE),
   (7,9,FALSE, TRUE, TRUE),
   (1,9,TRUE, TRUE, TRUE);
+
+INSERT INTO tag (title) VALUES
+  ('horror'),
+  ('fraszka'),
+  ('przepisy'),
+  ('poradniki');
+
+INSERT INTO tag_book (tag_tittle_title, book_id) VALUES
+  ('horror','1'),
+  ('poradniki','1'),
+  ('fraszka','2'),
+  ('horror','3'),
+  ('poradniki','4');
