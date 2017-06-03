@@ -4,13 +4,15 @@
 
     <div id="thread">
 
-        <ul class="collection message-list">
-            <li class="collection-item" ng-repeat="message in vm.messages">
-                <span class="title">User #{{ message.sender_uuid }}</span>
-                <p><i class="prefix mdi-action-alarm"></i><span class="message-date">{{ message.date | date:"MM/dd/yyyy 'at' h:mma"}}</span>
-                    </br> {{ message.content }}</p>
-            </li>
-        </ul>
+        <div>
+            <ul id="messages" class="collection message-list">
+                <li class="collection-item" ng-repeat="message in messages">
+                    <span class="title">User #{{ message.sender_uuid == vm.userData().id ? 'Me' :  message.sender_uuid }}</span>
+                    <p><i class="prefix mdi-action-alarm"></i><span class="message-date">{{ message.date | date:"MM/dd/yyyy 'at' h:mma"}}</span>
+                        </br> {{ message.content }}</p>
+                </li>
+            </ul>
+        </div>
 
         <br>
 

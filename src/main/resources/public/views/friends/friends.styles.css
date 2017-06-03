@@ -15,7 +15,8 @@
     padding: 10px;
     box-shadow: 2px 2px 10px var(--box_shadow);
     background-color: var(--background_grey_lighter);
-    min-height: 200px;
+    max-height: 70vh;
+    height: 70vh;
     width: 80%;
 }
 
@@ -25,6 +26,7 @@
     flex: 10 0 8em;
     border-right: solid var(--background_purple_darker_intro) 1px;
     overflow: scroll;
+    max-height: 60vh;
 }
 
 .chat .message-list {
@@ -59,7 +61,7 @@
     text-align: center;
     color: var(--background_grey_lighter);
     background-color: var(--background_purple);
-    height: 10vh;
+    height: 5vh;
     font-size: 20px;
 }
 

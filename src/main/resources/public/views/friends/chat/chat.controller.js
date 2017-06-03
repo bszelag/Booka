@@ -5,9 +5,9 @@
         .module('booka.friends.chat', [])
         .controller('ChatController', ChatController);
 
-    ChatController.$inject = ['$q', '$scope', 'authorizationService', '$stateParams', 'Pubnub'];
+    ChatController.$inject = ['$scope', 'authorizationService', '$stateParams', 'Pubnub'];
 
-    function ChatController($q, $scope, authorizationService, $stateParams, Pubnub) {
+    function ChatController($scope, authorizationService, $stateParams, Pubnub) {
         var vm = this;
 
         var friendId = $stateParams.friendId;
@@ -19,7 +19,7 @@
         vm.friendId = friendId;
         vm.threadName = 'general';
         vm.messageContent = '';
-        vm.messages = [];
+        $scope.messages = [];
 
         vm.sendMessage = sendMessage;
 
@@ -40,17 +40,16 @@
             if (!vm.messageContent || vm.messageContent === '')
                 return;
             var message = {
+                uuid: Date.now() + vm.userData().id,
                 content : vm.messageContent,
                 sender_uuid: vm.userData().id,
                 date: new Date()
             };
-            //vm.thread.$publish(message);
 
             Pubnub.publish({
-                channel: vm.thread,
+                channel: $scope.thread,
                 message: message,
                 callback: function (m) {
-                    console.log(m)
                 }
             });
 
@@ -61,7 +60,8 @@
             Pubnub.init({
                 publish_key: 'pub-c-ea5297f9-b2a3-43a3-ada8-4716635f7687',
                 subscribe_key: 'sub-c-1e313a40-402b-11e7-b6a4-02ee2ddab7fe',
-                uuid: userId
+                uuid: userId,
+                ssl: true
             });
 
             if (userId < friendId) {
@@ -70,47 +70,43 @@
                 vm.threadName = friendId.toString() + '_' + userId.toString();
             }
 
-            vm.thread = vm.threadName;
+            $scope.thread = vm.threadName;
 
             Pubnub.subscribe({
-                channel: vm.thread,
+                channel: $scope.thread,
                 triggerEvents: ['callback']
             });
 
-            var deffered  = $q.defer();
-
             Pubnub.history({
-                channel: vm.thread,
-                count: 50,
+                channel: $scope.thread,
+                count: 20,
                 reverse: false,
                 callback: function (m) {
                     $scope.$apply(function () {
-                        console.log(m);
-                        vm.messages = m[0] ;
+                        $scope.messages = m[0] ;
                     });
-                    deffered.resolve(m);
+                    $scope.$digest();
                     $scope.scrollDown(0);
                 }
             });
 
-            return deffered.promise;
+            subscribeNewMessage(function (ngEvent, m) {
+                $scope.messages.push(m);
+                $scope.$digest();
+                $scope.scrollDown(100);
+            })
         }
 
-        // Make it possible to scrollDown to the bottom of the messages container
-        $scope.scrollDown = function(time) {
-            var $elem = $('.collection');
-            $('#chat').animate({
+        var subscribeNewMessage = function (callback) {
+            $scope.$on(Pubnub.getMessageEventNameFor($scope.thread), callback);
+            $scope.scrollDown(100);
+        };
+
+        $scope.scrollDown = function (time) {
+            var $elem = $('#messages');
+            $('#messages').animate({
                 scrollTop: $elem.height()
             }, time);
         };
-
-        // Listenning to messages sent.
-        $scope.$on(Pubnub.getMessageEventNameFor(vm.thread), function(ngEvent, m) {
-            $scope.$apply(function() {
-                console.log('event - ', m);
-                vm.messages.push(m)
-            });
-            $scope.scrollDown(400);
-        });
     }
 })();
