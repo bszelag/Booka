@@ -27,7 +27,6 @@
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
     "ng-table": "0.8.3",
     "angular-growl-v2": "angular-growl-2#^0.7.9",
-    "angular-chat" : "2.0.0",
     "pubnub" : "3.7.21",
     "pubnub-angular" : "3.2.1",
     "ng-notify": "^0.7.2",

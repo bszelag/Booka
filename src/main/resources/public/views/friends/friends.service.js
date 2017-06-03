@@ -13,8 +13,6 @@
             getAuthorizedViewers : getAuthorizedViewers,
             addAccess : addAccess,
             addNewFriend : addNewFriend,
-            createQueue : createQueue,
-            getMessages : getMessages,
             getUsers : getUsers
         };
 
@@ -49,14 +47,6 @@
             return $http.get('/api/v1/users')
                 .then(handleResponse())
                 .catch(handleError())
-        }
-        
-        function createQueue() {
-            
-        }
-        
-        function getMessages() {
-            
         }
 
         function handleResponse(msg) {
