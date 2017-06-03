@@ -1,0 +1,67 @@
+.show-friends {
+
+}
+
+.details-container span:hover {
+    color: var(--background_purple_dark);
+    cursor: pointer;
+}
+
+/*----------------------------------------------------------CHAT------------------------------------------------------*/
+
+.chat {
+    display: grid;
+    flex-direction: row;
+    padding: 10px;
+    box-shadow: 2px 2px 10px var(--box_shadow);
+    background-color: var(--background_grey_lighter);
+    max-height: 70vh;
+    height: 70vh;
+    width: 80%;
+}
+
+#thread {
+    display: flex;
+    flex-direction: column;
+    flex: 10 0 8em;
+    border-right: solid var(--background_purple_darker_intro) 1px;
+    overflow: scroll;
+    max-height: 60vh;
+}
+
+.chat .message-list {
+    flex: 1;
+    overflow: auto;
+    margin-top:0;
+    margin-bottom:0;
+    border: none;
+}
+
+.chat .message-form {
+    flex:1;
+    max-height:120px;
+    color: var(--background_grey_lighter);
+}
+
+.chat .message-date {
+    color: var(--background_grey_dark);
+}
+
+.chat .input-field{
+    margin-left: 5px;
+    font-size: 16px;
+}
+
+.chat button {
+    background-color: var(--background_purple);
+    color: var(--background_grey_lighter);
+}
+
+.chat .thread-title{
+    text-align: center;
+    color: var(--background_grey_lighter);
+    background-color: var(--background_purple);
+    height: 5vh;
+    font-size: 20px;
+}
+

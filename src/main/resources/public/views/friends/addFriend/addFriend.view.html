@@ -1,0 +1,13 @@
+<div class="new-friend">
+    <h3>Add a friend</h3>
+    <form name="newFriendForm" ng-submit='vm.addNewFriend()'>
+        <div class="form-group">
+            <label for="login">Login</label>
+            <input type="text" class="form-control" id="login" placeholder="Login"
+                   ng-model="vm.newFriend.login" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-add-user" ng-disabled="newFriendForm.$invalid">
+            Send invitation &nbsp; <i class="fa fa-envelope-square" aria-hidden="true"></i>
+        </button>
+    </form>
+</div>

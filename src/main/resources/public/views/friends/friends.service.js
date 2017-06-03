@@ -2,49 +2,49 @@
     'use strict';
 
     angular
-        .module('booka.books')
-        .service('booksService', booksService);
+        .module('booka.friends')
+        .service('friendsService', friendsService);
 
-    booksService.$inject = ['$http', '$q'];
+    friendsService.$inject = ['$http', '$q'];
 
-    function booksService($http, $q) {
+    function friendsService($http, $q) {
         var service = {
-            getBooks : getBooks,
-            getBook : getBook,
-            getLentBooks : getLentBooks,
-            getBorrowedBooks : getBorrowedBooks,
-            lentBook : lentBook
+            getFriends : getFriends,
+            getAuthorizedViewers : getAuthorizedViewers,
+            addAccess : addAccess,
+            addNewFriend : addNewFriend,
+            getUsers : getUsers
         };
 
         return service;
         ////////////////
 
-        function getBooks(userId) {
-            return $http.get('/api/v1/books/user/' + userId )
+        function getFriends(userId) {
+            return $http.get('/api/v1/friends/' + userId )
                 .then(handleResponse())
                 .catch(handleError())
         }
 
-        function getBook(bookId) {
-            return $http.get('/api/v1/books/' + bookId )
+        function getAuthorizedViewers(userId) {
+            return $http.get('/api/v1/friends/authorized-viewers/' + userId )
+                .then(handleResponse())
+                .catch(handleError())
+        }
+        
+        function addAccess(authorizedViewer) {
+            return $http.post('/api/v1/friends/authorized-viewers', authorizedViewer)
                 .then(handleResponse())
                 .catch(handleError())
         }
 
-        function getLentBooks(userId) {
-            return $http.get('/api/v1/books/lend/user/' + userId )
+        function addNewFriend(friend) {
+            return $http.post('/api/v1/friends', friend)
                 .then(handleResponse())
                 .catch(handleError())
         }
 
-        function getBorrowedBooks(userId) {
-            return $http.get('/api/v1/books/borrowed/user/' + userId )
-                .then(handleResponse())
-                .catch(handleError())
-        }
-
-        function lentBook(bookId, userId) {
-            return $http.post('/api/v1/books/lend/' + bookId + '/' + userId)
+        function getUsers() {
+            return $http.get('/api/v1/users')
                 .then(handleResponse())
                 .catch(handleError())
         }

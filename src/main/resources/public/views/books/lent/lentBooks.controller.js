@@ -15,6 +15,10 @@
         vm.activeTab = 0;
         vm.lentBooksTable = [];
         vm.borrowedBooksTable = [];
+        vm.lentActive = 0;
+        vm.lentBookStructure = {};
+
+        vm.lentBook = lentBook;
 
         init();
         //////////////
@@ -65,6 +69,13 @@
             }).catch((error) => {
                 console.log(error);
             });
+        }
+
+        function lentBook() {
+            booksService.lentBook(vm.lentBookStructure.book.id, vm.lentBookStructure.friend.id).then((response) => {
+                console.log(response.status);
+                vm.lentActive = 0;
+            })
         }
     }
 })();

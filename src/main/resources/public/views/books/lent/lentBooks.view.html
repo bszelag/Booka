@@ -4,6 +4,28 @@
         <button class="lent-books-item" ng-click="vm.activeTab = 1" ng-class="vm.activeTab === 1 ? 'active-tab' : 'non-active-tab'">Borrowed Books</button>
     </div>
 
+    <button class="btn btn-primary" ng-click="vm.lentActive === 0 ? vm.lentActive = 1 ? vm.lentActive = 0">Lent a book</button>
+    <div ng-if="vm.lentActive === 1">
+        <form name="lentBookForm" ng-submit='vm.lentBook()'>
+            <div class="form-group">
+                <label for="book">Book</label>
+                <select class="form-control" id="book" required ng-options="book.id as book.title for book in vm.books"
+                        ng-value="book.id" ng-model="vm.lentBookStructure.book">
+                    <option ></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="friend">Friend</label>
+                <select class="form-control" id="friend" required ng-options="friend.id as friend.login for friend in vm.friends"
+                        ng-value="friend.id" ng-model="vm.lentBookStructure.friend">
+                    <option ></option>
+                </select>
+            </div>
+        </form>
+        <button type="submit" class="btn btn-primary" ng-disabled="lentBookForm.$invalid">
+            Lent <i class="fa fa-bookmark" aria-hidden="true"></i>
+        </button>
+    </div>
     <div id="lent" class="lent-card" ng-show="vm.activeTab === 0">
         <table ng-table="vm.lentBooksTable" show-filter="true" class="table table-bordered filled-cells">
             <tr ng-repeat="book in $data">
@@ -20,6 +42,7 @@
         </table>
     </div>
 
+    <button class="btn btn-primary">Borrow a book</button>
     <div id="borrowed" class="lent-card" ng-show="vm.activeTab === 1">
         <table ng-table="vm.borrowedBooksTable" show-filter="true" class="table table-bordered filled-cells">
             <tr ng-repeat="book in $data">

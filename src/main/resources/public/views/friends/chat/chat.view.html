@@ -1,0 +1,35 @@
+<div id="chat" class="chat">
+
+    <span class='thread-title lighten-2'> {{ vm.friendId }} </span>
+
+    <div id="thread">
+
+        <div>
+            <ul id="messages" class="collection message-list">
+                <li class="collection-item" ng-repeat="message in messages">
+                    <span class="title">User #{{ message.sender_uuid == vm.userData().id ? 'Me' :  message.sender_uuid }}</span>
+                    <p><i class="prefix mdi-action-alarm"></i><span class="message-date">{{ message.date | date:"MM/dd/yyyy 'at' h:mma"}}</span>
+                        </br> {{ message.content }}</p>
+                </li>
+            </ul>
+        </div>
+
+        <br>
+
+        <footer>
+            <form ng-submit="vm.sendMessage()" class="container">
+                <div class="row">
+                    <div class="input-field">
+                        <input class="col-md-8" ng-model="vm.messageContent" type="text" placeholder="Type your message">
+                    </div>
+                    <div class="input-field">
+                        <button  type="submit" class="waves-effect waves-light btn-floating btn-large col-md-2">
+                            <i class="fa fa-send"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </footer>
+    </div>
+
+</div>
