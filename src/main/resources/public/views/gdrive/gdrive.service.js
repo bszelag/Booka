@@ -117,8 +117,6 @@
             })
         }
 
-        //'fields': "nextPageToken, files(id, description, name, size)",
-
         function getFiles() {
             return gapi.client.drive.files.list({
                 'maxResults' : 500

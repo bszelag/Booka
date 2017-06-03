@@ -7,9 +7,9 @@
         .module('booka.gdrive')
         .controller('GoogleDriveController', GoogleDriveController);
 
-    GoogleDriveController.$inject = ['$scope', 'GoogleDriveService', 'gapiAuthService', '$state'];
+    GoogleDriveController.$inject = ['$scope', 'GoogleDriveService', 'gapiAuthService'];
 
-    function GoogleDriveController($scope, GoogleDriveService, gapiAuthService, $state) {
+    function GoogleDriveController($scope, GoogleDriveService, gapiAuthService) {
         var vm = this;
 
         $scope.checkingLogin=true;
@@ -68,8 +68,6 @@
         function getFiles() {
             GoogleDriveService.getFiles().then((response) => {
                 listFiles(response.result.items);
-                console.log(vm.files);
-                vm.filesUploading = false;
             },function(){
                 setTimeout(function(){
                     GoogleDriveService.getFiles().then((response) => {
@@ -83,7 +81,6 @@
             vm.files = [];
             files.forEach(function (f) {
                 vm.files.push(f);
-                console.log('f', f);
             });
         }
     }
