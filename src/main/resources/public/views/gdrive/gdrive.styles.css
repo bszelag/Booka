@@ -1,0 +1,15 @@
+.gdrive .pdf, .gdrive .epub, .gdrive .pdb, .gdrive .ibooks, .gdrive .mobi{
+    background-color: #be89a9;
+}
+
+.gdrive .doc, .gdrive .docx, .gdrive .odt {
+    background-color: #88bdd5;
+}
+
+.gdrive .xls, .gdrive .xlsx, .gdrive .xml, .gdrive .csv {
+    background-color: #88d5bd;
+}
+
+.gdrive .catalog {
+    background-color: #aa99bb;
+}

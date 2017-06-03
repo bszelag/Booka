@@ -5,6 +5,8 @@
     </div>
 
     <button class="btn btn-primary" ng-click="vm.lentActive === 0 ? vm.lentActive = 1 ? vm.lentActive = 0">Lent a book</button>
+    <button class="btn btn-primary">Borrow a book</button>
+
     <div ng-if="vm.lentActive === 1">
         <form name="lentBookForm" ng-submit='vm.lentBook()'>
             <div class="form-group">
@@ -42,7 +44,6 @@
         </table>
     </div>
 
-    <button class="btn btn-primary">Borrow a book</button>
     <div id="borrowed" class="lent-card" ng-show="vm.activeTab === 1">
         <table ng-table="vm.borrowedBooksTable" show-filter="true" class="table table-bordered filled-cells">
             <tr ng-repeat="book in $data">
