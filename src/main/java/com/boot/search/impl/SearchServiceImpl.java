@@ -17,13 +17,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
 public class SearchServiceImpl implements SearchService{
 
     @Autowired
-    DepartmentRepository departmentRepository;
+    private DepartmentRepository departmentRepository;
 
     @Override
     public String searchQuery(LibraryQuery query) {
@@ -33,10 +34,10 @@ public class SearchServiceImpl implements SearchService{
         Integer department = query.getDepartment();
 
         String targetURL ="https://katalog.biblioteka.wroc.pl/F?func=find-c&ccl_term=";
-        if (title != null && author != null && title != "" && author != "")
+        if (title != null && author != null && !Objects.equals(title, "") && !Objects.equals(author, ""))
             targetURL = targetURL +"(WTI=("+title+"?))AND(WAU="+author+"?)";
         else {
-            if (title != null && title != ""){
+            if (title != null && !Objects.equals(title, "")){
                 targetURL = targetURL +"(WTI=("+title+"?))";
             }
             else{
@@ -104,8 +105,11 @@ public class SearchServiceImpl implements SearchService{
         }
         Map<Book,Long> map = books.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
         books.clear();
-        List<Object> booksOut = new ArrayList<Object>(map.keySet());
+        List<Book> booksOut = new ArrayList<>(map.keySet());
 
-        return booksOut.stream().map(b -> new JsonWrapper<>(b, (int)(long)map.get(b))).collect(Collectors.toList());
+        return booksOut.stream().map(b -> new JsonWrapper<>(b, (int)(long)map.get(b),
+                "www.google.pl/maps/place/"+b.getDepartment().getAddress().getStreet()+"+"
+                                                    +b.getDepartment().getAddress().getBuildNr()+",+"
+                                                    +b.getDepartment().getAddress().getCity())).collect(Collectors.toList());
     }
 }

@@ -16,10 +16,12 @@ public interface SearchService {
         @JsonUnwrapped
         private T inner;
         private int amount;
+        private String mapURL;
 
-        public JsonWrapper(T inner, int field) {
+        public JsonWrapper(T inner, int field, String mapURL) {
             this.inner = inner;
             this.amount = field;
+            this.mapURL = mapURL;
         }
 
         public T getInner() {
@@ -28,6 +30,10 @@ public interface SearchService {
 
         public int getAmount() {
             return amount;
+        }
+
+        public String getMapURL() {
+            return mapURL;
         }
     }
 }
