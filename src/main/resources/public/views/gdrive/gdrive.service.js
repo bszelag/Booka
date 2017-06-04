@@ -118,11 +118,16 @@
         }
 
         function getFiles() {
-            var files = [];
             return gapi.client.drive.files.list({
-                'pageSize': 100,
-                'fields': 'files(description,name,size),kind,nextPageToken',
-            })
+                'maxResults' : 500
+            }).then(handleResponse());
+        }
+
+        function handleResponse(msg) {
+            return function(response) {
+                if(msg) console.log(msg, response);
+                return response;
+            };
         }
 
         return {
@@ -141,9 +146,7 @@
                     });
             },
             getFiles: function () {
-                return getFiles().then(function (response) {
-                    return response;
-                })
+                return getFiles();
             }
         }
     }

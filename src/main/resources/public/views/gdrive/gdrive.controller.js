@@ -48,12 +48,12 @@
             }).finally(function(){
                 $scope.uploading=false;
             });
+            showFiles();
         };
 
         vm.files = [];
 
-        // TODO get list of files from google drive
-        //vm.showFiles = showFiles;
+        vm.showFiles = showFiles;
 
         init();
         //////////////
@@ -61,13 +61,27 @@
         function init() {
         }
 
-        // TODO get list of files from google drive
-        // function showFiles() {
-        //     GoogleDriveService.getFiles().then(function (response) {
-        //         vm.files = response.result.files;
-        //         console.log(response.result);
-        //     })
-        // }
+        function showFiles() {
+            getFiles();
+        }
 
+        function getFiles() {
+            GoogleDriveService.getFiles().then((response) => {
+                listFiles(response.result.items);
+            },function(){
+                setTimeout(function(){
+                    GoogleDriveService.getFiles().then((response) => {
+                        listFiles(response.result.items)
+                    })
+                },5000);
+            });
+        }
+
+        function listFiles(files) {
+            vm.files = [];
+            files.forEach(function (f) {
+                vm.files.push(f);
+            });
+        }
     }
 })();
