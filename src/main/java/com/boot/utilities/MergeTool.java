@@ -2,7 +2,7 @@ package com.boot.utilities;
 
 import java.lang.reflect.Field;
 
-public class mergeTool {
+public class MergeTool {
 
     @SuppressWarnings("unchecked")
     public static <T> T mergeObjects(T first, T second) throws IllegalAccessException, InstantiationException {
