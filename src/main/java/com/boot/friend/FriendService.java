@@ -14,6 +14,8 @@ public interface FriendService {
 
     Optional<Friend> getFriendById(FriendId friendId);
 
+    Optional<Friend> getIfFriends(Integer userId1, Integer userId2);
+
     Friend addFriend(Friend friend) throws IllegalArgumentException;
 
     Friend modify(Friend authorizedViewer) throws IllegalArgumentException;
