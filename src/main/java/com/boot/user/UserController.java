@@ -114,11 +114,18 @@ public class UserController {
 
     @RequestMapping(value = "sign_up", method = RequestMethod.POST)
     public ResponseEntity<User> add(@RequestBody User user){
+
+        user.setIsConfirmed(false);
         try {
-            return ResponseEntity.ok(userService.add(user)); }
+            userService.add(user);
+        }
         catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);}
+
+        return ResponseEntity.ok(user);
     }
+
+
 
     @RequestMapping(value = "hash", method =  RequestMethod.POST)
     public void hashAll() {

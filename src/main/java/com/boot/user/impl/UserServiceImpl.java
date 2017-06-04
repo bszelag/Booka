@@ -22,10 +22,10 @@ import java.util.stream.StreamSupport;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    public UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    public HashingService hashingService;
+    private HashingService hashingService;
 
     @Autowired
     private BookRepository bookRepository;
@@ -78,20 +78,22 @@ public class UserServiceImpl implements UserService {
         if (id == null)
             throw new IllegalArgumentException("Cannot delete user with unspecified id");
 
-        if(userRepository.exists(id)){
-            User user = userRepository.findOne(id);
-            bookRepository.removeBookByUserId(id);
-            String name = user.getName() + " " + user.getSurname();
-            borrowedRepository.updateBorrowerName(id,name);
-            borrowedRepository.removeBorrowedsByUserId(id, user.getEmail(), user.getFacebook());
-            try {
-                userRepository.delete(id);
-            }
-            catch (DataAccessException e){
-                throw new IllegalArgumentException(e);
-            }
+        if(!userRepository.exists(id))
+            throw new IllegalArgumentException("Cannot delete not existing user");
+
+        User user = userRepository.findOne(id);
+        bookRepository.removeBookByUserId(id);
+        String name = user.getName() + " " + user.getSurname();
+        borrowedRepository.updateBorrowerName(id,name);
+        borrowedRepository.removeBorrowedsByUserId(id, user.getEmail(), user.getFacebook());
+        try {
+            userRepository.delete(id);
         }
-        throw new IllegalArgumentException("Cannot delete not existing user");
+        catch (DataAccessException e){
+            throw new IllegalArgumentException(e);
+        }
+
+
     }
 
     @Override
