@@ -4,7 +4,6 @@ import com.boot.book.model.Book;
 import com.boot.book.model.Borrowed;
 import com.boot.friend.FriendService;
 import com.boot.friend.model.Friend;
-import com.boot.friend.model.FriendId;
 import com.boot.security.AuthorizationService;
 import com.boot.security.utility.Session;
 import com.boot.user.UserService;
@@ -20,7 +19,6 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/v1/books") //"/api/v1/" is required till we use nginx
