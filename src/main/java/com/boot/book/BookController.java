@@ -46,15 +46,23 @@ public class BookController {
     public ResponseEntity<Collection<Book>> getUserBooks(@PathVariable Integer user_id, @CookieValue(Session.COOKIE_NAME) String sessionToken){
         Optional<User> user = userService.getById(authorizationService.getSession(UUID.fromString(sessionToken)).
                 map(Session::getUser).map( u -> u.getId()).orElse(0));
-        Optional<User> friend = userService.getById(user_id);
-        if (user.isPresent() && friend.isPresent()){
-            Collection<Friend> friends = friendService.getFriends(user.get().getId());
-            if(Objects.equals(user.get().getId(),user_id) ||
-                    friends.stream().anyMatch(f -> (f.getFriendId().getFriend1() == friend.get() && f.getFriend1Allow()) ||
-                                                    (f.getFriendId().getFriend2() == friend.get() && f.getFriend2Allow())))
+        if (user.isPresent()){
+            if(Objects.equals(user.get().getId(),user_id))
                 return ResponseEntity.ok(bookService.getAllUserBooks(user_id));
-            else
+            Optional<User> friend = userService.getById(user_id);
+            if(friend.isPresent()) {
+                Optional<Friend> friendship;
+                if (user.get().getId() < user_id)
+                    friendship = friendService.getIfFriends(user.get().getId(), user_id);
+                else
+                    friendship = friendService.getIfFriends(user_id, user.get().getId());
+                if(friendship.isPresent()) {
+                    if ((user.get().getId() < user_id && friendship.get().getFriend2Allow()) ||
+                            (user.get().getId() > user_id && friendship.get().getFriend1Allow()))
+                        return ResponseEntity.ok(bookService.getAllUserBooks(user_id));
+                }
                 return new ResponseEntity<>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+            }
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }

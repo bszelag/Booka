@@ -28,6 +28,11 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
+    public Optional<Friend> getIfFriends(Integer userId1, Integer userId2) {
+        return Optional.ofNullable(friendRepository.getIfFriends(userId1,userId2));
+    }
+
+    @Override
     public Friend addFriend(Friend friend) throws IllegalArgumentException{
         try {
             return friendRepository.save(friend);
