@@ -124,4 +124,9 @@ public class UserController {
     public void hashAll() {
         userService.hashAll();
     }
+
+    @RequestMapping(value = "search/{query}", method = RequestMethod.GET)
+    public Collection<User> searchQuery(@PathVariable Optional<String> query) {
+        return userService.searchQuery(query.orElse(""));
+    }
 }
