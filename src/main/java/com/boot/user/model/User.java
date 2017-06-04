@@ -39,6 +39,9 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String salt;
 
+    @Column(nullable = false)
+    private Boolean isConfirmed;
+
     @OneToOne
     private Address address;
     private String name;
