@@ -35,24 +35,28 @@ public class FriendController {
                 map(Session::getUser).map( u -> u.getId()).orElse(0));
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Friend> addFriend(@RequestBody FriendId friendId){
-        if (friendId.getFriend1() != null && friendId.getFriend2() != null){
-            Optional<User> user1 = userService.getById(friendId.getFriend1().getId());
-            Optional<User> user2 =  userService.getById(friendId.getFriend2().getId());
-            if (user1.isPresent() && user2.isPresent() && !user1.get().equals(user2.get() )) {
-                FriendId newFriendId;
-                if (user1.get().getId() > user2.get().getId())
-                    newFriendId = new FriendId(user2.get(),user1.get());
-                else
-                    newFriendId = new FriendId(user1.get(),user2.get());
-                Friend friend = new Friend(newFriendId,false,false,false);
+    @RequestMapping(value = "{userId}", method = RequestMethod.POST)
+    public ResponseEntity<Friend> addFriend(@CookieValue(Session.COOKIE_NAME) String sessionToken, @PathVariable Integer userId) {
+        Optional<User> user1 = userService.getById(authorizationService.getSession(UUID.fromString(sessionToken)).
+                map(Session::getUser).map(User::getId).orElse(0));
+        Optional<User> user2 = userService.getById(userId);
+        if (user1.isPresent() && user2.isPresent() && !user1.get().equals(user2.get())) {
+            FriendId newFriendId;
+            if (user1.get().getId() > user2.get().getId())
+                newFriendId = new FriendId(user2.get(), user1.get());
+            else
+                newFriendId = new FriendId(user1.get(), user2.get());
+            Friend friend = new Friend(newFriendId, false, false, false);
+            try {
                 return new ResponseEntity<>(friendService.addFriend(friend), HttpStatus.OK);
-            } else
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            catch (IllegalArgumentException e) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+        } else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
 
     @RequestMapping(value = "changeAuthorizedState/{userId}", method = RequestMethod.POST)
     public ResponseEntity<Friend> changeAuthorizedState(@CookieValue(Session.COOKIE_NAME) String sessionToken, @PathVariable Integer userId)
