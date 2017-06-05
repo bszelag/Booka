@@ -1,12 +1,19 @@
 package com.boot.user;
 
 import com.boot.security.AuthorizationService;
+import com.boot.security.VerificationTokenService;
+import com.boot.security.model.VerificationToken;
 import com.boot.security.utility.Credentials;
 import com.boot.security.utility.Session;
 import com.boot.user.model.User;
-import com.boot.utilities.mergeTool;
+import com.boot.utilities.MergeTool;
+import com.boot.utilities.email.EmailHtmlSender;
+import com.boot.utilities.email.EmailStatus;
+import lombok.extern.java.Log;
 import lombok.val;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -21,18 +28,28 @@ import java.util.UUID;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
-
+import org.thymeleaf.context.Context;
 import static org.springframework.http.ResponseEntity.ok;
 
+@Log
 @RestController
 @RequestMapping(value = "/api/v1/users") ///api/v1/ required till nginx
 public class UserController {
 
     @Autowired
-    public UserService userService;
+    private UserService userService;
 
     @Autowired
     public AuthorizationService authorizationService;
+
+    @Autowired
+    public VerificationTokenService verificationTokenService;
+
+    @Autowired
+    public EmailHtmlSender emailHtmlSender;
+
+    @Autowired
+    private Environment env;
 
     @RequestMapping(method = RequestMethod.GET)
     public Collection<User> getAll() {
@@ -87,7 +104,7 @@ public class UserController {
         if(user.getId() != null) {
             Optional<User> originalUser = userService.getById(user.getId());
             if (originalUser.isPresent()) {
-                User finalUser = mergeTool.mergeObjects(user, originalUser.get());
+                User finalUser = MergeTool.mergeObjects(user, originalUser.get());
                 try {
                     userService.modify(finalUser);
                     return new ResponseEntity<>(HttpStatus.OK); }
@@ -112,12 +129,33 @@ public class UserController {
         }
     }
 
+
     @RequestMapping(value = "sign_up", method = RequestMethod.POST)
     public ResponseEntity<User> add(@RequestBody User user){
+
+        user.setIsConfirmed(false);
         try {
-            return ResponseEntity.ok(userService.add(user)); }
+            user = userService.add(user);
+        }
         catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);}
+
+
+        VerificationToken token = verificationTokenService.create(user);
+        Context context = new Context();
+        String link = env.getProperty("server.address");
+        link += ":" + env.getProperty("server.port");
+        link += "/api/v1/users/confirm/" + token.getToken();
+        context.setVariable("link", link);
+
+        EmailStatus emailStatus = emailHtmlSender.send(user.getEmail(), "Confirm your booka account", "confirmation_email", context);
+
+        log.info(emailStatus.getStatus());
+        if (emailStatus.isError()) {
+            log.warning(emailStatus.getErrorMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "hash", method =  RequestMethod.POST)
@@ -128,5 +166,27 @@ public class UserController {
     @RequestMapping(value = "search/{query}", method = RequestMethod.GET)
     public Collection<User> searchQuery(@PathVariable Optional<String> query) {
         return userService.searchQuery(query.orElse(""));
+    }
+
+    @RequestMapping(value = "confirm/{token}", method = RequestMethod.GET)
+    public ResponseEntity<?> confirmUser(@PathVariable String token) {
+
+        log.info("Request recieved");
+        Optional<VerificationToken> verificationToken = verificationTokenService.getByToken(token);
+        if (verificationToken.isPresent())
+        {
+
+            User user = verificationToken.get().getUser();
+            user.setIsConfirmed(true);
+            verificationTokenService.delete(verificationToken.get().getId());
+            try {
+                userService.modify(user);
+                return new ResponseEntity<>(HttpStatus.OK); }
+            catch (IllegalArgumentException e) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND); }
+
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
