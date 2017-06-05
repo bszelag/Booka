@@ -29,19 +29,7 @@
         }
 
         function addNewFriend(friendId) {
-            var contact = {};
-            contact = {
-                "friend" : {
-                    "friend1" : {
-                        "id" : vm.userData.id
-                    },
-                    "friend2" : {
-                        "id" : friendId
-                    }
-                }
-            };
-
-            friendsService.addNewFriend(contact).then((response) => {
+            friendsService.addNewFriend(friendId).then((response) => {
                console.log(response.status);
             });
         }

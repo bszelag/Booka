@@ -10,7 +10,6 @@
     function friendsService($http, $q) {
         var service = {
             getFriends : getFriends,
-            getAuthorizedViewers : getAuthorizedViewers,
             addAccess : addAccess,
             addNewFriend : addNewFriend,
             getUsers : getUsers
@@ -19,26 +18,22 @@
         return service;
         ////////////////
 
-        function getFriends(userId) {
-            return $http.get('/api/v1/friends/' + userId )
-                .then(handleResponse())
-                .catch(handleError())
-        }
-
-        function getAuthorizedViewers(userId) {
-            return $http.get('/api/v1/friends/authorized-viewers/' + userId )
+        function getFriends() {
+            return $http.get('/api/v1/friends/')
                 .then(handleResponse())
                 .catch(handleError())
         }
         
-        function addAccess(authorizedViewer) {
-            return $http.post('/api/v1/friends/authorized-viewers', authorizedViewer)
+        function addAccess(friendId) {
+            var path = '/api/v1/friends/changeAuthorizedState/' + friendId.toString();
+            return $http.post(path)
                 .then(handleResponse())
                 .catch(handleError())
         }
 
-        function addNewFriend(friend) {
-            return $http.post('/api/v1/friends', friend)
+        function addNewFriend(friendId) {
+            var path = '/api/v1/friends/' + friendId;
+            return $http.post(path)
                 .then(handleResponse())
                 .catch(handleError())
         }
