@@ -21,7 +21,7 @@
                 <th>Owner</th>
                 <th>{{ vm.book.ownerType === 'l' ?  'Library' : vm.book.user.login }}</th>
             </tr>
-            <tr ng-if="vm.book.format==='e'">
+            <tr ng-show="vm.book.format==='e'">
                 <th>Path</th>
                 <th>
                     <a target="_blank" ng-href="{{vm.book.path}}"> {{ vm.book.path }} </a>
@@ -30,10 +30,3 @@
         </table>
     </div>
 </div>
-
-<script>
-    function openPdf(path) {
-        window.open(path);
-        return false;
-    }
-</script>

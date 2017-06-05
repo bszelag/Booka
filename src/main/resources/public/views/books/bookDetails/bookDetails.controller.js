@@ -5,9 +5,9 @@
         .module('booka.books.bookDetails')
         .controller('BookDetailsController', BookDetailsController);
 
-    BookDetailsController.$inject = ['$location', '$scope', 'authorizationService', 'booksService', '$stateParams'];
+    BookDetailsController.$inject = ['authorizationService', 'booksService', '$stateParams'];
 
-    function BookDetailsController($location, $scope, authorizationService, booksService, $stateParams) {
+    function BookDetailsController(authorizationService, booksService, $stateParams) {
         var vm = this;
 
         var bookId = $stateParams.bookId;
@@ -15,8 +15,6 @@
         vm.isAuthorized = authorizationService.isAuthorized;
         vm.userData = authorizationService.getUserData;
         vm.book = {};
-
-        vm.openPdf = openPdf;
 
         init();
         //////////////
@@ -37,10 +35,6 @@
             }).catch((error) => {
                 console.log(error);
             });
-        }
-
-        function openPdf() {
-            window.location.href = vm.book.path;
         }
     }
 })();

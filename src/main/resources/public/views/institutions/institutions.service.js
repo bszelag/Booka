@@ -25,7 +25,7 @@
         function getDepartments() {
             // TODO - implement searching in institutions, not departments
             // NOTE - for now only this library is supported!
-            return $http.get('/api/v1/institutions/BibliotekaPublicznaWrocław')
+            return $http.get('/api/v1/institutions/1')
                 .then(handleResponse())
                 .catch(handleError())
         }
