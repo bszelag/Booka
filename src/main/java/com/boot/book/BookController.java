@@ -2,6 +2,7 @@ package com.boot.book;
 
 import com.boot.book.model.Book;
 import com.boot.book.model.Borrowed;
+import com.boot.book.tag.TagService;
 import com.boot.friend.FriendService;
 import com.boot.friend.model.Friend;
 import com.boot.book.tag.TagBookService;
@@ -27,6 +28,7 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/v1/books") //"/api/v1/" is required till we use nginx
@@ -49,6 +51,9 @@ public class BookController {
 
     @Autowired
     public TagBookService tagBookService;
+
+    @Autowired
+    public TagService tagService;
 
 
     @RequestMapping(value = "user/{user_id}", method = RequestMethod.GET)
@@ -207,9 +212,22 @@ public class BookController {
                 orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @RequestMapping(value = "getBooksByTag", method = RequestMethod.GET)
-    public ResponseEntity<Collection<Book>> getBooksByTag(@CookieValue(Session.COOKIE_NAME) String sessionToken, @RequestBody Tag tag) {
-        return ResponseEntity.ok(tagBookService.getBooksByTag(tag));
+    @RequestMapping(value = "getBooksByTag/{tag_title}", method = RequestMethod.GET)
+    public ResponseEntity<Collection<Book>> getBooksByTag(@CookieValue(Session.COOKIE_NAME) String sessionToken, @PathVariable String tag_title) {
+        Optional<Tag> originalTag = tagService.getTagByTitle(tag_title);
+        Optional<User> user = userService.getById(authorizationService.getSession(UUID.fromString(sessionToken)).
+                map(Session::getUser).map( u -> u.getId()).orElse(0));
+        if (user.isPresent() && originalTag.isPresent()){
+            Collection<Integer> friends = friendService.getFriendsAllowed(user.get().getId()).stream().
+                    map(f -> {
+                        if(f.getFriendId().getFriend1().equals(user.get()))
+                            return f.getFriendId().getFriend2().getId();
+                        else
+                            return f.getFriendId().getFriend1().getId();}).collect(Collectors.toList());
+            friends.add(user.get().getId());
+                return ResponseEntity.ok(tagBookService.getBooksByTag(originalTag.get(),friends));
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(value = "getBookTags/{book_id}", method = RequestMethod.GET)

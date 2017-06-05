@@ -186,4 +186,5 @@ INSERT INTO tag_book (tag_tittle_title, book_id) VALUES
   ('poradniki','1'),
   ('fraszka','2'),
   ('horror','3'),
-  ('poradniki','4');
+  ('poradniki','4'),
+  ('horror','13');

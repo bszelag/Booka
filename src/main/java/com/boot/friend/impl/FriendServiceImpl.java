@@ -23,6 +23,11 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
+    public Collection<Friend> getFriendsAllowed(Integer user_id) {
+        return friendRepository.getFriendsAllowed(user_id);
+    }
+
+    @Override
     public Optional<Friend> getFriendById(FriendId friendId) {
         return Optional.ofNullable(friendRepository.findOne(friendId));
     }

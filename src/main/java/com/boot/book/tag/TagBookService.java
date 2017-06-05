@@ -11,7 +11,7 @@ import java.util.Collection;
 @Service
 public interface TagBookService {
 
-    Collection<Book> getBooksByTag(Tag tag);
+    Collection<Book> getBooksByTag(Tag tag, Collection<Integer> users_ids);
 
     Collection<Tag> getBookTags(Book book);
 

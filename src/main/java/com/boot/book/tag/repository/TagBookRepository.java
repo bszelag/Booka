@@ -16,8 +16,9 @@ public interface TagBookRepository extends CrudRepository<TagBook, TagBookId> {
             " FROM TagBook t" +
             " JOIN t.tagBook.tagTittle tt" +
             " JOIN t.tagBook.book b " +
-            " WHERE tt = :tag")
-    Collection<Book> getBooksByTag(@Param("tag") Tag tag);
+            " WHERE tt = :tag" +
+            " AND b.user.id IN :users")
+    Collection<Book> getBooksByTag(@Param("tag") Tag tag, @Param("users") Collection<Integer> users_ids);
 
     @Query("Select tt" +
             " FROM TagBook t" +

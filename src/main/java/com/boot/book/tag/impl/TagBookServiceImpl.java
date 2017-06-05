@@ -19,8 +19,8 @@ public class TagBookServiceImpl implements TagBookService{
     private TagBookRepository tagBookRepository;
 
     @Override
-    public Collection<Book> getBooksByTag(Tag tag) {
-        return tagBookRepository.getBooksByTag(tag);
+    public Collection<Book> getBooksByTag(Tag tag, Collection<Integer> users_ids) {
+        return tagBookRepository.getBooksByTag(tag, users_ids);
     }
 
     @Override
