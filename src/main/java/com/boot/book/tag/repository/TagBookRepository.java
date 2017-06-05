@@ -12,14 +12,6 @@ import java.util.Collection;
 
 public interface TagBookRepository extends CrudRepository<TagBook, TagBookId> {
 
-    @Query("Select b" +
-            " FROM TagBook t" +
-            " JOIN t.tagBook.tagTittle tt" +
-            " JOIN t.tagBook.book b " +
-            " WHERE tt = :tag" +
-            " AND b.user.id IN :users")
-    Collection<Book> getBooksByTag(@Param("tag") Tag tag, @Param("users") Collection<Integer> users_ids);
-
     @Query("Select tt" +
             " FROM TagBook t" +
             " JOIN t.tagBook.tagTittle tt" +
