@@ -37,14 +37,14 @@
                 friends.forEach(function (f) {
                     var friend;
                     var isFriendAuthorized, isUserAuthorized;
-                    if (f.friend2_id === userId) {
-                        friend = f.friend1_id;
-                        isFriendAuthorized = f.friend1allow;
-                        isUserAuthorized = f.friend2allow;
+                    if (f.friendId.friend2.id === userId) {
+                        friend = f.friendId.friend1;
+                        isFriendAuthorized = f.friend2Allow;
+                        isUserAuthorized = f.friend1Allow;
                     } else {
-                        friend = f.friend2_id;
-                        isFriendAuthorized = f.friend2allow;
-                        isUserAuthorized = f.friend1allow;
+                        friend = f.friendId.friend2;
+                        isFriendAuthorized = f.friend1Allow;
+                        isUserAuthorized = f.friend2Allow;
                     }
                     vm.friends[friend.id] = {"login" : friend.login,
                         "name" : friend.name, "surname" : friend.surname,
@@ -57,7 +57,6 @@
 
         function addAccess(friendId) {
             friendsService.addAccess(friendId).then((response) => {
-                console.log(response.data);
                 $state.reload();
             });
         }

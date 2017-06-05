@@ -32,7 +32,7 @@
         }
 
         function addNewFriend(friendId) {
-            var path = '/api/v1/friends/' + friendId;
+            var path = '/api/v1/friends/' + friendId.toString();
             return $http.post(path)
                 .then(handleResponse())
                 .catch(handleError())

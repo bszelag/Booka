@@ -28,22 +28,12 @@
             }
         }
 
-        function addNewFriend(friendId) {
-            friendsService.addNewFriend(friendId).then((response) => {
-               console.log(response.status);
-            });
-        }
-
-        function addFriend() {
-            var friends = {};
-            friendsService.getUsers().then((response) => {
-                friends = response.data;
-                friends.forEach(function (f) {
-                    if (f.login == vm.newFriend.login) {
-                        addNewFriend(f.id);
-                    }
-                });
+        function addNewFriend() {
+            friendsService.addNewFriend(vm.newFriend.login).then((response) => {
+            }).finally(function () {
+                $state.go('show-friends', {}, { reload: 'show-friends'});
             })
+
         }
     }
 })();
