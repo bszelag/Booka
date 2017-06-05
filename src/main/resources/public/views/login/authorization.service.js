@@ -16,6 +16,7 @@
             isAuthorized: isAuthorized,
             signIn: signIn,
             signOut: signOut,
+            signUp : signUp,
             setUserData: setUserData,
             getUserData: getUserData,
             getSessionUser: getSessionUser,
@@ -31,6 +32,12 @@
 
         function signIn(credentials) {
             return $http.post('/api/v1/users/sign_in', credentials)
+                .then(handleResponse())
+                .catch(handleError("Wrong username or password"));
+        }
+
+        function signUp(credentials) {
+            return $http.post('/api/v1/users/sign_up', credentials)
                 .then(handleResponse())
                 .catch(handleError("Wrong username or password"));
         }

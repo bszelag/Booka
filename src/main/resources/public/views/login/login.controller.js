@@ -5,14 +5,16 @@
         .module('booka.login')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['authorizationService', '$location'];
+    LoginController.$inject = ['$state', 'authorizationService', '$location'];
 
-    function LoginController(authorizationService, $location) {
+    function LoginController($state, authorizationService, $location) {
         var vm = this;
 
         vm.signInForm = {};
+        vm.signUpForm = {};
 
         vm.signIn = signIn;
+        vm.signUp = signUp;
         vm.signInWithFacebook = signInWithFacebook;
 
         init();
@@ -21,6 +23,10 @@
         function init() {
             vm.signInForm.login = "";
             vm.signInForm.password = "";
+
+            vm.signUpForm.login = "";
+            vm.signUpForm.password = "";
+            vm.signUpForm.email = "";
         }
 
         function signIn(isValid) {
@@ -34,6 +40,19 @@
                         authorizationService.setUserData(response.data);
                         $location.path('/');
                     });
+                });
+            }
+        }
+
+        function signUp(isValid) {
+            if(isValid) {
+                var credentials = {};
+                credentials.login = vm.signUpForm.login;
+                credentials.password = vm.signUpForm.password;
+                credentials.email = vm.signUpForm.email;
+
+                authorizationService.signUp(credentials).then(() => {
+                    $state.go('home');
                 });
             }
         }
