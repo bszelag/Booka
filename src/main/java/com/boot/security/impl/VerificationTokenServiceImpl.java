@@ -31,6 +31,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
         val salt = hashingService.generateSalt();
         String token = Base64.getEncoder().encodeToString(hashingService.hash(user.getLogin().toCharArray(),salt));
 
+        token = token.replace("/","");
         verificationToken.setUser(user);
         verificationToken.setToken(token);
         verificationToken.setExpiryDate(verificationToken.calculateExpiryDate(VerificationToken.EXPIRATION));
