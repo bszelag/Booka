@@ -11,7 +11,7 @@ import com.boot.security.AuthorizationService;
 import com.boot.security.utility.Session;
 import com.boot.user.UserService;
 import com.boot.user.model.User;
-import com.boot.utilities.mergeTool;
+import com.boot.utilities.MergeTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -99,7 +99,7 @@ public class BookController {
         Optional<Book> originalBook = bookService.getBook(book.getId());
         if (!originalBook.isPresent())
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        Book finalBook = mergeTool.mergeObjects(book, originalBook.get());
+        Book finalBook = MergeTool.mergeObjects(book, originalBook.get());
         try {
             return new ResponseEntity<>(bookService.modifyBook(finalBook), HttpStatus.OK); }
         catch (IllegalArgumentException e) {
@@ -163,7 +163,7 @@ public class BookController {
             }
             Optional<Borrowed> originalBorrowed = borrowedService.getBorrowedById(borrowed.getId());
             if (originalBorrowed.isPresent()) {
-                Borrowed finalBorrowed = mergeTool.mergeObjects(borrowed,originalBorrowed.get());
+                Borrowed finalBorrowed = MergeTool.mergeObjects(borrowed,originalBorrowed.get());
                 try {
                     borrowedService.modifyBorrowed(finalBorrowed);
                 }
