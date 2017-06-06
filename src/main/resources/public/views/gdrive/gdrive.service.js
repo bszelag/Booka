@@ -24,7 +24,7 @@
 
         function ensureUploadFolderPresent(){
             return gapi.client.drive.files.list(
-                {q:"mimeType = 'application/vnd.google-apps.folder' and trashed = false"}
+                {q:"mimeType = 'application/vnd.google-apps.folder'"}
             ).then(function(files){
                 var directory=files.result.items;
 
@@ -146,7 +146,13 @@
                     });
             },
             getFiles: function () {
-                return getFiles();
+                return gapiAuthService.login()
+                    .then(function(){
+                        ensureUploadFolderPresent();
+                    }).then(function(directory){
+                        console.log(directory);
+                        return getFiles();
+                    });
             }
         }
     }

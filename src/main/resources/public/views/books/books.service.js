@@ -16,7 +16,9 @@
             lentBook : lentBook,
             unlent : unlent,
             addBook : addBook,
-            deleteBook : deleteBook
+            deleteBook : deleteBook,
+            addTag : addTag,
+            getTags : getTags
         };
 
         return service;
@@ -68,6 +70,19 @@
         function deleteBook(bookId) {
             var path = '/api/v1/books/' + bookId;
             return $http.delete(path)
+                .then(handleResponse())
+                .catch(handleError())
+        }
+
+        function getTags() {
+            return $http.get('/api/v1/tags' )
+                .then(handleResponse())
+                .catch(handleError())
+        }
+
+        function addTag(tag) {
+            var path = '/api/v1/books/' + tag.book + "/tag/" + tag.tag;
+            return $http.post(path)
                 .then(handleResponse())
                 .catch(handleError())
         }
