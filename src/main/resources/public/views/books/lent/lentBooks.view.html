@@ -42,9 +42,9 @@
                 <td title="'Author'" filter="{author : 'text'}" sortable="'author'"> {{ book.book.author }} </td>
                 <td title="'To'" filter="{format : 'text'}" sortable="'format'"> {{ book.borrower.login }} </td>
                 <td title="'Message'" filter="{status : 'text'}" sortable="'status'"> {{ book.message }} </td>
-                <td class="Details" title="'Details'">
+                <td class="Given Back" title="'Given Back'">
                     <div class="details-container">
-                        <span class="glyphicon glyphicon-book" ng-click="vm.showLentDetails(book.id)"></span>
+                        <span class="glyphicon glyphicon-ok-circle" ng-click="vm.unlent(book.id)"></span>
                     </div>
                 </td>
             </tr>

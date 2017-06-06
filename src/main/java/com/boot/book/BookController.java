@@ -76,7 +76,15 @@ public class BookController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Book> addBook(@RequestBody Book book) {
+    public ResponseEntity<Book> addBook(@RequestBody Book book, @CookieValue(Session.COOKIE_NAME) String sessionToken) {
+
+        book.setOwnerType('u');
+        book.setStatus(false);
+        Optional<User> user = userService.getById(authorizationService.getSession(UUID.fromString(sessionToken)).
+                                                    map(Session::getUser).map(User::getId).orElse(0));
+        if (!user.isPresent())
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        book.setUser(user.get());
         try {
             return ResponseEntity.ok(bookService.addBook(book));
         }

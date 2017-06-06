@@ -125,3 +125,12 @@
     justify-content: center !important;
 }
 
+
+/*------------------------------------------------------------ADD BOOK----------------------------------------------*/
+
+.add-book {
+    margin: 20px 0px 20px 0px;
+    background-color: var(--background_purple_darker_intro);
+    font-size: 18px;
+}
+

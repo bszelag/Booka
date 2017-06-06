@@ -5,9 +5,9 @@
         .module('booka.books.lentBooks')
         .controller('LentBooksController', LentBooksController);
 
-    LentBooksController.$inject = ['authorizationService', 'booksService', 'NgTableParams', 'friendsService'];
+    LentBooksController.$inject = ['$state', 'authorizationService', 'booksService', 'NgTableParams', 'friendsService'];
 
-    function LentBooksController(authorizationService, booksService, NgTableParams, friendsService) {
+    function LentBooksController($state, authorizationService, booksService, NgTableParams, friendsService) {
         var vm = this;
 
         vm.isAuthorized = authorizationService.isAuthorized;
@@ -21,6 +21,7 @@
         vm.friends = {};
 
         vm.lentBook = lentBook;
+        vm.unlent = unlent;
 
         init();
         //////////////
@@ -39,7 +40,12 @@
 
         function getBooks(userId) {
             booksService.getBooks(userId).then((response) => {
-                vm.books = response.data;
+                var books = response.data;
+                books.forEach(function (b) {
+                    if (!b.status) {
+                        vm.books[b.id] = {"id" : b.id, "title" : b.title};
+                    }
+                })
             }).catch((error) => {
                 console.log(error);
             });
@@ -110,7 +116,16 @@
             booksService.lentBook(borrowed).then((response) => {
                 console.log(response.status);
                 vm.lentActive = 0;
-            })
+                $state.reload();
+            });
+        }
+
+        function unlent(lentId) {
+            booksService.unlent(lentId).then((response) => {
+                $state.reload();
+            }).catch((error) => {
+                console.log(error);
+            });
         }
     }
 })();

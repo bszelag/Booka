@@ -1,0 +1,34 @@
+<div class="add-book">
+    <div>
+        <form style="margin: 10px; padding: 5px;" name="addBookForm" ng-submit='vm.addNewBook()'>
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" id="title" placeholder="Title"
+                       ng-model="vm.newBook.title" required>
+            </div>
+            <div class="form-group">
+                <label for="author">Author</label>
+                <input type="text" class="form-control" id="author" placeholder="Author"
+                       ng-model="vm.newBook.author" required>
+            </div>
+            <div class="form-group">
+                <label for="format">Format</label>
+                <select class="form-control" id="format" required ng-options="f.id as f.text for f in vm.formats"
+                        ng-value="f.id" ng-model="vm.newBook.format">
+                    <option ></option>
+                </select>
+            </div>
+            <div class="form-group" ng-show="vm.newBook.format==='e'">
+                <label for="path">Path</label>
+                <input type="text" class="form-control" id="path" placeholder="Path"
+                       ng-model="vm.newBook.path">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" style="font-size: 20px; margin: 10px 10px 10px 30px; padding: 10px; background-color: var(--background_purple_dark);
+                color: var(--background_grey_lighter);" ng-disabled="addBookForm.$invalid">
+                    Add Book &nbsp; <i class="fa fa-book" aria-hidden="true"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

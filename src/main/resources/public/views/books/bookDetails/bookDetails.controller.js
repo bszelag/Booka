@@ -15,6 +15,10 @@
         vm.isAuthorized = authorizationService.isAuthorized;
         vm.userData = authorizationService.getUserData;
         vm.book = {};
+        vm.tags = [];
+        vm.newTags = [];
+
+        vm.addTags = addTags;
 
         init();
         //////////////
@@ -26,6 +30,7 @@
                     getBook(bookId);
                 });
             }
+            vm.tags = ["tag1", "tag2", "tag3", "tag453543543"];
         }
 
         function getBook(bookId) {
@@ -35,6 +40,10 @@
             }).catch((error) => {
                 console.log(error);
             });
+        }
+
+        function addTags() {
+            console.log(vm.newTags);
         }
     }
 })();

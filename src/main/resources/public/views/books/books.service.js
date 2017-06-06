@@ -13,7 +13,10 @@
             getBook : getBook,
             getLentBooks : getLentBooks,
             getBorrowedBooks : getBorrowedBooks,
-            lentBook : lentBook
+            lentBook : lentBook,
+            unlent : unlent,
+            addBook : addBook,
+            deleteBook : deleteBook
         };
 
         return service;
@@ -44,7 +47,27 @@
         }
 
         function lentBook(borrowed) {
-            return $http.post('/api/v1/books/lend/', borrowed)
+            return $http.post('/api/v1/books/lend', borrowed)
+                .then(handleResponse())
+                .catch(handleError())
+        }
+
+        function unlent(lentId) {
+            var path = '/api/v1/books/lend/' + lentId;
+            return $http.delete(path)
+                .then(handleResponse())
+                .catch(handleError())
+        }
+
+        function addBook(book) {
+            return $http.post('/api/v1/books', book)
+                .then(handleResponse())
+                .catch(handleError())
+        }
+
+        function deleteBook(bookId) {
+            var path = '/api/v1/books/' + bookId;
+            return $http.delete(path)
                 .then(handleResponse())
                 .catch(handleError())
         }
