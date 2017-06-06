@@ -12,6 +12,8 @@ public interface FriendService {
 
     Collection<Friend> getFriends(Integer user_id);
 
+    Collection<Friend> getFriendsAllowed(Integer user_id);
+
     Optional<Friend> getFriendById(FriendId friendId);
 
     Optional<Friend> getIfFriends(Integer userId1, Integer userId2);

@@ -5,7 +5,6 @@ import com.boot.book.model.Borrowed;
 import com.boot.friend.FriendService;
 import com.boot.friend.model.Friend;
 import com.boot.book.tag.TagBookService;
-import com.boot.book.tag.model.Tag;
 import com.boot.book.tag.model.TagBook;
 import com.boot.security.AuthorizationService;
 import com.boot.security.utility.Session;
@@ -52,12 +51,12 @@ public class BookController {
 
 
     @RequestMapping(value = "user/{user_id}", method = RequestMethod.GET)
-    public ResponseEntity<Collection<Book>> getUserBooks(@PathVariable Integer user_id, @CookieValue(Session.COOKIE_NAME) String sessionToken){
+    public ResponseEntity<Collection<Object>> getUserBooks(@PathVariable Integer user_id, @CookieValue(Session.COOKIE_NAME) String sessionToken){
         Optional<User> user = userService.getById(authorizationService.getSession(UUID.fromString(sessionToken)).
                 map(Session::getUser).map( u -> u.getId()).orElse(0));
         if (user.isPresent()){
             if(Objects.equals(user.get().getId(),user_id))
-                return ResponseEntity.ok(bookService.getAllUserBooks(user_id));
+                return ResponseEntity.ok(bookService.getAllUserBooksWithTags(user_id));
             Optional<User> friend = userService.getById(user_id);
             if(friend.isPresent()) {
                 Optional<Friend> friendship;
@@ -68,7 +67,7 @@ public class BookController {
                 if(friendship.isPresent()) {
                     if ((user.get().getId() < user_id && friendship.get().getFriend2Allow()) ||
                             (user.get().getId() > user_id && friendship.get().getFriend1Allow()))
-                        return ResponseEntity.ok(bookService.getAllUserBooks(user_id));
+                        return ResponseEntity.ok(bookService.getAllUserBooksWithTags(user_id));
                 }
                 return new ResponseEntity<>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
             }
@@ -87,8 +86,8 @@ public class BookController {
     }
 
     @RequestMapping(value = "{book_id}", method = RequestMethod.GET)
-    public ResponseEntity<Book> getUserBook(@PathVariable int book_id){
-        return bookService.getBook(book_id).map(b -> new ResponseEntity<>(b, HttpStatus.OK)).
+    public ResponseEntity<Object> getUserBook(@PathVariable int book_id){
+        return bookService.getBookWithTags(book_id).map(b -> new ResponseEntity<>(b, HttpStatus.OK)).
                 orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
@@ -205,18 +204,6 @@ public class BookController {
     public ResponseEntity<Borrowed> getBorrowedByBook(@PathVariable Integer book_id) {
         return borrowedService.getBorrowedByBookId(book_id).map(b -> new ResponseEntity<>(b, HttpStatus.OK)).
                 orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    @RequestMapping(value = "getBooksByTag", method = RequestMethod.GET)
-    public ResponseEntity<Collection<Book>> getBooksByTag(@CookieValue(Session.COOKIE_NAME) String sessionToken, @RequestBody Tag tag) {
-        return ResponseEntity.ok(tagBookService.getBooksByTag(tag));
-    }
-
-    @RequestMapping(value = "getBookTags/{book_id}", method = RequestMethod.GET)
-    public ResponseEntity<Collection<Tag>> getBookTags(@PathVariable Integer book_id) {
-        Optional<Book> book = bookService.getBook(book_id);
-        return book.map(book1 -> ResponseEntity.ok(tagBookService.getBookTags(book1)))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
 
     @RequestMapping(value = "addTagToBook", method = RequestMethod.POST)
