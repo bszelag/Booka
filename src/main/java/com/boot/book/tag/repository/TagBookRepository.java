@@ -12,10 +12,10 @@ import java.util.Collection;
 
 public interface TagBookRepository extends CrudRepository<TagBook, TagBookId> {
 
-    @Query("Select tt" +
+    @Query("Select tt.title" +
             " FROM TagBook t" +
             " JOIN t.tagBook.tagTittle tt" +
             " JOIN t.tagBook.book b " +
             " WHERE b = :book")
-    Collection<Tag> getBookTags(@Param("book") Book book);
+    Collection<String> getBookTags(@Param("book") Book book);
 }

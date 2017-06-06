@@ -36,7 +36,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public Optional<Object> getBookWithTags(int book_id) {
         Book book = bookRepository.findOne(book_id);
-        Collection<Tag> tags = tagBookRepository.getBookTags(book);
+        Collection<String> tags = tagBookRepository.getBookTags(book);
         return Optional.ofNullable(new JsonWrapper<>(book,tags));
     }
 

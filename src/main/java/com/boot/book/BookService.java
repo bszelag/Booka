@@ -27,9 +27,9 @@ public interface BookService {
 
         @JsonUnwrapped
         private T inner;
-        private Collection<Tag> tags;
+        private Collection<String> tags;
 
-        public JsonWrapper(T inner, Collection<Tag> tags) {
+        public JsonWrapper(T inner, Collection<String> tags) {
             this.inner = inner;
             this.tags = tags;
         }
@@ -38,7 +38,7 @@ public interface BookService {
             return inner;
         }
 
-        public Collection<Tag> getTags(){
+        public Collection<String> getTags(){
             return tags;
         }
     }
