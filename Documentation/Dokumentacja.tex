@@ -10,8 +10,7 @@
 \usepackage{array}
 \newcolumntype{C}[1]{>{\centering\let\newline}}
 \selectlanguage{polish}
-
-
+\usepackage{graphicx} 
 \title{Dokumentacja projektu "Booka"}
 \author{Miłosz Białczak (218295)\\ Mateusz Gniewkowski (218138)\\ Beata Szeląg (218139)}
 \date{\today}
@@ -587,8 +586,138 @@
 
 	\section{Baza danych}
 	
-	W naszym systemie korzystaliśmy z systemu PostgreSQL - jednego z popularniejszych relacyjnych systemów bazodanowych. Odeszliśmy jednak od klasycznego podejścia projektowania takich baz. Korzystając z JPA (Java Persistence API) - oficjalnego standardu mapowania obiektowo-relacyjnego, umożliwiającego na operowanie obiektami zwanymi encjami, które dzięki tej technologii są automatycznie mapowanie do bazy danych (a więc tabele i relacje między nimi tworzą się automatycznie na podstawie kodu Java'ie). Żeby z czegoś takiego skorzystać potrzebowaliśmy określić typy encji (POJO - proste obiekty) i relacji między nimi. Poniżej przedstawiono listę takich obiektów, oraz diagram bazy danych jaki otrzymaliśmy w wyniku mapowania.
+	W naszym systemie korzystaliśmy z systemu PostgreSQL - jednego z popularniejszych relacyjnych systemów bazodanowych. Odeszliśmy jednak od klasycznego podejścia projektowania takich baz. Korzystając z JPA (Java Persistence API) - oficjalnego standardu mapowania obiektowo-relacyjnego, umożliwiającego na operowanie obiektami zwanymi encjami, które dzięki tej technologii są automatycznie mapowanie do bazy danych (a więc tabele i relacje między nimi tworzą się automatycznie na podstawie kodu Java'ie). Żeby z czegoś takiego skorzystać potrzebowaliśmy określić typy encji (POJO - proste obiekty) i relacji między nimi. Poniżej przedstawiono listę takich obiektów, oraz diagram bazy danych jaki otrzymaliśmy w wyniku mapowania (relacje są przestawione względem opisywanej encji).
 	
+		\subsection{Encje}
+		
+			\begin{longtable}{|c|c|c|c|} 
+				\caption{Encja: Address} \label{POJO_1} \\ \hline
+				\multicolumn{4}{|c|}{ Nazwa encji: Address} \\ \hline
+				Pole & Typ atrybutu & Typ relacji & Opis \\ \hline
+				id & Integer & - & klucz główny \\ \hline
+				country & String & - & - \\ \hline
+				province & String & - & - \\ \hline
+				city & String & - & - \\ \hline
+				street & String & - & - \\ \hline
+				buildNr & String & - & -\\ \hline
+				apartNr & String & - & - \\ \hline
+				code & String & - & - \\ \hline
+			\end{longtable} 
+			
+			\begin{longtable}{|c|c|c|c|} 
+				\caption{Encja: Book} \label{POJO_2} \\ \hline
+				\multicolumn{4}{ |c| }{ Nazwa encji: Book} \\ \hline
+				Pole & Typ & Typ relacji & Opis \\ \hline
+				id & Integer & - & klucz główny \\ \hline
+				title & String & - & - \\ \hline
+				author & String & - & - \\ \hline
+				format & Character & - & - \\ \hline
+				path & String & - & ścieżka url do pliku \\ \hline
+				status & Boolean & - & wypożyczona/niewypożyczona \\ \hline
+				ownerType & Character & - & typ właściciela (u - user, l - library) \\ \hline
+				user & User (encja) & wiele do jednego & właściciel książki (null jeżeli właścicielem jest biblioteka) \\ \hline
+				department & Department (encja) & wiele do jednego & właściciel książki (null jeżeli właścicielem jest osoba fizyczna) \\ \hline
+			\end{longtable}
+			
+			\begin{longtable}{|c|c|c|c|} 
+				\caption{Encja: Borrowed} \label{POJO_3} \\ \hline
+				\multicolumn{4}{ |c| }{ Nazwa encji: Borrowed} \\ \hline
+				Pole & Typ & Typ relacji & Opis \\ \hline
+				id & Integer & - & - \\ \hline
+				book & Book (encja) & jeden do jednego & książka której dot. wypożyczenie \\ \hline
+				borrower & User (encja) & jeden do jednego & pożyczający \\ \hline
+				name & String & - & - \\ \hline
+				email & String & - & - \\ \hline
+				message & String & - & - \\ \hline
+				facebook & String & - & - \\ \hline
+				dateStart & Date & - & - \\ \hline
+				dateStop & Date & - & - \\ \hline
+			\end{longtable}
+			
+			\begin{longtable}{|c|c|c|c|} 
+				\caption{Encja: Friend} \label{POJO_4} \\ \hline
+				\multicolumn{4}{ |c| }{ Nazwa encji: Friend} \\ \hline
+				Pole & Typ & Typ relacji & Opis \\ \hline
+				friendId & FriendId & - & klucz złożony \\ \hline
+				friend1Allow & Boolean & - & pierwsza os. w relacji pozwala na podgląd księgozbioru \\ \hline
+				friend2Allow & Boolean & - & druga os. w relacji pozwala na podgląd księgozbioru \\ \hline
+				friendshipConfirmed & Boolean & - & przyjaźń potwierdzona \\ \hline
+			\end{longtable}
+			
+			\begin{longtable}{|c|c|c|c|} 
+				\caption{Klasa pomocnicza - klucz złożony: FriendId} \label{POJO_5} \\ \hline
+				\multicolumn{4}{ |c| }{ Nazwa encji: FriendId} \\ \hline
+				Pole & Typ & Typ relacji & Opis \\ \hline
+				friend1 & User (encja) & wiele do jednego & pierwszy z relacji user - user (mniejsze id) \\ \hline
+				friend2 & User (encja) & wiele do jednego & drugi z relacji user - user (większe id) \\ \hline
+			\end{longtable}
+			
+			\begin{longtable}{|c|c|c|c|} 
+				\caption{Encja: Institution} \label{POJO_6} \\ \hline
+				\multicolumn{4}{ |c| }{ Nazwa encji: Institution} \\ \hline
+				Pole & Typ & Typ relacji & Opis \\ \hline
+				id & Integer & - & - \\ \hline
+				name & String & - & - \\ \hline
+				url & String & - & - \\ \hline
+				contact & String & - & - \\ \hline
+				type & Character & - & - \\ \hline
+			\end{longtable}
+			
+			\begin{longtable}{|c|c|c|c|} 
+				\caption{Encja: VerificationToken} \label{POJO_7} \\ \hline
+				\multicolumn{4}{ |c| }{ Nazwa encji: VerificationToken} \\ \hline
+				Pole & Typ & Typ relacji & Opis \\ \hline
+				id & Integer & - & - \\ \hline
+				token & String & - & - \\ \hline
+				user & User (encja) & jeden do jednego & użytkownik którego dot. token \\ \hline
+				expiryDate & Date & - & - \\ \hline
+			\end{longtable} 
+			
+			\begin{longtable}{|c|c|c|c|} 
+				\caption{Encja: User} \label{POJO_8} \\ \hline
+				\multicolumn{4}{ |c| }{ Nazwa encji: User} \\ \hline
+				Pole & Typ & Typ relacji & Opis \\ \hline
+				id & Integer & - & - \\ \hline
+				login & String & - & - \\ \hline
+				password & String & - & - \\ \hline
+				email & String & - & - \\ \hline
+				salt & String & - & 'sól' do hasła \\ \hline
+				name & String & - & - \\ \hline
+				surname & String & - & - \\ \hline
+				facebook & String & - & - \\ \hline
+				isConfirmed & Boolean & - & flaga czy użytkownik jest potwierdzony \\ \hline
+				Address & address (encja) & jeden do jednego & adres użytkownika \\ \hline
+			\end{longtable}
+			
+			\begin{longtable}{|c|c|c|c|} 
+				\caption{Encja: Tag} \label{POJO_9} \\ \hline
+				\multicolumn{4}{ |c| }{ Nazwa encji: Tag} \\ \hline
+				Pole & Typ & Typ relacji & Opis \\ \hline
+				title & String & - & Nazwa tagu, klucz główny \\ \hline
+			\end{longtable} 
+			
+			\begin{longtable}{|c|c|c|c|} 
+				\caption{Encja: TagBook} \label{POJO_10} \\ \hline
+				\multicolumn{4}{ |c| }{ Nazwa encji: TagBook} \\ \hline
+				Pole & Typ & Typ relacji & Opis \\ \hline
+				tagBook & TagBookId & - & klucz złożony \\ \hline
+			\end{longtable} 
+		
+			\begin{longtable}{|c|c|c|c|} 
+				\caption{Klasa pomocnicza - klucz złożony: TagBookId} \label{POJO_11} \\ \hline
+				\multicolumn{4}{ |c| }{ Nazwa encji: TagBookId} \\ \hline
+				Pole & Typ & Typ relacji & Opis \\ \hline
+				tagTittle & Tag (encja) & wiele do jednego & tag dla książki \\ \hline
+				book & Book (encja) & wiele do jednego & książka jakiej dot. tag\\ \hline
+			\end{longtable}
+
+		\newpage
+		\subsection{Diagram bazy danych}		
+			
+			\begin{figure}[!htb]
+				\centering
+				\includegraphics[width=1.\textwidth]{bookaDB.jpg}
+			\end{figure}
 
 \chapter{Opis techniczny}
 
