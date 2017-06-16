@@ -1,5 +1,7 @@
 \documentclass{report}
 
+
+
 \usepackage[T1]{fontenc}
 \usepackage[polish]{babel}
 \usepackage[utf8]{inputenc}
@@ -10,6 +12,30 @@
 \usepackage{array}
 \newcolumntype{C}[1]{>{\centering\let\newline}}
 \selectlanguage{polish}
+\usepackage{xcolor}
+\usepackage{textcomp}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{pred}{rgb}{0.9,0,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+
+\usepackage{listings}
+\lstset{language=Java,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  basicstyle=\ttfamily,
+  moredelim=[il][\textcolor{pgrey}]
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%}
+}
 
 
 \title{Dokumentacja projektu "Booka"}
@@ -621,8 +647,90 @@
 	
 	\section{Baza danych}
 	
-		%POJO
+		Jak znaczna część konfiguracji tak i zmienne potrzebne do zalogowania się do bazy danych znajdują się w pliku "application.properties":
+		
+		\begin{itemize}
+			\item spring.datasource.url - zmienna przyjmująca adres bazy danych. Domyślną wartość stanowi "jdbc:postgresql://localhost:5432/BookaDB"
+			\item spring.datasource.username - nazwa użytkownika bazy danych. Domyślnie jest to "postgres"
+			\item spring.datasource.password - hasło do bazy danych. Domyślnie jest to "postgres"
+		\end{itemize}
+		
+		Każdy obiekt typu encji (więcej w poprzednim rozdziale) został stworzony wg. powtarzalnego schematu, który zostanie objaśniony na podstawie poniższego fragmentu kodu.
+		
+		\begin{lstlisting}[language=Java, breaklines]
+@Entity
+@Table(name="Reader")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class User implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    private String login;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private String salt;
+
+    @Column(nullable = false)
+    private Boolean isConfirmed;
+
+    @OneToOne
+    private Address address;
+    private String name;
+    private String surname;
+    private String facebook;
+}
+		\end{lstlisting}
+		
+		Każdy klasa implementująca obiekty typu encji musi zaczynać się od adnotacji "@Entity". Adnotacja @Table daje dostęp do kontroli tego, w jaki sposób zostanie stworzona tabela reprezentująca daną klasę. Na przykładzie widać w jaki sposób można nadać nazwę tabeli (domyślna wartość jest równa nazwie klasy). Cztery kolejne adnotacje pochodzą z narzędzia "lombok" pozwalającego na automatyczne wygenerowanie standardowych metod (takich jak np gettery i settery). Przejdźmy do ciała klasy - każde pole reprezentuje kolejną kolumnę, a adnotacje nad polami pozwalają sterować tym w jaki sposób dane pole zostanie odwzorowane w bazie danych. Adnotacją "@Id" oznacza się klucz główny, @GeneratedValue mówi o tym, że wartość powinna być wygenerowana automatycznie, @Column pozwala na sterowanie parametrami pól, @OneToOne wskazuje na typ relacji pomiędzy dwoma obiektami (adnotacja musi znajdować się nad zdefiniowanym przez nas obiektem). Istnieje wiele innych, ciekawych możliwości pozwalających budować modele obiektów, jednak wymienienie ich wszystkich niej jest celem tej dokumentacji. Należy jednak wspomnieć o jeszcze jednym ważnym elemencie jakim jest adnotacja @Embededkey. Pozwala ona na tworzenie kluczy złożonych i stosowana jest analogicznie do @Id z tym że nad specjalnie stworzonym przez nas polu typu id. Poniżej przedstawiono przykład.
+		
+		
+		\begin{lstlisting}[language=Java, breaklines]		
+@Entity
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Friend implements Serializable{
+
+    @EmbeddedId
+    private FriendId friendId;
+
+    private Boolean friend1Allow;
+    private Boolean friend2Allow;
+
+    private Boolean friendshipConfirmed;
+
+}
+		\end{lstlisting}
+
+		\begin{lstlisting}[language=Java, breaklines]	
+@Embeddable
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class FriendId implements Serializable{
+
+    @ManyToOne(optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User friend1;
+
+    @ManyToOne(optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User friend2;
+}
+		\end{lstlisting}
 
 
 \chapter{Opis funkcjonalny}
