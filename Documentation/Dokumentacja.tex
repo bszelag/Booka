@@ -921,9 +921,178 @@ Implementacja repozytorium jest bardzo prosta, a w najlepszym przypadku nie wyma
 		\subsection{System kont użytkowników}
 		
 			\subsubsection{Logowanie i sesja}
+
+			Dane wpisane przez użytkownika w celu zalogowania się są wysyłane na odpowiedni endpoint. W celu ich weryfikacji stworzyliśmy specjalny serwis odpowiedzialny za autoryzację:
+
+\begin{lstlisting}[language=Java, breaklines]		
+@Component
+public class AuthorizationServiceImpl implements AuthorizationService {
+
+    private final Map<UUID, Session> sessions = new HashMap<>();
+
+    @Autowired
+    public HashingService hashingService;
+
+    @Autowired
+    private UserService userService;
+
+    @Override
+    public Optional<Session> getSession(UUID token) {
+        return Optional.of(sessions.compute
+        		(token, (t, s) -> Optional.ofNullable(s).
+                    filter(es -> es.getExpiration().isAfter(Instant.now())).
+                    orElse(null)));
+    }
+
+    @Override
+    public boolean invalidateSession(UUID token) {
+        return sessions.remove(token) != null;
+    }
+
+    @Override
+    public Optional<Session> authenticate(Credentials credentials) {
+        val session = userService.getByLogin(credentials.getLogin()).
+                filter(u -> u.getPassword().equals(Base64.getEncoder().
+                        encodeToString(hashingService.hash(credentials.getPassword().
+                        toCharArray(), Base64.getDecoder().decode(u.getSalt()))))).
+                map(u -> new Session(u));
+
+        session.ifPresent(s -> sessions.put(s.getToken(), s));
+
+        return session;
+    }
+}	
+\end{lstlisting}
+
+Jak widać w powyższym fragmencie kodu, do tego serwisu został podpięty serwis odpowiedzialny za haszowanie - hasło jest przez niego kodowane (na podstawie 'soli' przypisanej do użytkownika) i porównywane z tym co znajduje się w bazie. Taka implementacja spełnia podstawowe wymagania dot. bezpieczeństwa. Kolejnym elementem na który warto zwrócić uwagę jest tablica asocjacyjna zawierająca pary wartości tokenu i sesji. W punkcie końcowym odpowiedzialnym za logowanie za każdym razem tworzona jest taka para, z której klucz wysyłany jest w ciasteczku do użytkownika. Pozwala to na utrzymywanie sesji i weryfikację użytkownika w innych punktach końcowych.
 			
 			\subsubsection{System pocztowy}
-		
+			
+Kiedy użytkownik tworzy konto, jego dane pojawiają się w bazie danych (po uprzednim wygenerowaniu soli i zakodowaniu hasła). Jednak jest to użytkownik niepotwierdzony przez system (co oznaczamy za pomocą flagi isConfirmed). W celu potwierdzenia konta na adres użytkownika wysyłany jest email. Dzieje się to dzięki klasie EmailSender.
+
+\begin{lstlisting}[language=Java, breaklines]
+@Component
+public class EmailSender {
+
+
+    @Autowired
+    private JavaMailSender javaMailSender;
+
+    public EmailStatus sendPlainText(String to, String subject, String text) {
+        return sendM(to, subject, text, false);
+    }
+
+    public EmailStatus sendHtml(String to, String subject, String htmlBody) {
+        return sendM(to, subject, htmlBody, true);
+    }
+
+    private EmailStatus sendM(String to, String subject, String text, Boolean isHtml) {
+        try {
+            MimeMessage mail = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mail, true);
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(text, isHtml);
+            javaMailSender.send(mail);
+
+            return new EmailStatus(to, subject, text).success();
+        } catch (Exception e) {
+            return new EmailStatus(to, subject, text).error(e.getMessage());
+        }
+    }
+}
+\end{lstlisting}
+
+Jak widać w powyższym fragmencie kodu klasa ta korzysta z kilku podstawowych klas wykorzystywanych do obsługi poczty (MimeMessage, MimeMessageHelper) jak i z gotowego serwisu javaMailSender, którego konfiguracje można znaleźć w pliku application.properties.
+
+\begin{lstlisting}[language=Java, breaklines]
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=teambooka
+spring.mail.password=TeamBookaTeamBooka
+spring.mail.protocol=smtp
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.default-encoding=UTF-8
+\end{lstlisting}
+
+
+Maile, które wysyłamy zawierają w sobie link odwołujący się do specjalnego endpointa, który w pasku zapytań zawiera specjalny token identyfikujący użytkownika. Tokeny są przechowywane w bazie danych. Poniżej przedstawiono klasę typu encji (więcej w rozdziale dot. bazy danych) dla tokenów.
+
+
+\begin{lstlisting}[language=Java, breaklines]
+@Entity
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class VerificationToken {
+    public static final int EXPIRATION = 60 * 24;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(nullable = false)
+    private String token;
+
+    @OneToOne(optional = false)
+    private User user;
+
+    @Column(nullable = false)
+    private Date expiryDate;
+
+    public Date calculateExpiryDate(int expiryTimeInMinutes) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Timestamp(cal.getTime().getTime()));
+        cal.add(Calendar.MINUTE, expiryTimeInMinutes);
+        return new Date(cal.getTime().getTime());
+    }
+
+}
+\end{lstlisting}
+
+	Żeby móc wysłać użytkownikowi hiper-link potrzebowaliśmy jeszcze czegoś co pozwalałoby nam modyfikować kod HTML'a na podstawie zmiennych z aplikacji. W tym celu użyliśmy silnika thymeleaf. Poniżej przedstawiono przygotowanego kod wykorzystujący wspomniany silnik i template'a
+
+\begin{lstlisting}[language=Java, breaklines]	
+@Component
+public class EmailHtmlSender {
+
+    @Autowired
+    private EmailSender emailSender;
+
+    @Autowired
+    private TemplateEngine templateEngine;
+
+    public EmailStatus send(String to, String subject, String templateName, Context context) {
+        String body = templateEngine.process(templateName, context);
+        return emailSender.sendHtml(to, subject, body);
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=HTML, breaklines]
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:remove="all">Confirmation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+Your account was successfully created. Please click the link below<br>
+to confirm your email address and activate your account:
+<p>
+    <a th:text=${link} th:href="@{'http://' + ${link}}">"${link}"</a>
+</p>
+<p>
+    --<br>
+    Questions? Comments? We don't care
+</p>
+</body>
+</html>
+\end{lstlisting}
+
+	
+
 		\subsection{Przeszukiwanie zasobów bibliotecznych}
 		
 			\subsubsection{Formułowanie zapytań do zasobów bibliotecznych}
