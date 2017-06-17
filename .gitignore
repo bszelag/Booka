@@ -13,6 +13,7 @@
 *.toc
 *.bbl
 *.blg
+*.out
 
 # building
 target
