@@ -10,7 +10,31 @@
 \usepackage{array}
 \newcolumntype{C}[1]{>{\centering\let\newline}}
 \selectlanguage{polish}
-\usepackage{graphicx} 
+\usepackage{xcolor}
+\usepackage{textcomp}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{pred}{rgb}{0.9,0,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+
+\usepackage{listings}
+\lstset{language=Java,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  basicstyle=\ttfamily,
+  moredelim=[il][\textcolor{pgrey}]
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%}
+}
+\usepackage{graphicx}
 \title{Dokumentacja projektu "Booka"}
 \author{Miłosz Białczak (218295)\\ Mateusz Gniewkowski (218138)\\ Beata Szeląg (218139)}
 \date{\today}
@@ -512,19 +536,19 @@
 		\multicolumn{4}{ |c| }{ Użytkownicy } \\ 
 		\multicolumn{4}{ |c| }{ /users } \\ \hline
 		Endpoint & Request & Opis & Dodatkowo \\ \hline
-		
+
 		/users/ & GET & Pobranie informacji o użytkownikach & - \\ \hline
 		/users/ & PUT & Zmiana danych użytkownika & body: id, login, password, email, name, surname \\ \hline
-		
+
 		/users/<user\_id> & GET & Wyświetlanie informacji o użytkowniku & - \\ \hline
 		/users/<user\_id> & DELETE & Usuwanie konta użytkownika & HttpServletResponse: response \\ \hline
-		
+
 		/users/hash & POST & Haszowanie haseł użytkowników & - \\ \hline
 		/users/session & GET & Pobranie informacji sesji użytkownika & cookie: sessionToken \\ \hline
-		
+
 		/users/search/<query> & GET & Wyszukiwanie użytkowników & - \\ \hline
 		/users/confirm/<token> & GET & Potwierdzenie założenia konta & - \\ \hline
-		
+
 		/users/sign\_in & POST & Logowanie & body: login, password HttpServletResponse: response\\ \hline
 		/users/sign\_out & POST & Wylogowywanie & cookie: sessionToken HttpServletResponse: response \\ \hline
 		/users/sign\_up & POST & Tworzenie nowego konta & body: login, password, email, name, surname \\ \hline
@@ -536,46 +560,46 @@
 		\multicolumn{4}{ |c| }{ Książki } \\ 
 		\multicolumn{4}{ |c| }{ /books } \\ \hline
 		Endpoint & Request & Opis & Dodatkowo \\ \hline
-		
+
 		/books & PUT & Zmiana danych książki & body: id, title, author, format, path, status, user\_type, user, department \\ \hline
 		/books & POST & Dodanie książki & body: title, author, format, path, status, user\_type, user, department \\ \hline
 		/books/<book\_id> & GET & Wyświetlanie informacji o danej książce & - \\ \hline
 		/books/<book\_id> & DELETE & Usuwanie książki & - \\ \hline
-		
+
 		/books/addTagToBook & POST & Dodanie tagu do książki & body: tagBook \\ \hline
 		/books/removeTagFromBook & DELETE & Usuwa tag z książki & body: tagBook \\ \hline
-		
+
 		/books/user/<user\_id> & GET & Wyświetlanie wszystkich książek użytkownika & cookie: sessionToken \\ \hline
-		
+
 		/books/lend & PUT & Edycja danych o wypożyczeniu & body: id, book, borrower, message, date\_start, date\_stop, name, email, facebook \\ \hline
 		/books/lend & POST & Wypożyczanie książki & body: id, book, borrower, message, date\_start, date\_stop, name, email, facebook \\ \hline
 		/books/lend/user & GET & Wyświetlenie informacji o książkach które użytkownik wypożyczył & cookie: sessionToken \\ \hline
 		/books/lend/<lend\_id> & GET & Wyświetlenie informacji o wypożyczeniu & - \\ \hline
 		/books/lend/<land\_id> & DELETE & Usuwa dane wypożyczenie & - \\ \hline
 		/books/lend/book/<lend\_id> & GET & Wyświetlenie informacji o wypożyczeniu książki & - \\ \hline
-		
+
 		/books/borrowed/user & GET & Wyświetlenie informacji książkach wypożyczonych przez użytkownika & cookie: sessionToken \\ \hline
 		\end{longtable} 
 		
 		
 		\begin{longtable}{|p{2.5cm}|p{1.5cm}|p{3.5cm}|p{4.0cm}|}
 			\caption{Akcje związane z tagami} \label{API_2} \\ \hline
-			\multicolumn{4}{ |c| }{ Tagi } \\ 
+			\multicolumn{4}{ |c| }{ Tagi } \\
 			\multicolumn{4}{ |c| }{ /tags } \\ \hline
 			Endpoint & Request & Opis & Dodatkowo \\ \hline
-			
+
 			/tags/ & GET & Zmiana wszystkie tagi & - \\ \hline
 			/tags/ & POST & Dodanie tagu & body: title \\ \hline
 			/tags/ & DELETE & Usunięcie tagu & body: title \\ \hline
-		\end{longtable} 
-	
-		
+		\end{longtable}
+
+
 		\begin{longtable}{|p{2.5cm}|p{1.5cm}|p{4.5cm}|p{5cm}|}
 		\caption{Akcje związane z wyszukiwaniem} \label{API_3} \\ \hline
 		\multicolumn{4}{ |c| }{ Wyszukiwanie } \\ 
 		\multicolumn{4}{ |c| }{ /search } \\ \hline
 		Endpoint & Request & Opis & Dodatkowo \\ \hline
-		
+
 		/search/ & GET & Generowanie linku do strony biblioteki & body: title, author, department \\ \hline
 		/search/library & GET & Pobieranie książek ze strony biblioteki & body: title, author, department \\ \hline
 		\end{longtable} 
@@ -586,7 +610,7 @@
 		\multicolumn{4}{ |c| }{ Institutions } \\ 
 		\multicolumn{4}{ |c| }{ /institutions } \\ \hline
 		Endpoint & Request & Opis & Dodatkowo \\ \hline
-		
+
 		/institutions/ & GET & Lista instytucji & - \\ \hline
 		/institutions/<institution\_id> & GET & Informacje o instytucji & - \\ \hline
 		\end{longtable} 
@@ -594,10 +618,10 @@
 		
 		\begin{longtable}{|p{7cm}|p{1.5cm}|p{3.5cm}|p{4cm}|}
 		\caption{Akcje związane ze znajomymi} \label{API_5} \\ \hline
-		\multicolumn{4}{ |c| }{ Znajomi } \\ 
+		\multicolumn{4}{ |c| }{ Znajomi } \\
 		\multicolumn{4}{ |c| }{ /friends } \\ \hline
 		Endpoint & Request & Opis & Dodatkowo \\ \hline
-		
+
 		/friends/ & GET & Lista znajomych & cookie: sessionToken \\ \hline
 		/friends/<user\_id> & POST & Dodanie znajomego & cookie: sessionToken \\ \hline
 		/friends/confirmFriendship & POST & Potwierdzenie znajomości & body: friend1, friend2 \\ \hline
@@ -612,8 +636,8 @@
 	W naszym systemie korzystaliśmy z systemu PostgreSQL - jednego z popularniejszych relacyjnych systemów bazodanowych. Odeszliśmy jednak od klasycznego podejścia projektowania takich baz. Korzystając z JPA (Java Persistence API) - oficjalnego standardu mapowania obiektowo-relacyjnego, umożliwiającego na operowanie obiektami zwanymi encjami, które dzięki tej technologii są automatycznie mapowanie do bazy danych (a więc tabele i relacje między nimi tworzą się automatycznie na podstawie kodu w Java'ie). Żeby z czegoś takiego skorzystać potrzebowaliśmy określić typy encji (POJO - proste obiekty) i relacji między nimi. Poniżej przedstawiono listę takich obiektów, oraz diagram bazy danych jaki otrzymaliśmy w wyniku mapowania (relacje są przestawione względem opisywanej encji).
 	
 		\subsection{Encje}
-		
-			\begin{longtable}{|c|c|c|c|} 
+
+			\begin{longtable}{|c|c|c|c|}
 				\caption{Encja: Address} \label{POJO_1} \\ \hline
 				\multicolumn{4}{|c|}{ Nazwa encji: Address} \\ \hline
 				Pole & Typ atrybutu & Typ relacji & Opis \\ \hline
@@ -625,9 +649,9 @@
 				buildNr & String & - & -\\ \hline
 				apartNr & String & - & - \\ \hline
 				code & String & - & - \\ \hline
-			\end{longtable} 
-			
-			\begin{longtable}{|c|c|c|c|} 
+			\end{longtable}
+
+			\begin{longtable}{|c|c|c|c|}
 				\caption{Encja: Book} \label{POJO_2} \\ \hline
 				\multicolumn{4}{ |c| }{ Nazwa encji: Book} \\ \hline
 				Pole & Typ & Typ relacji & Opis \\ \hline
@@ -641,8 +665,8 @@
 				user & User (encja) & wiele do jednego & właściciel książki (null jeżeli właścicielem jest biblioteka) \\ \hline
 				department & Department (encja) & wiele do jednego & właściciel książki (null jeżeli właścicielem jest osoba fizyczna) \\ \hline
 			\end{longtable}
-			
-			\begin{longtable}{|c|c|c|c|} 
+
+			\begin{longtable}{|c|c|c|c|}
 				\caption{Encja: Borrowed} \label{POJO_3} \\ \hline
 				\multicolumn{4}{ |c| }{ Nazwa encji: Borrowed} \\ \hline
 				Pole & Typ & Typ relacji & Opis \\ \hline
@@ -656,8 +680,8 @@
 				dateStart & Date & - & - \\ \hline
 				dateStop & Date & - & - \\ \hline
 			\end{longtable}
-			
-			\begin{longtable}{|c|c|c|c|} 
+
+			\begin{longtable}{|c|c|c|c|}
 				\caption{Encja: Friend} \label{POJO_4} \\ \hline
 				\multicolumn{4}{ |c| }{ Nazwa encji: Friend} \\ \hline
 				Pole & Typ & Typ relacji & Opis \\ \hline
@@ -666,16 +690,16 @@
 				friend2Allow & Boolean & - & druga os. w relacji pozwala na podgląd księgozbioru \\ \hline
 				friendshipConfirmed & Boolean & - & przyjaźń potwierdzona \\ \hline
 			\end{longtable}
-			
-			\begin{longtable}{|c|c|c|c|} 
+
+			\begin{longtable}{|c|c|c|c|}
 				\caption{Klasa pomocnicza - klucz złożony: FriendId} \label{POJO_5} \\ \hline
 				\multicolumn{4}{ |c| }{ Nazwa encji: FriendId} \\ \hline
 				Pole & Typ & Typ relacji & Opis \\ \hline
 				friend1 & User (encja) & wiele do jednego & pierwszy z relacji user - user (mniejsze id) \\ \hline
 				friend2 & User (encja) & wiele do jednego & drugi z relacji user - user (większe id) \\ \hline
 			\end{longtable}
-			
-			\begin{longtable}{|c|c|c|c|} 
+
+			\begin{longtable}{|c|c|c|c|}
 				\caption{Encja: Institution} \label{POJO_6} \\ \hline
 				\multicolumn{4}{ |c| }{ Nazwa encji: Institution} \\ \hline
 				Pole & Typ & Typ relacji & Opis \\ \hline
@@ -685,8 +709,8 @@
 				contact & String & - & - \\ \hline
 				type & Character & - & - \\ \hline
 			\end{longtable}
-			
-			\begin{longtable}{|c|c|c|c|} 
+
+			\begin{longtable}{|c|c|c|c|}
 				\caption{Encja: VerificationToken} \label{POJO_7} \\ \hline
 				\multicolumn{4}{ |c| }{ Nazwa encji: VerificationToken} \\ \hline
 				Pole & Typ & Typ relacji & Opis \\ \hline
@@ -694,9 +718,9 @@
 				token & String & - & - \\ \hline
 				user & User (encja) & jeden do jednego & użytkownik którego dot. token \\ \hline
 				expiryDate & Date & - & - \\ \hline
-			\end{longtable} 
-			
-			\begin{longtable}{|c|c|c|c|} 
+			\end{longtable}
+
+			\begin{longtable}{|c|c|c|c|}
 				\caption{Encja: User} \label{POJO_8} \\ \hline
 				\multicolumn{4}{ |c| }{ Nazwa encji: User} \\ \hline
 				Pole & Typ & Typ relacji & Opis \\ \hline
@@ -711,22 +735,22 @@
 				isConfirmed & Boolean & - & flaga czy użytkownik jest potwierdzony \\ \hline
 				Address & address (encja) & jeden do jednego & adres użytkownika \\ \hline
 			\end{longtable}
-			
-			\begin{longtable}{|c|c|c|c|} 
+
+			\begin{longtable}{|c|c|c|c|}
 				\caption{Encja: Tag} \label{POJO_9} \\ \hline
 				\multicolumn{4}{ |c| }{ Nazwa encji: Tag} \\ \hline
 				Pole & Typ & Typ relacji & Opis \\ \hline
 				title & String & - & Nazwa tagu, klucz główny \\ \hline
-			\end{longtable} 
-			
-			\begin{longtable}{|c|c|c|c|} 
+			\end{longtable}
+
+			\begin{longtable}{|c|c|c|c|}
 				\caption{Encja: TagBook} \label{POJO_10} \\ \hline
 				\multicolumn{4}{ |c| }{ Nazwa encji: TagBook} \\ \hline
 				Pole & Typ & Typ relacji & Opis \\ \hline
 				tagBook & TagBookId & - & klucz złożony \\ \hline
-			\end{longtable} 
-		
-			\begin{longtable}{|c|c|c|c|} 
+			\end{longtable}
+
+			\begin{longtable}{|c|c|c|c|}
 				\caption{Klasa pomocnicza - klucz złożony: TagBookId} \label{POJO_11} \\ \hline
 				\multicolumn{4}{ |c| }{ Nazwa encji: TagBookId} \\ \hline
 				Pole & Typ & Typ relacji & Opis \\ \hline
@@ -735,8 +759,8 @@
 			\end{longtable}
 
 		\newpage
-		\subsection{Diagram bazy danych}		
-			
+		\subsection{Diagram bazy danych}
+
 			\begin{figure}[!htb]
 				\centering
 				\includegraphics[width=1.\textwidth]{bookaDB.jpg}
@@ -773,8 +797,90 @@
 	
 	\section{Baza danych}
 	
-		%POJO
+		Jak znaczna część konfiguracji tak i zmienne potrzebne do zalogowania się do bazy danych znajdują się w pliku "application.properties":
 
+		\begin{itemize}
+			\item spring.datasource.url - zmienna przyjmująca adres bazy danych. Domyślną wartość stanowi "jdbc:postgresql://localhost:5432/BookaDB"
+			\item spring.datasource.username - nazwa użytkownika bazy danych. Domyślnie jest to "postgres"
+			\item spring.datasource.password - hasło do bazy danych. Domyślnie jest to "postgres"
+		\end{itemize}
+
+		Każdy obiekt typu encji (więcej w poprzednim rozdziale) został stworzony wg. powtarzalnego schematu, który zostanie objaśniony na podstawie poniższego fragmentu kodu.
+
+		\begin{lstlisting}[language=Java, breaklines]
+@Entity
+@Table(name="Reader")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class User implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    private String login;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private String salt;
+
+    @Column(nullable = false)
+    private Boolean isConfirmed;
+
+    @OneToOne
+    private Address address;
+    private String name;
+    private String surname;
+    private String facebook;
+}
+		\end{lstlisting}
+
+		Każdy klasa implementująca obiekty typu encji musi zaczynać się od adnotacji "@Entity". Adnotacja @Table daje dostęp do kontroli tego, w jaki sposób zostanie stworzona tabela reprezentująca daną klasę. Na przykładzie widać w jaki sposób można nadać nazwę tabeli (domyślna wartość jest równa nazwie klasy). Cztery kolejne adnotacje pochodzą z narzędzia "lombok" pozwalającego na automatyczne wygenerowanie standardowych metod (takich jak np gettery i settery). Przejdźmy do ciała klasy - każde pole reprezentuje kolejną kolumnę, a adnotacje nad polami pozwalają sterować tym w jaki sposób dane pole zostanie odwzorowane w bazie danych. Adnotacją "@Id" oznacza się klucz główny, @GeneratedValue mówi o tym, że wartość powinna być wygenerowana automatycznie, @Column pozwala na sterowanie parametrami pól, @OneToOne wskazuje na typ relacji pomiędzy dwoma obiektami (adnotacja musi znajdować się nad zdefiniowanym przez nas obiektem). Istnieje wiele innych, ciekawych możliwości pozwalających budować modele obiektów, jednak wymienienie ich wszystkich niej jest celem tej dokumentacji. Należy jednak wspomnieć o jeszcze jednym ważnym elemencie jakim jest adnotacja @Embededkey. Pozwala ona na tworzenie kluczy złożonych i stosowana jest analogicznie do @Id z tym że nad specjalnie stworzonym przez nas polu typu id. Poniżej przedstawiono przykład.
+
+
+		\begin{lstlisting}[language=Java, breaklines]
+@Entity
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Friend implements Serializable{
+
+    @EmbeddedId
+    private FriendId friendId;
+
+    private Boolean friend1Allow;
+    private Boolean friend2Allow;
+
+    private Boolean friendshipConfirmed;
+
+}
+		\end{lstlisting}
+
+		\begin{lstlisting}[language=Java, breaklines]
+@Embeddable
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class FriendId implements Serializable{
+
+    @ManyToOne(optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User friend1;
+
+    @ManyToOne(optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User friend2;
+}
+		\end{lstlisting}
 
 
 \chapter{Opis funkcjonalny}
