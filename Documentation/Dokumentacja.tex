@@ -508,78 +508,101 @@
 
 		\subsection{REST API}
 		
-		\begin{longtable}{|p{3cm}|p{2cm}|p{3.5cm}|p{6cm}|}
+		\begin{longtable}{|p{3.7cm}|p{1.5cm}|p{4.0cm}|p{5.5cm}|}
 		\caption{Akcje związane z użytkownikami} \label{API_0} \\ \hline
 		\multicolumn{4}{ |c| }{ Użytkownicy } \\ 
 		\multicolumn{4}{ |c| }{ /users } \\ \hline
 		Endpoint & Request & Opis & Dodatkowo \\ \hline
+		
 		/users/ & GET & Pobranie informacji o użytkownikach & - \\ \hline
+		/users/ & PUT & Zmiana danych użytkownika & body: id, login, password, email, name, surname \\ \hline
+		
 		/users/<user\_id> & GET & Wyświetlanie informacji o użytkowniku & - \\ \hline
-		/users/<user\_id> & PUT & Zmiana danych użytkownika & body: login, password \\ \hline
-		/users/<user\_id> & DELETE & Usuwanie konta użytkownika & - \\ \hline
-		/users/sign\_in & POST & Logowanie & body: login, password \\ \hline
+		/users/<user\_id> & DELETE & Usuwanie konta użytkownika & HttpServletResponse: response \\ \hline
+		
+		/users/hash & POST & Haszowanie haseł użytkowników & - \\ \hline
+		/users/session & GET & Pobranie informacji sesji użytkownika & cookie: sessionToken \\ \hline
+		
+		/users/search/<query> & GET & Wyszukiwanie użytkowników & - \\ \hline
+		/users/confirm/<token> & GET & Potwierdzenie założenia konta & - \\ \hline
+		
+		/users/sign\_in & POST & Logowanie & body: login, password HttpServletResponse: response\\ \hline
+		/users/sign\_out & POST & Wylogowywanie & cookie: sessionToken HttpServletResponse: response \\ \hline
+		/users/sign\_up & POST & Tworzenie nowego konta & body: login, password, email, name, surname \\ \hline
 		\end{longtable} 
 		
 		
-		\begin{longtable}{|p{4.0cm}|p{1.5cm}|p{3.5cm}|p{5.5cm}|}
+		\begin{longtable}{|p{4.6cm}|p{1.5cm}|p{3.7cm}|p{5.5cm}|}
 		\caption{Akcje związane z książkami} \label{API_1} \\ \hline
 		\multicolumn{4}{ |c| }{ Książki } \\ 
 		\multicolumn{4}{ |c| }{ /books } \\ \hline
 		Endpoint & Request & Opis & Dodatkowo \\ \hline
-		/books/ & GET & Pobranie informacji o książkach & - \\ \hline
+		
+		/books & PUT & Zmiana danych książki & body: id, title, author, format, path, status, user\_type, user, department \\ \hline
+		/books & POST & Dodanie książki & body: title, author, format, path, status, user\_type, user, department \\ \hline
 		/books/<book\_id> & GET & Wyświetlanie informacji o danej książce & - \\ \hline
-		/books/<book\_id> & PUT & Zmiana danych książki & body: title, author, format, path, status, user, user\_type \\ \hline
 		/books/<book\_id> & DELETE & Usuwanie książki & - \\ \hline
-		/books/<book\_id>/lend/ & GET & Wyświetla informacje o wypożyczeniu & - \\ \hline
-		/books/<book\_id>/lend/ & POST & Wypożyczanie książki & body: borrower, message, date\_start, date\_stop \\ \hline
-		/books/<book\_id>/lend/ & PUT & Edycja danych o wypożyczeniu & body: borrower, message, date\_start, date\_stop \\ \hline
-		/books/<book\_id>/lend/ & DELETE & Usuwa dane wypożyczenie & - \\ \hline
+		
+		/books/addTagToBook & POST & Dodanie tagu do książki & body: tagBook \\ \hline
+		/books/removeTagFromBook & DELETE & Usuwa tag z książki & body: tagBook \\ \hline
+		
+		/books/user/<user\_id> & GET & Wyświetlanie wszystkich książek użytkownika & cookie: sessionToken \\ \hline
+		
+		/books/lend & PUT & Edycja danych o wypożyczeniu & body: id, book, borrower, message, date\_start, date\_stop, name, email, facebook \\ \hline
+		/books/lend & POST & Wypożyczanie książki & body: id, book, borrower, message, date\_start, date\_stop, name, email, facebook \\ \hline
+		/books/lend/user & GET & Wyświetlenie informacji o książkach które użytkownik wypożyczył & cookie: sessionToken \\ \hline
+		/books/lend/<lend\_id> & GET & Wyświetlenie informacji o wypożyczeniu & - \\ \hline
+		/books/lend/<land\_id> & DELETE & Usuwa dane wypożyczenie & - \\ \hline
+		/books/lend/book/<lend\_id> & GET & Wyświetlenie informacji o wypożyczeniu książki & - \\ \hline
+		
+		/books/borrowed/user & GET & Wyświetlenie informacji książkach wypożyczonych przez użytkownika & cookie: sessionToken \\ \hline
 		\end{longtable} 
 		
 		
-		\begin{longtable}{|p{3cm}|p{2cm}|p{3.5cm}|p{6cm}|}
-		\caption{Akcje związane z wyszukiwaniem} \label{API_2} \\ \hline
+		\begin{longtable}{|p{2.5cm}|p{1.5cm}|p{3.5cm}|p{4.0cm}|}
+			\caption{Akcje związane z tagami} \label{API_2} \\ \hline
+			\multicolumn{4}{ |c| }{ Tagi } \\ 
+			\multicolumn{4}{ |c| }{ /tags } \\ \hline
+			Endpoint & Request & Opis & Dodatkowo \\ \hline
+			
+			/tags/ & GET & Zmiana wszystkie tagi & - \\ \hline
+			/tags/ & POST & Dodanie tagu & body: title \\ \hline
+			/tags/ & DELETE & Usunięcie tagu & body: title \\ \hline
+		\end{longtable} 
+	
+		
+		\begin{longtable}{|p{2.5cm}|p{1.5cm}|p{4.5cm}|p{5cm}|}
+		\caption{Akcje związane z wyszukiwaniem} \label{API_3} \\ \hline
 		\multicolumn{4}{ |c| }{ Wyszukiwanie } \\ 
 		\multicolumn{4}{ |c| }{ /search } \\ \hline
 		Endpoint & Request & Opis & Dodatkowo \\ \hline
-		/search/<query> & GET & Wyszukiwanie & query: opis budowania zapytania w punkcie X.Y \\ \hline
+		
+		/search/ & GET & Generowanie linku do strony biblioteki & body: title, author, department \\ \hline
+		/search/library & GET & Pobieranie książek ze strony biblioteki & body: title, author, department \\ \hline
 		\end{longtable} 
 		
 		
-		\begin{longtable}{|p{3cm}|p{2cm}|p{3.5cm}|p{6cm}|}
-		\caption{Akcje związane z instytucjami} \label{API_3} \\ \hline
+		\begin{longtable}{|p{5cm}|p{2cm}|p{3.5cm}|p{3cm}|}
+		\caption{Akcje związane z instytucjami} \label{API_4} \\ \hline
 		\multicolumn{4}{ |c| }{ Institutions } \\ 
 		\multicolumn{4}{ |c| }{ /institutions } \\ \hline
 		Endpoint & Request & Opis & Dodatkowo \\ \hline
+		
 		/institutions/ & GET & Lista instytucji & - \\ \hline
-		/institutions/ & POST & Dodanie instytucji & body: name, url, contact, type, address\_id \\ \hline
-		/institutions/<login> & GET & Informacje o instytucji & - \\ \hline
-		/institutions/<login> & PUT & Edycja danych o instytucji &  body: name, url, contact, type, address\_id \\ \hline
-		/institutions/<login> & DELETE & Usunięcie instytucji & - \\ \hline
+		/institutions/<institution\_id> & GET & Informacje o instytucji & - \\ \hline
 		\end{longtable} 
 		
 		
-		\begin{longtable}{|p{3cm}|p{2cm}|p{3.5cm}|p{6cm}|}
+		\begin{longtable}{|p{7cm}|p{1.5cm}|p{3.5cm}|p{4cm}|}
 		\caption{Akcje związane ze znajomymi} \label{API_5} \\ \hline
 		\multicolumn{4}{ |c| }{ Znajomi } \\ 
 		\multicolumn{4}{ |c| }{ /friends } \\ \hline
 		Endpoint & Request & Opis & Dodatkowo \\ \hline
-		/friends/ & GET & Lista znajomych & - \\ \hline
-		/friends/ & POST & Dodanie znajomego & body: email \\ \hline
-		/friends/<login> & GET & Informacje o książkach znajomego & - \\ \hline
-		/friends/<login> & POST & Wyślij powiadomienie znajomemu & body: type, message \\ \hline
-		/friends/<login> & DELETE & Usuń znajomego z listy & - \\ \hline
-		\end{longtable} 
 		
-		
-		\begin{longtable}{|p{3cm}|p{2cm}|p{3.5cm}|p{6cm}|}
-		\caption{Akcje związane z wiadomościami} \label{API_6} \\ \hline
-		\multicolumn{4}{ |c| }{ Wiadomości } \\ 
-		\multicolumn{4}{ |c| }{ /messages } \\ \hline
-		Endpoint & Request & Opis & Dodatkowo \\ \hline
-		/messages/ & GET & Lista wiadomości & - \\ \hline
-		/messages/<email> & GET & Lista wiadomości od znajomego & -  \\ \hline
-		/messages/<email> & POST & Wysłanie wiadomości do znajomego & body: message \\ \hline
+		/friends/ & GET & Lista znajomych & cookie: sessionToken \\ \hline
+		/friends/<user\_id> & POST & Dodanie znajomego & cookie: sessionToken \\ \hline
+		/friends/confirmFriendship & POST & Potwierdzenie znajomości & body: friend1, friend2 \\ \hline
+		/friends/changeAuthorizedState/<user\_id> & POST & Zmiana pozwolenia na wgląd w książki użytkownika & cookie: sessionToken \\ \hline
 		\end{longtable} 
 
 
