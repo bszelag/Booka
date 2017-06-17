@@ -786,6 +786,157 @@
 		
 		\subsection{Przeszukiwanie zasobów bibliotecznych}
 		
+			\subsubsection{Formułowanie zapytań do zasobów bibliotecznych}
+		
+				Konstrukcja podstawowych zapytań do zasobów bibliotecznych jest stosunkowo prosta. Używany jest do tego język poleceń CCL (Common Command Language), umieszczany w linku wraz z komendą wyszukania książek. Przykładowo:
+				
+				\begin{center}
+					$ ((wau=George$ $or$ $Martin) and (wti=Pieśń?)) $\\
+				\end{center}
+
+			\subsubsection{Pola dopuszczalne w zapytaniu}
+			
+				Poniżej lista możliwych zmiennych poprzez które możemy się odwoływać bezpośrednio do bazy danych.
+				
+				\begin{itemize}
+					\item TIT - Titles - Tytuły
+					\item AUT - Authors - Autorzy
+					\item IMP - Imprint - Wydano
+					\item SUB - Subjects - Hasła przedmiotowe
+					\item SRS - Series - Serie
+					\item LOC - Location - Sygnatura
+				\end{itemize}
+				
+				Wykorzystanie powyższych pól wymaga większej precyzji w umieszczanych tam danych. Lepszym rozwiązaniem wydają się zmienne typu słowa, odpowiadają one zawartości pół uzupełnianych ręcznie przez użytkownika na stronie co sugeruje mniej rygorystyczne zasady ich uzupełniania.
+				
+				\begin{itemize}
+					\item WRD - Words - Słowa
+					\item WTI - Words in title field - Słowa z pola tytułu
+					\item WAU - Words in author field - Słowa z pola autora
+					\item WPE - Words in personal author field - Słowa z pola autora indywidualnego
+					\item WCO - Words in corporate author field - Słowa z pola autora korporatywnego
+					\item WME - Words in meeting field - Słowa z pola imprez
+					\item WUT - Words in uniform title field - Słowa z pola tytułu ujednoliconego
+					\item WPL - Words in place field - Słowa z pola miejsca wydania
+					\item WPU - Words in publisher field - Słowa z pola wydawcy
+					\item WSU - Words in subject field - Słowa z pola haseł przedmiotowych (odpowiednik tagów)
+					\item WSM - Words in MeSH subjects - Słowa z haseł MeSH
+					\item WST - Words in status - Słowa w statusie
+					\item WGA - Words in geographical area - Słowa z haseł geograficznych
+					\item WYR - Year of publication - Rok publikacji 
+				\end{itemize}
+		
+			\subsubsection{Operatory logiczne i formatowanie zapytań}
+			
+				Jak widać zapytanie posiada operatory logiczne do składania jego treści. Każde z nich może być zastąpione odpowiednikiem podanym poniżej.
+				
+				\begin{itemize}
+					\item AND = +/\&
+					\item OR = |
+					\item NOT = \textasciitilde
+				\end{itemize}
+				
+				Oprócz powyższych podstawowych zasad tworzenia zapytań są jeszcze dodatkowe:
+				
+				Znak ? lub * (gwiazdka), mogą być stosowane w słowie, ale nie mogą występować częściej niż raz w zapytaniu.
+				
+				Symbol \# może służyć do wyszukiwania różnych wersji pisowni, gdy jedna wersja słowa posiada jeden znak więcej niż druga. Na przykład, colo\#r spowoduje wyszukanie zarówno słowa color jak i colour; a arch\#eology spowoduje wyszukanie zarówno słowa archaeology jak i archeology.
+				
+				Znak ! może służyć do wyszukiwania różnych wersji pisowni, w przypadkach gdy pisownia może różnić się jednym znakiem. Na przykład, wom!n spowoduje wyszukanie zarówno słowa woman jak i women.
+				
+				Znak ! poprzedzający numer, można umieszczać pomiędzy słowami, aby określić maksymalny odstęp pomiędzy słowami, z zachowaniem kolejności występowania słów. W tym przypadku, ballads !3 england spowoduje wyszukanie Ballads of England i Ballads of Merry Olde England ale nie England and Her Ballads.
+				
+				Symbol \% poprzedzający numer, można umieszczać pomiędzy słowami, aby określić maksymalny odstęp pomiędzy słowami, niezależnie od ich kolejności. na przykład, england \%3 ballads spowoduje wyszukiwanie Ballads of England , Ballads of Merry Olde England i England and Her Ballads.
+				
+				Pomiędzy słowami mogą być umieszczane symbole -> (myślnik i znak większości). Oznacza to, że chcemy wyszukać rekordy, które zawierają słowa od pierwszego słowa (włącznie) aż do drugiego. To wyszukiwanie jest szczególnie przydatne do ograniczenia zestawu rekordów ze względu na rok wydania. Np: 1993 -> 1996.
+				
+			\subsubsection{Przeszukiwanie konkretnych bibliotek}
+				
+				Możliwy jest też wybór biblioteki w której szukamy książki, polega to na dodaniu na końcu zapytania formuły $\&local\_base=\underline{nr}$, gdzie  $\underline{nr}$ oznacza numer szukanej biblioteki w systemie. Poniżej tabela oddziałów i ich numery systemowe.
+				
+				\begin{longtable}{|p{2cm}|p{6cm}|}
+					\caption{Oddziały biblioteki miejskiej} \label{lib_0} \\ \hline
+					Numer Filii & Lokacja  \\ \hline
+					01 & ul. Sztabowa 98 (ALEPH) \\ \hline
+					02 & ul. Eluarda 51-55 (ALEPH)  \\ \hline
+					03 & ul. Morelowskiego 43 (ALEPH)  \\ \hline
+					04 & ul. Wieczysta 105 (ALEPH)  \\ \hline
+					05 & ul. Namysłowska 8 - Grafit (ALEPH)  \\ \hline
+					06 & ul. Lwowska 21 (ALEPH)  \\ \hline
+					07 & ul. Suwalska 3 (ALEPH)  \\ \hline
+					08 & ul. Głogowska 9-11  \\ \hline
+					09 & ul. Wielkopolska 16  \\ \hline
+					10 & ul. Jelenia 7 (ALEPH)  \\ \hline
+					11 & ul. Krzywoustego 286 - Fama (ALEPH)  \\ \hline
+					15 & ul. Rękodzielnicza 1  \\ \hline
+					16 & ul. Kolista 17 (ALEPH)  \\ \hline
+					17 & ul. Gałczyńskiego 8 (ALEPH)  \\ \hline
+					18 & ul. Grabiszyńska 236a (ALEPH)  \\ \hline
+					20 & ul. Majakowskiego 34/1a \\ \hline
+					22 & ul. Chociebuska 8-10 (ALEPH) \\ \hline
+					23 & bul. Ikara 29-31 (ALEPH) \\ \hline
+					26 & ul. Olszewskiego 85a (ALEPH)  \\ \hline
+					27 & ul. Łokietka 13 (ALEPH) \\ \hline
+					29 & ul. Reja 1-3 (ALEPH) \\ \hline
+					31 & ul. Strachocińska 88 \\ \hline
+					32 & ul. 9 Maja 26 \\ \hline
+					37 & ul. Sempołowskiej 54a (ALEPH) \\ \hline
+					40 & ul. Przybyszewskiego 59 (ALEPH) \\ \hline
+					41 & ul. Sołtysowicka 48 \\ \hline
+					42 & ul. Serbska 5a (ALEPH) \\ \hline
+					44 & ul. Powstańców Śl. 210 (ALEPH) \\ \hline
+					45 & ul. Traugutta 82 (ALEPH) \\ \hline
+					46 & ul. Tarnogórska 1 (ALEPH) \\ \hline
+					47 & ul. Polna 4 (ALEPH) \\ \hline
+					53 & ul. Hercena 13 \\ \hline
+					54 & ul. Jesienna 22 (ALEPH) \\ \hline
+					55 & ul. Zielińskiego 2 (ALEPH) \\ \hline
+					57 & ul. Szewska 78 (ALEPH) \\ \hline
+					58 & pl. Teatralny 5 - Mediateka (ALEPH) \\ \hline
+					64 & ul. Osobowicka 127 \\ \hline
+					69 & ul. Wróblewskiego 1-5 (ZOO)\\ \hline
+					70 & ul. Wittiga 10 (Biblioteka Parafialna)\\ \hline
+				\end{longtable}
+			
+			\subsubsection{Filtrowanie otrzymywanych wyników}
+				
+				Możliwe sa również opcje filtrowania ustawiane już w zapytaniu do serwera. Zapytania takie są kolejnym członem podstawowego zapytnia CCL. Poniżej możliwe elementy takiego zapytania oraz dopuszczalne parametry. 
+				
+				\begin{itemize}
+					\item WFT - szukany format 
+					\begin{itemize}
+						\item BK - książki 
+						\item SE - czasopismo 
+						\item MU - aubiobook 
+						\item MP - mapa 
+						\item CF - ebook
+						\item VM - film 
+						\item PD - pomoc dydaktyczna 
+					\end{itemize}
+					\item WLN - wybór języka poszukiwanego dzieła
+					\begin{itemize}
+						\item POL - polski
+						\item ENG - angielski
+						\item FRE - francuski
+						\item GER - niemiecki
+					\end{itemize}
+				\end{itemize}
+			
+			\subsubsection{Zaimplementowane mechanizmy formułowania zapytań}
+				
+				Najprostszym sposobem jest utworzenie zapytania składającego się jedynie z wypełnionego pola WRD, gdzie można umieścić wszystkie możliwe elementy zapytania, jednak zrezygnowaliśmy z tego na rzecz bardziej szczegółowego zapytania składanego z pół odpowiednich danych, kolejno WAU jako pole z szukanym autorem, WTI jako pole z tytułem książki oraz numer systemowy oddziału biblioteki. Oczywiście jeśli któryś z wymienionych elementów jest nieobecny w zapytaniu, przychodzącym do serwera, zostaje on również pominięty przy tworzeniu zapytania.
+				
+				Poniżej znajduje się przykład całego złożonego zapytania z podkreślonym edytowanym przez nas fragmentem.
+				
+				\begin{center}
+					$ https://katalog.biblioteka.wroc.pl/F?func=find-c\&ccl\_term=\underline{((WAU=George OR Martin)AND(WTI=Pieśń?))and(WFT=(BK))\&local\_base=31} $
+				\end{center}
+			
+			\subsubsection{Pobieranie danych z systemu bibliotecznego}
+			
+			Z powodu braku możliwości uzyskania bezpośredniego dostępu do bazy danych biblioteki publicznej w Wrocławiu, dane musieliśmy uzyskiwać w inny sposób. Wykorzystaliśmy powyższe metodykę zapytań oraz bibliotekę Jsoup udało się nam tego dokonać. Należy tutaj wytłumaczyć iż Jsoup posiada API do wydobywania i manipulowania danymi uzyskiwanymi z plików HTML.
+			
+			Przy każdym zapytaniu na nasz serwer, tworzymy zapytanie do sytemu bibliotecznego zgodnie z wcześniej opisaną formuła. Następnie schodzimy pod uzyskane adresu z poziomu serwera, który również otrzymuje zwrotny HTML ze stroną zawierającą odpowiedź biblioteki na wysłane zapytanie. Tutaj otrzymana strona jest parsowana w odpowiedni sposób, a uzyskane dane dostosowywane do modelu książki opisanego w naszym systemie i zwracane do strony z której przyszło zapytanie.
 		
 	\section{Aplikacja internetowa}
 	
