@@ -798,9 +798,10 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
     @Override
     public Optional<Session> getSession(UUID token) {
-        return Optional.of(sessions.compute(token, (t, s) -> Optional.ofNullable(s).
-                                filter(es -> es.getExpiration().isAfter(Instant.now())).
-                                orElse(null)));
+        return Optional.of(sessions.compute
+        		(token, (t, s) -> Optional.ofNullable(s).
+                    filter(es -> es.getExpiration().isAfter(Instant.now())).
+                    orElse(null)));
     }
 
     @Override
@@ -823,12 +824,12 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 }	
 \end{lstlisting}
 
-Jak widać w powyższym fragmencie kodu, do tego serwisu został podpięty serwis odpowiedzialny za haszowanie - hasło jest przez niego kodowane (na podstawie "soli" przechowywanej w bazie danych) i porównywane z tym co znajduje się w bazie. Taka implementacja spełnia podstawowe wymagania dot. bezpieczeństwa. Kolejnym elementem na który warto zwrócić uwagę jest tablica asocjacyjna zawierająca pary wartości tokenu i sesji. W punkcie końcowym odpowiedzialnym za logowanie za każdym razem tworzona jest taka para, z której klucz wysyłany jest w ciasteczku do użytkownika. Pozwala to na utrzymywanie sesji i weryfikację użytkownika w innych punktach końcowych.
+Jak widać w powyższym fragmencie kodu, do tego serwisu został podpięty serwis odpowiedzialny za haszowanie - hasło jest przez niego kodowane (na podstawie 'soli' przypisanej do użytkownika) i porównywane z tym co znajduje się w bazie. Taka implementacja spełnia podstawowe wymagania dot. bezpieczeństwa. Kolejnym elementem na który warto zwrócić uwagę jest tablica asocjacyjna zawierająca pary wartości tokenu i sesji. W punkcie końcowym odpowiedzialnym za logowanie za każdym razem tworzona jest taka para, z której klucz wysyłany jest w ciasteczku do użytkownika. Pozwala to na utrzymywanie sesji i weryfikację użytkownika w innych punktach końcowych.
 			
 			\subsubsection{System pocztowy}
 			
 Kiedy użytkownik tworzy konto, jego dane pojawiają się w bazie danych (po uprzednim wygenerowaniu soli i zakodowaniu hasła). Jednak jest to użytkownik niepotwierdzony przez system (co oznaczamy za pomocą flagi isConfirmed). W celu potwierdzenia konta na adres użytkownika wysyłany jest email. Dzieje się to dzięki klasie EmailSender.
-s
+
 \begin{lstlisting}[language=Java, breaklines]
 @Component
 public class EmailSender {
@@ -929,7 +930,6 @@ public class EmailHtmlSender {
 }
 \end{lstlisting}
 
-\vspace{5}
 \begin{lstlisting}[language=HTML, breaklines]
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
