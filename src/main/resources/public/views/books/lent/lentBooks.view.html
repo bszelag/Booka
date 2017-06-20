@@ -1,14 +1,12 @@
 <div class="lent">
-    <div class="lent-books-bar">
-        <button class="lent-books-item" ng-click="vm.activeTab = 0" ng-class="vm.activeTab === 0 ? 'active-tab' : 'non-active-tab'">Lent Books</button>
-        <button class="lent-books-item" ng-click="vm.activeTab = 1" ng-class="vm.activeTab === 1 ? 'active-tab' : 'non-active-tab'">Borrowed Books</button>
+
+    <div style="margin: 20px 0px 20px 0px; font-size: 20px;">
+        <button class="btn" style="font-size: 20px; padding: 5px; margin: 5px; background-color: var(--background_purple_dark); color: #efefef" ng-click="vm.lentActive === 0 ? vm.lentActive = 1 : vm.lentActive = 0">Lent a book</button>
+        <button class="btn" style="font-size: 20px; padding: 5px; margin: 5px; background-color: var(--background_purple_dark); color: #efefef">Borrow a book</button>
     </div>
 
-    <button class="btn btn-primary" ng-click="vm.lentActive === 0 ? vm.lentActive = 1 ? vm.lentActive = 0">Lent a book</button>
-    <button class="btn btn-primary">Borrow a book</button>
-
-    <div ng-if="vm.lentActive === 1">
-        <form name="lentBookForm" ng-submit='vm.lentBook()'>
+    <div style="margin: 20px 0px 20px 0px; background-color: var(--background_purple_darker_intro); font-size: 18px;" ng-if="vm.lentActive === 1">
+        <form style="margin: 10px; padding: 5px;" name="lentBookForm" ng-submit='vm.lentBook()'>
             <div class="form-group">
                 <label for="book">Book</label>
                 <select class="form-control" id="book" required ng-options="book.id as book.title for book in vm.books"
@@ -23,11 +21,20 @@
                     <option ></option>
                 </select>
             </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" style="font-size: 20px; margin: 10px 10px 10px 30px; padding: 10px; background-color: var(--background_purple_dark);
+                color: var(--background_grey_lighter);" ng-disabled="lentBookForm.$invalid">
+                    Lent &nbsp; <i class="fa fa-bookmark" aria-hidden="true"></i>
+                </button>
+            </div>
         </form>
-        <button type="submit" class="btn btn-primary" ng-disabled="lentBookForm.$invalid">
-            Lent <i class="fa fa-bookmark" aria-hidden="true"></i>
-        </button>
     </div>
+
+    <div class="lent-books-bar">
+        <button class="lent-books-item" ng-click="vm.activeTab = 0" ng-class="vm.activeTab === 0 ? 'active-tab' : 'non-active-tab'">Lent Books</button>
+        <button class="lent-books-item" ng-click="vm.activeTab = 1" ng-class="vm.activeTab === 1 ? 'active-tab' : 'non-active-tab'">Borrowed Books</button>
+    </div>
+
     <div id="lent" class="lent-card" ng-show="vm.activeTab === 0">
         <table ng-table="vm.lentBooksTable" show-filter="true" class="table table-bordered filled-cells">
             <tr ng-repeat="book in $data">
@@ -35,9 +42,9 @@
                 <td title="'Author'" filter="{author : 'text'}" sortable="'author'"> {{ book.book.author }} </td>
                 <td title="'To'" filter="{format : 'text'}" sortable="'format'"> {{ book.borrower.login }} </td>
                 <td title="'Message'" filter="{status : 'text'}" sortable="'status'"> {{ book.message }} </td>
-                <td class="Details" title="'Details'">
+                <td class="Given Back" title="'Given Back'">
                     <div class="details-container">
-                        <span class="glyphicon glyphicon-book" ng-click="vm.showLentDetails(book.id)"></span>
+                        <span class="glyphicon glyphicon-ok-circle" ng-click="vm.unlent(book.id)"></span>
                     </div>
                 </td>
             </tr>

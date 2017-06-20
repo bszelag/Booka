@@ -32,57 +32,37 @@
         }
 
         function getFriends(userId) {
-            friendsService.getFriends(userId).then((response) => {
+            friendsService.getFriends().then((response) => {
                 var friends = response.data;
-                var authorized = [];
-                friendsService.getAuthorizedViewers(userId).then((r) => {
-                    authorized = r.data;
-                    friends.forEach(function (f) {
-                        var friend;
-                        f.contact.contact2.id !== userId ? friend = f.contact.contact2 : friend = f.contact.contact1;
-                        var isAuthorized = checkIfAuthorized(authorized, friend.id);
-                        vm.friends[friend.id] = {"login" : friend.login,
-                                                "name" : friend.name, "surname" : friend.surname,
-                                                "authorized" : isAuthorized};
-                    });
+                friends.forEach(function (f) {
+                    var friend;
+                    var isFriendAuthorized, isUserAuthorized;
+                    if (f.friendId.friend2.id === userId) {
+                        friend = f.friendId.friend1;
+                        isFriendAuthorized = f.friend2Allow;
+                        isUserAuthorized = f.friend1Allow;
+                    } else {
+                        friend = f.friendId.friend2;
+                        isFriendAuthorized = f.friend1Allow;
+                        isUserAuthorized = f.friend2Allow;
+                    }
+                    vm.friends[friend.id] = {"login" : friend.login,
+                        "name" : friend.name, "surname" : friend.surname,
+                        "isUserAuthorized" : isUserAuthorized, "isFriendAuthorized" : isFriendAuthorized};
+                });
                 }).catch((error) => {
                     console.log(error);
                 });
-                console.log(friends);
-            }).catch((error) => {
-                console.log(error);
+        }
+
+        function addAccess(friendId) {
+            friendsService.addAccess(friendId).then((response) => {
+                $state.reload();
             });
         }
 
         function addFriend() {
             $state.go('add-friend');
-        }
-
-        function addAccess(friendId) {
-            var authorizedViewer = {
-                "authorizedViewer" : {
-                    "owner" : {
-                        "id" : vm.userData().id
-                    },
-                    "authorizedViewer" : {
-                        "id" : friendId
-                    }
-                }
-            };
-            friendsService.addAccess(authorizedViewer).then((response) => {
-                console.log(response.data);
-                $state.reload();
-            });
-        }
-
-        function checkIfAuthorized(authorized, friend) {
-            var hit = false;
-            authorized.forEach(function (a) {
-                if (a.authorizedViewer.authorizedViewer.id === friend) {
-                    hit = true;
-                }
-            });
-            return hit;
         }
 
         function chat(friendId) {

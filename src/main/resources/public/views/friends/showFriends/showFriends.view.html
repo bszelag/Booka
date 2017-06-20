@@ -9,6 +9,7 @@
             <td>Name</td>
             <td>Surname</td>
             <td>Has access to your books</td>
+            <td>Do I have an access to friend's books</td>
             <td>Grant access</td>
             <td>Write a message</td>
         </tr>
@@ -16,10 +17,11 @@
             <td title="'Login'"> {{ friend.login }} </td>
             <td title="'Name'"> {{ friend.name }} </td>
             <td title="'Surname'"> {{ friend.surname }} </td>
-            <td title="'Authorized'"> {{ friend.authorized }} </td>
+            <td title="'Friend is authorized'"> {{ friend.isFriendAuthorized }} </td>
+            <td title="'I am authorized'"> {{ friend.isUserAuthorized }} </td>
             <td title="'Grant Access'">
                 <div class="details-container">
-                    <span ng-disabled="friend.authorized" class="glyphicon glyphicon-check" ng-click="vm.addAccess(key)"></span>
+                    <span ng-disabled="friend.isFriendAuthorized" class="glyphicon glyphicon-check" ng-click="vm.addAccess(key)"></span>
                 </div>
             </td>
             <td title="'Message'">

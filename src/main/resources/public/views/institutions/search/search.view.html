@@ -26,7 +26,9 @@
             <tr ng-repeat="result in $data">
                 <td title="'Title'" filter="{title : 'text'}" sortable="'title'"> {{ result.title }} </td>
                 <td title="'Author'" filter="{author : 'text'}" sortable="'author'"> {{ result.author }} </td>
-                <td data-title="'Department'" filter="{'department.address.street' : 'text'}" sortable="'department.address.street'"> {{ result.department.address.street }} </td>
+                <td data-title="'Department'" filter="{'department.address.street' : 'text'}" sortable="'department.address.street'">
+                    <a target="_blank" ng-href="http://{{result.mapURL}}"> {{ result.department.address.street }} </a>
+                </td>
             </tr>
         </table>
     </div>

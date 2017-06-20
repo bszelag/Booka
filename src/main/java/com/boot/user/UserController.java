@@ -11,25 +11,18 @@ import com.boot.utilities.email.EmailHtmlSender;
 import com.boot.utilities.email.EmailStatus;
 import lombok.extern.java.Log;
 import lombok.val;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.context.Context;
 
-import java.util.Optional;
-import java.util.UUID;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
-import org.thymeleaf.context.Context;
-import static org.springframework.http.ResponseEntity.ok;
+import java.util.Optional;
+import java.util.UUID;
 
 @Log
 @RestController
@@ -143,7 +136,7 @@ public class UserController {
 
         VerificationToken token = verificationTokenService.create(user);
         Context context = new Context();
-        String link = env.getProperty("server.address");
+        String link = env.getProperty("registration.address");
         link += ":" + env.getProperty("server.port");
         link += "/api/v1/users/confirm/" + token.getToken();
         context.setVariable("link", link);

@@ -2,10 +2,13 @@ package com.boot.book;
 
 import com.boot.book.model.Book;
 import com.boot.book.model.Borrowed;
+import com.boot.book.tag.TagBookService;
+import com.boot.book.tag.TagService;
+import com.boot.book.tag.model.Tag;
+import com.boot.book.tag.model.TagBook;
+import com.boot.book.tag.model.TagBookId;
 import com.boot.friend.FriendService;
 import com.boot.friend.model.Friend;
-import com.boot.book.tag.TagBookService;
-import com.boot.book.tag.model.TagBook;
 import com.boot.security.AuthorizationService;
 import com.boot.security.utility.Session;
 import com.boot.user.UserService;
@@ -15,12 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -49,6 +47,9 @@ public class BookController {
     @Autowired
     public TagBookService tagBookService;
 
+    @Autowired
+    public TagService tagService;
+
 
     @RequestMapping(value = "user/{user_id}", method = RequestMethod.GET)
     public ResponseEntity<Collection<Object>> getUserBooks(@PathVariable Integer user_id, @CookieValue(Session.COOKIE_NAME) String sessionToken){
@@ -76,7 +77,15 @@ public class BookController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Book> addBook(@RequestBody Book book) {
+    public ResponseEntity<Book> addBook(@RequestBody Book book, @CookieValue(Session.COOKIE_NAME) String sessionToken) {
+
+        book.setOwnerType('u');
+        book.setStatus(false);
+        Optional<User> user = userService.getById(authorizationService.getSession(UUID.fromString(sessionToken)).
+                                                    map(Session::getUser).map(User::getId).orElse(0));
+        if (!user.isPresent())
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        book.setUser(user.get());
         try {
             return ResponseEntity.ok(bookService.addBook(book));
         }
@@ -206,8 +215,17 @@ public class BookController {
                 orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @RequestMapping(value = "addTagToBook", method = RequestMethod.POST)
-    public ResponseEntity<TagBook> addTagToBook(@RequestBody TagBook tagBook){
+    @RequestMapping(value = "{book_id}/tag/{tag_id}", method = RequestMethod.POST)
+    public ResponseEntity<TagBook> addTagToBook(@PathVariable Integer book_id, @PathVariable String tag_id){
+
+        Optional<Tag> tag = tagService.getTagByTitle(tag_id);
+        Optional<Book> book = bookService.getBook(book_id);
+
+        if (!tag.isPresent() || !book.isPresent())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        TagBook tagBook = new TagBook();
+        tagBook.setTagBook(new TagBookId(tag.get(),book.get()));
         try {
             return ResponseEntity.ok(tagBookService.addTagToBook(tagBook));
         }

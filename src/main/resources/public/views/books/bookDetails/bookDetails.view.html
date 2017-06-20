@@ -15,25 +15,39 @@
             <tr>
             <tr>
                 <th>Status</th>
-                <th>{{vm.book.status === 'true' ? 'Borrowed' : 'Available' }}</th>
+                <th>{{vm.book.status ? 'Borrowed' : 'Available' }}</th>
             </tr>
             <tr>
                 <th>Owner</th>
                 <th>{{ vm.book.ownerType === 'l' ?  'Library' : vm.book.user.login }}</th>
             </tr>
-            <tr ng-if="vm.book.format==='e'">
+            <tr ng-show="vm.book.format==='e'">
                 <th>Path</th>
                 <th>
                     <a target="_blank" ng-href="{{vm.book.path}}"> {{ vm.book.path }} </a>
                 </th>
             </tr>
+            <tr>
+                <th>Tags</th>
+                <th>{{ vm.book.tags }}</th>
+            </tr>
         </table>
+        <div style="margin-top: 20px;">
+            <form style="font-size: 18px;" name="addTagsForm" ng-submit='vm.addTags()'>
+                <div class="form-group">
+                    <label for="tag">Add New Tag:</label>
+                    <select class="form-control" id="tag" required ng-options="t.title as t.title for t in vm.tags"
+                            ng-value="t.title" ng-model="vm.newTag">
+                        <option ></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" style="font-size: 14px; margin: 10px; padding: 10px 20px;
+                                background-color: var(--background_purple_dark); color: var(--background_grey_lighter);">
+                        Add Tag &nbsp; <i class="fa fa-tags" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-
-<script>
-    function openPdf(path) {
-        window.open(path);
-        return false;
-    }
-</script>

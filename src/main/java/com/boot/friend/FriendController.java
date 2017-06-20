@@ -35,18 +35,18 @@ public class FriendController {
                 map(Session::getUser).map( u -> u.getId()).orElse(0));
     }
 
-    @RequestMapping(value = "{userId}", method = RequestMethod.POST)
-    public ResponseEntity<Friend> addFriend(@CookieValue(Session.COOKIE_NAME) String sessionToken, @PathVariable Integer userId) {
+    @RequestMapping(value = "{userLogin}", method = RequestMethod.POST)
+    public ResponseEntity<Friend> addFriend(@CookieValue(Session.COOKIE_NAME) String sessionToken, @PathVariable String userLogin) {
         Optional<User> user1 = userService.getById(authorizationService.getSession(UUID.fromString(sessionToken)).
                 map(Session::getUser).map(User::getId).orElse(0));
-        Optional<User> user2 = userService.getById(userId);
+        Optional<User> user2 = userService.getByLogin(userLogin);
         if (user1.isPresent() && user2.isPresent() && !user1.get().equals(user2.get())) {
             FriendId newFriendId;
             if (user1.get().getId() > user2.get().getId())
                 newFriendId = new FriendId(user2.get(), user1.get());
             else
                 newFriendId = new FriendId(user1.get(), user2.get());
-            Friend friend = new Friend(newFriendId, false, false, false);
+            Friend friend = new Friend(newFriendId, false, false, true);
             try {
                 return new ResponseEntity<>(friendService.addFriend(friend), HttpStatus.OK);
             }

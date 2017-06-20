@@ -18,6 +18,8 @@
 
         vm.showBookDetails = showBookDetails;
         vm.showLentBooks = showLentBooks;
+        vm.addNewBook = addNewBook;
+        vm.deleteBook = deleteBook;
 
         init();
         //////////////
@@ -54,8 +56,22 @@
             $state.go('book', {bookId: bookId});
         }
 
+        function deleteBook(bookId) {
+            booksService.deleteBook(bookId).then((response) => {
+                console.log(response.status);
+                $state.reload();
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+
         function showLentBooks() {
             $state.go('lent');
         }
+
+        function addNewBook() {
+            $state.go('add-book');
+        }
+
     }
 })();

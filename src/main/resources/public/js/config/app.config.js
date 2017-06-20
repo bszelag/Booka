@@ -53,6 +53,13 @@
                 controllerAs: 'vm',
             })
 
+            .state('add-book', {
+                url: '/books/add',
+                templateUrl: bookaPrefix + "books/addBook/addBook.view.html",
+                controller: 'AddBookController',
+                controllerAs: 'vm',
+            })
+
             .state('drive', {
                 url: '/drive',
                 templateUrl: bookaPrefix + "gdrive/gdrive.view.html",
