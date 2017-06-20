@@ -1526,6 +1526,58 @@ public class FriendId implements Serializable{
 	
 	\section{Opis funkcjonalności}
 
+Instalację powinna przeprowadzać osoba posiadająca podstawową wiedzę z zakresu systemów baz danych, serwerów HTTP i aplikacji webowych.
+
+\begin{itemize}
+	\item Pobieranie niezbędnych plików
+	
+	\begin{enumerate}
+		
+		\item Baza danych	
+		
+			Aby aplikacja działała poprawnie należy przede wszystkim zainstalować bazę danych - \textit{Postgresql-9.6}
+			
+			\url{https://www.postgresql.org/download/}
+			
+			Do obsługi bazy danych można użyć dowolnego narzędzia, które to umożliwia, jednak zaleca się korzystanie z programu \textit{pgAdmin}
+			
+			\url{https://www.pgadmin.org/download/}
+			
+		\item Aplikacja webowa
+		
+			Aby aplikacja webowa wyglądała tak jak wyglądać powinna należy pobrać niezbędne zależności. Posłuży nam do tego manager pakietów \textit{Npm}. Można go pobrać stąd:
+			
+			\url{https://www.npmjs.com/}
+			
+			Po pobraniu \textit{Npm'a} należy otworzyć konsolę systemu i wprowadzić następującą komendę:
+			
+			\textit{npm install -g bower}
+			
+			Następnie należy wejść do głównego katalogu plików źródłowych (tam gdzie znajduje się plik \textit{bower.json} i wykonać komendę \textit{bower install}
+			
+	\end{enumerate}
+
+	\item Konfiguracja środowiska
+	
+		Wszystkie parametry którymi będziemy sterować znajdują się w pliku \textit{/src/main/resources/application.properties}, jednak domyślne ustawienia powinny być wystarczające. Pierwsze trzy linijki określają adres bazy danych, użytkownika bazy danych i jego hasło. Linijka \textit{spring.jpa.hibernate.ddl-auto=create-drop} oznacza, że baza danych będzie automatycznie czyszczona ilekroć ktoś zrestartuje aplikację (jeżeli takie zachowanie jest niepożądane polecamy zmienić wartość na \textit{update}).
+		
+		Trzy kolejne parametry odnoszą się do adresu serwera. Klucz \textit{server.address} i \textit{registration.address} powinny posiadać tę samą wartość. Tutaj należy zaznaczyć, że jeżeli wartość \textit{serwer.address} nie będzie ustawiona no localhost to usługi Google nie będą działały (istnieje też spore ryzyko, że nieużywane przestaną działać samoistnie), gdyż taka wartość została ustalona przy konfigurowaniu połączenia z chmurą (po stronie Google).
+		
+		Dwa kolejne bloki nie powinny być konfigurowane - pierwszy z nich odpowiada za konfigurację serwisu pocztowego, a drugi za narzędzie pozwalające modyfikować kod HTML z poziomu języka JAVA.
+		
+	\item Budowanie i uruchomienie środowiska.
+	
+	Aby zbudować środowisko należy mieć zainstalowane narzędzie \textit{Maven}. W głównym katalogu wywołujemy polecenie \textit{mvn clean package}, a następnie uruchamiamy środowisko komendą \textit{java -jar <targer>}, gdzie jako <target> podajemy nazwę zbudowanego pliku \textit{.jar}. Jeżeli zachodzi potrzeba wypełnienia bazy przykładowymi danymi (tutaj trzeba zauważyć, że wyszukiwanie w bibliotekach nie będzie działać, jeżeli nie zostaną uzupełnione tabele \textit{Institution} i \textit{Department}) należy uruchomić skrypt uzupełniający bazę (\textit{script.sql}), który można znaleźć w głównym katalogu aplikacji. Następnie, jeżeli chcemy mieć możliwość zalogowania się na jednego z istniejących użytkowników (hasło użytkownika jest takie same jak jego login), należy zakodować ich hasła. W tym celu powstał adres, na który należy wysłać następujące zapytanie typu POST - \textit{localhost:8080/api/v1//users/hash}.
+		
+		
+		
+
+	
+	
+	
+	
+
+\end{itemize}
 
 \chapter{Spis tabel i obrazów}
 
