@@ -1,5 +1,3 @@
-// Resource: https://github.com/sashee/drive-api-from-js/blob/master/gapi-auth-service.js
-
 'use strict';
 
 angular.module('booka.gdrive')

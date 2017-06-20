@@ -11,7 +11,7 @@
 \newcolumntype{C}[1]{>{\centering\let\newline}}
 \selectlanguage{polish}
 \usepackage{xcolor}
-\usepackage[colorlinks]{hyperref}
+\usepackage[hidelinks]{hyperref}
 \usepackage[anythingbreaks]{breakurl}
 \usepackage{textcomp}
 \usepackage{listings}
@@ -82,17 +82,6 @@
 	strona umożliwiająca zalogowanie się, lub rejestrację do systemu. Po zalogowaniu, strona przenosi użytkownika do strony głównej, z której użytkownik ma dostęp do swojego księgozbioru (rozumie się przez to możliwość dodawania, usuwania książek, jak i przeglądania go), do podglądu swoich znajomych, podglądania książek im i od nich pożyczonych, chatu, widoku umożliwiającego przeszukiwanie okolicznych bibliotek i do swojego konta Google (po uprzednim zalogowaniu się do niego), umożliwiającego przechowywania elektronicznych wersji książek w chmurze.
 	
 	\section{Wymagania funkcjonalne}
-	
-	
-	%\begin{longtable}{|c|p{12cm}|}
-	%\caption{Wymaganie funkcjonalne F\_XX} \label{tab:F_XX} \\ \hline
-	%\multicolumn{2}{ |c| }{Nazwa wymagania} \\ \hline
-	%ID & F\_XX \\ \hline
-	%Opis & 	opis \\ \hline
-	%Priorytet & wymagane/oczekiwane/opcjonalne \\ \hline
-	%Powiązania & login/-  \\ \hline
-	%\end{longtable} 
-	
 	
 	
 	
@@ -506,7 +495,7 @@
 	& 3. Należy wybrać ikonę książki \\
 	\hline
 	\end{longtable}
-	\break
+
 	\begin{longtable}{|c|p{12cm}|}
 	\caption{Przypadek użycia PU\_09} \label{tab:PU_09} \\ \hline
 	\multicolumn{2}{ |c| }{Pożyczenie książki z własnego księgozbioru} \\ \hline
@@ -532,7 +521,7 @@
 
 		\subsection{REST API}
 		
-		\begin{longtable}{|p{3.7cm}|p{1.5cm}|p{4.0cm}|p{5.5cm}|}
+		\begin{longtable}{|p{4.5cm}|p{1.5cm}|p{4cm}|p{4.5cm}|}
 		\caption{Akcje związane z użytkownikami} \label{API_0} \\ \hline
 		\multicolumn{4}{ |c| }{ Użytkownicy } \\ 
 		\multicolumn{4}{ |c| }{ /users } \\ \hline
@@ -556,7 +545,7 @@
 		\end{longtable} 
 		
 		
-		\begin{longtable}{|p{4.6cm}|p{1.5cm}|p{3.7cm}|p{5.5cm}|}
+		\begin{longtable}{|p{4.5cm}|p{1.5cm}|p{4cm}|p{4.5cm}|}
 		\caption{Akcje związane z książkami} \label{API_1} \\ \hline
 		\multicolumn{4}{ |c| }{ Książki } \\ 
 		\multicolumn{4}{ |c| }{ /books } \\ \hline
@@ -583,7 +572,7 @@
 		\end{longtable} 
 		
 		
-		\begin{longtable}{|p{2.5cm}|p{1.5cm}|p{3.5cm}|p{4.0cm}|}
+		\begin{longtable}{|p{4.5cm}|p{1.5cm}|p{4cm}|p{4.5cm}|}
 			\caption{Akcje związane z tagami} \label{API_2} \\ \hline
 			\multicolumn{4}{ |c| }{ Tagi } \\
 			\multicolumn{4}{ |c| }{ /tags } \\ \hline
@@ -595,7 +584,7 @@
 		\end{longtable}
 
 
-		\begin{longtable}{|p{2.5cm}|p{1.5cm}|p{4.5cm}|p{5cm}|}
+		\begin{longtable}{|p{4.5cm}|p{1.5cm}|p{4cm}|p{4.5cm}|}
 		\caption{Akcje związane z wyszukiwaniem} \label{API_3} \\ \hline
 		\multicolumn{4}{ |c| }{ Wyszukiwanie } \\ 
 		\multicolumn{4}{ |c| }{ /search } \\ \hline
@@ -606,7 +595,7 @@
 		\end{longtable} 
 		
 		
-		\begin{longtable}{|p{5cm}|p{2cm}|p{3.5cm}|p{3cm}|}
+		\begin{longtable}{|p{4.5cm}|p{1.5cm}|p{4cm}|p{4.5cm}|}
 		\caption{Akcje związane z instytucjami} \label{API_4} \\ \hline
 		\multicolumn{4}{ |c| }{ Institutions } \\ 
 		\multicolumn{4}{ |c| }{ /institutions } \\ \hline
@@ -617,7 +606,7 @@
 		\end{longtable} 
 		
 		
-		\begin{longtable}{|p{7cm}|p{1.5cm}|p{3.5cm}|p{4cm}|}
+		\begin{longtable}{|p{4.5cm}|p{1.5cm}|p{4cm}|p{4.5cm}|}
 		\caption{Akcje związane ze znajomymi} \label{API_5} \\ \hline
 		\multicolumn{4}{ |c| }{ Znajomi } \\
 		\multicolumn{4}{ |c| }{ /friends } \\ \hline
@@ -626,7 +615,7 @@
 		/friends/ & GET & Lista znajomych & cookie: sessionToken \\ \hline
 		/friends/<user\_id> & POST & Dodanie znajomego & cookie: sessionToken \\ \hline
 		/friends/confirmFriendship & POST & Potwierdzenie znajomości & body: friend1, friend2 \\ \hline
-		/friends/changeAuthorizedState/<user\_id> & POST & Zmiana pozwolenia na wgląd w książki użytkownika & cookie: sessionToken \\ \hline
+		/friends /changeAuthorizedState/<user\_id> & POST & Zmiana pozwolenia na wgląd w książki użytkownika & cookie: sessionToken \\ \hline
 		\end{longtable} 
 
 
@@ -634,23 +623,25 @@
 	
 Aplikacja kliencka ma umożliwiać użytkownikom wygodny dostęp do oferowanych przez nasz system funkcjonalności. 	Składa się ona z trzech głównych części:
 	
-	\begin{itemize}
+	\begin{enumerate}
 	\item menu w górnej części ekranu
 	\item rozwijanego menu z większą ilością opcji z lewej strony
 	\item głównej części ekranu, w której wyświetlamy poszczególne widoki.
-	\end{itemize}
+	\end{enumerate}
 	
-	
+\noindent
 Widoki aplikacji:
 \begin{itemize}
 \item lista książek
 \item lista książek pożyczonych komuś i wypożyczonych od kogoś, wypożyczanie książek
+\item widok danej książki
+\item możliwość przejścia do danej książki korzystając z linku (np: na Google Drive)
 \item wyszukiwanie książek w bibliotekach
 \item lista znajomych
 \item chat
 \item obsługa konta Google Drive (wyświetlanie plików w danym folderze, dodawanie nowego pliku do konta)
 \end{itemize}
-
+\noindent
 Do stworzenia aplikacji klienckiej wykorzystaliśmy HTML, CSS, AngularJS, Java Script oraz dodatkowo:
 \begin{itemize}
 \item bootstrap
@@ -660,10 +651,10 @@ Do stworzenia aplikacji klienckiej wykorzystaliśmy HTML, CSS, AngularJS, Java S
 \item ng-table
 \item pubnub
 \end{itemize}
-
+\noindent
 Działanie aplikacji internetowej:
 \begin{itemize}
-\item - przejścia pomiędzy kolejnymi widokami są przejściami pomiędzy różnymi stanami aplikacji. Dla danego stanu definiujemy:
+\item przejścia pomiędzy kolejnymi widokami są przejściami pomiędzy różnymi stanami aplikacji. Dla danego stanu definiujemy:
 	\begin{itemize}
 	\item adres url, który pojawi się na ścieżce
 	\item konkretny widok (plik) html, który ma zostać wyświetlony
@@ -814,7 +805,7 @@ Działanie aplikacji internetowej:
 	
 		\subsection{Podział aplikacji}
 
-			W naszej aplikacji możemy wyszczególnić trzy podstawowe części - jest to baza danych, serwer aplikacji  i serwer WWW (nginx). Rozdzielenie dwóch ostatnich świadczy o tym, że nie jest to klasyczne podejście do aplikacji w architekturze MVC, jednak mimo to jest ona widoczna. W niniejszym podrozdziale skupimy się na podziale aplikacji z perspektywy serwera.
+			W naszej aplikacji możemy wyszczególnić trzy podstawowe części - jest to baza danych, serwer aplikacji  i serwer WWW (\textit{Tomcat}). Rozdzielenie dwóch ostatnich świadczy o tym, że nie jest to klasyczne podejście do aplikacji w architekturze MVC, jednak mimo to jest ona widoczna. W niniejszym podrozdziale skupimy się na podziale aplikacji z perspektywy serwera.
 			
 			\subsubsection{Kontroler}
 			
@@ -993,10 +984,10 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     @Override
     public Optional<Session> authenticate(Credentials credentials) {
         val session = userService.getByLogin(credentials.getLogin()).
-                filter(u -> u.getPassword().equals(Base64.getEncoder().
-                        encodeToString(hashingService.hash(credentials.getPassword().
-                        toCharArray(), Base64.getDecoder().decode(u.getSalt()))))).
-                map(u -> new Session(u));
+          filter(u -> u.getPassword().equals(Base64.getEncoder().
+            encodeToString(hashingService.hash(credentials.getPassword().
+            toCharArray(), Base64.getDecoder().decode(u.getSalt()))))).
+          map(u -> new Session(u));
 
         session.ifPresent(s -> sessions.put(s.getToken(), s));
 
@@ -1277,10 +1268,11 @@ to confirm your email address and activate your account:
 				Najprostszym sposobem jest utworzenie zapytania składającego się jedynie z wypełnionego pola WRD, gdzie można umieścić wszystkie możliwe elementy zapytania, jednak zrezygnowaliśmy z tego na rzecz bardziej szczegółowego zapytania składanego z pół odpowiednich danych, kolejno WAU jako pole z szukanym autorem, WTI jako pole z tytułem książki oraz numer systemowy oddziału biblioteki. Oczywiście jeśli któryś z wymienionych elementów jest nieobecny w zapytaniu, przychodzącym do serwera, zostaje on również pominięty przy tworzeniu zapytania.
 				
 				Poniżej znajduje się przykład całego złożonego zapytania z podkreślonym edytowanym przez nas fragmentem.
-				
-				\begin{center}
-					$ https://katalog.biblioteka.wroc.pl/F?func=find-c\&ccl\_term=\underline{((WAU=George OR Martin)AND(WTI=Pieśń?))and(WFT=(BK))\&local\_base=31} $
-				\end{center}
+\vspace{.5cm}				
+
+\textit{https://katalog.biblioteka.wroc.pl/F?func=find-c\&ccl\_term={((WAU=George OR Martin)AND(WTI=Pieśń?))and(WFT=(BK))\&local\_base=31}}		
+
+			
 			
 			\subsubsection{Pobieranie danych z systemu bibliotecznego}
 			
@@ -1315,7 +1307,7 @@ to confirm your email address and activate your account:
 		
 		Aby wykorzystać to w aplikacji, musieliśmy:
 		\begin{itemize}
-		\item zarejestrować się na stronie PubNuba, stworzyć klucze "publish" oraz "subscribe" które łączą aplikację z kontem
+		\item zarejestrować się na stronie PubNuba, stworzyć klucze 'publish' oraz 'subscribe' które łączą aplikację z kontem
 		\item w aplikacji połączyć się z api PubNuba (które jest dostępne jako biblioteka w Java Script) wykorzystując wygenerowane klucze
 \begin{lstlisting}[language=Java, breaklines]
 // Polaczenie z PubNub
