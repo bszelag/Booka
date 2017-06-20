@@ -630,7 +630,48 @@
 		\end{longtable} 
 
 
-	\section{Aplikacja internetowa}
+\section{Aplikacja internetowa}
+	
+Aplikacja kliencka ma umożliwiać użytkownikom wygodny dostęp do oferowanych przez nasz system funkcjonalności. 	Składa się ona z trzech głównych części:
+	
+	\begin{itemize}
+	\item menu w górnej części ekranu
+	\item rozwijanego menu z większą ilością opcji z lewej strony
+	\item głównej części ekranu, w której wyświetlamy poszczególne widoki.
+	\end{itemize}
+	
+	
+Widoki aplikacji:
+\begin{itemize}
+\item lista książek
+\item lista książek pożyczonych komuś i wypożyczonych od kogoś, wypożyczanie książek
+\item wyszukiwanie książek w bibliotekach
+\item lista znajomych
+\item chat
+\item obsługa konta Google Drive (wyświetlanie plików w danym folderze, dodawanie nowego pliku do konta)
+\end{itemize}
+
+Do stworzenia aplikacji klienckiej wykorzystaliśmy HTML, CSS, AngularJS, Java Script oraz dodatkowo:
+\begin{itemize}
+\item bootstrap
+\item font awsome 
+\item jquery
+\item lodash
+\item ng-table
+\item pubnub
+\end{itemize}
+
+Działanie aplikacji internetowej:
+\begin{itemize}
+\item - przejścia pomiędzy kolejnymi widokami są przejściami pomiędzy różnymi stanami aplikacji. Dla danego stanu definiujemy:
+	\begin{itemize}
+	\item adres url, który pojawi się na ścieżce
+	\item konkretny widok (plik) html, który ma zostać wyświetlony
+	\item nazwę kontrolera, który obsługuje dany widok
+	\item oraz opcjonalnie możemy zdefiniować zmienne, które będą przekazywane podczas wywoływania danego stanu i 	później będą wykorzystywane w kontrolerze
+	\end{itemize}
+\item aplikacja komunikuje się z serwerem poprzez REST API wysyłając zapytania http na zdefiniowane endpointy
+\end{itemize}
 
 	\section{Baza danych}
 	
@@ -1249,11 +1290,147 @@ to confirm your email address and activate your account:
 		
 	\section{Aplikacja internetowa}
 	
-		%inne, jakiś tam podział na kontolery itp.
+		Szablon aplikacji internetowej:
+		\begin{itemize}
+		\item podział na moduły, które składają się z kontrolerów, serwisów, widoków, arkuszy stylów
+		\item rozmieszczenie modułów w osobnych katalogach - zgodne z ich rolą (np: w katalogu books jest moduł books, w którym są odpowiednio cztery katalogi, w których umieszczone są podmoduły modułu books: addBook, bookDetails, lent, showBooks)
+		\end{itemize}
+		
+		Moduły
+		\begin{itemize}
+		\item określenie modułu - podanie jego nazwy oraz potrzebnych zależności, z których korzysta moduł
+		\item kontroler - odpowiedzialny za logikę danego widoku, wywołujący metody serwisu które wysyłają zapytania na REST API, określenie funkcji oraz zmiennych używanych w pliku html
+		\item serwis - wysyła zapytania do REST API oraz zwraca odpowiedzi
+		\item widok - plik HTML z widokiem danej strony wykorzystujący AngularJS do połaczenia z kontrolerem
+		\item arkusz stylów - zbiór stylów wykorzystywanych w danym widoku
+		\end{itemize}
 	
 		\subsection{Kolejka komunikatów}
 		
+		Kolejka komunikatów została zaimplementowana w oparciu o PubNub.
+			
+		PubNub to bezpieczne, globalne DSN (czyli Data Stream Network), które udostępnia API, dzięki któremu można w łatwy sposób tworzyć aplikacje, które potrzebują przetwarzania danych w czasie rzeczywistym. W naszym przypadku wykorzystaliśmy PubNuba do przechowywania wiadomości w formie kolejek - dzięki czemu mogliśmy stworzyć chat, który działa w czasie rzeczywistym.
+		Kolejki komunikatów opierają się na wzorcu Publish/Subscribe, który określa w jaki sposób przekazuje się dane w formie strumieni poprzez sieć PubNuba. 
+		
+		
+		Aby wykorzystać to w aplikacji, musieliśmy:
+		\begin{itemize}
+		\item zarejestrować się na stronie PubNuba, stworzyć klucze "publish" oraz "subscribe" które łączą aplikację z kontem
+		\item w aplikacji połączyć się z api PubNuba (które jest dostępne jako biblioteka w Java Script) wykorzystując wygenerowane klucze
+\begin{lstlisting}[language=Java, breaklines]
+// Polaczenie z PubNub
+Pubnub.init({
+	publish_key: 'pub-<klucz>',
+	subscribe_key: 'sub-<klucz>',
+	uuid: userId,
+	ssl: true
+});
+// Polaczenie z danym kanalem
+Pubnub.subscribe({
+// nazwa kanalu, dla pary znajomych od id 5 i 33 bedzie to '5_33'
+	channel: $scope.thread, 
+	triggerEvents: ['callback']
+});
+// Pobieranie historii (20 wiadomosci z danego kanalu)
+Pubnub.history(...)
+// Nasluchiwanie na kanale - czy pojawily sie tam nowe wiadomosci
+Pubnub.getMessageEventNameFor($scope.thread), callback)
+\end{lstlisting}
+		\item wykorzystać funkcję Pubnub.publish do wysyłania wiadomości:
+\begin{lstlisting}[language=Java, breaklines]
+Pubnub.publish({
+	channel: $scope.thread,
+	message: message,
+	callback: function (m) {}
+});
+// message sklada sie z: 
+// - uuid czyli identyfikatora wiadomosci (data + id uzytkownika)
+// - content czyli tekstu wiadomosci
+// - sender_uuid czyli id uzytkownika ktory wysyla wiadomosc
+// - date czyli daty
+\end{lstlisting}		
+		\end{itemize}
+		
 		\subsection{Google Drive}
+		
+		Połączenie z Google Drive wymagało, podobnie jak w przypadku PubNub, stworzenia konta developerskiego na stronie Googla. Dzięki temu otrzymaliśmy specjalne uuid, dzięki któremu połączyliśmy naszą aplikację z Google Drive. W ramach tego również określiliśmy host naszej aplikacji - co jest bardzo dobrym zabezpieczeniem oferowanym przez Google.
+		
+		Wykorzystujemy API udostępniane przez Google - gapi.
+		\begin{itemize}
+		\item inicjalizacja
+		\begin{lstlisting}[language=Java, breaklines]
+var client_id="<id>";
+var scope=['https://www.googleapis.com/auth/drive.file']; 
+// okreslamy zasieg dostepu - tutaj aplikacja ma dostep tylko do plikow na Google Drive
+
+gapi.auth.init(function() {
+gapi.client.load('drive', 'v2').then(function () {
+	var GapiQueue = function () {
+		this.push = function (callback) {
+			setTimeout(callback, 0);
+		};
+	};
+	var _old_gapiCallbacks = window.gapiCallbacks;
+	window.gapiCallbacks = new GapiQueue();
+	_old_gapiCallbacks.forEach(function (callback) {
+		window.gapiCallbacks.push(callback);
+	});
+},function(reason){
+	console.err(reason);
+});
+});        	
+		\end{lstlisting}
+		\item logowanie
+		\begin{lstlisting}[language=Java, breaklines]
+gapi.auth.authorize(getConfig(false), function (authResult) {
+	if (authResult && !authResult.error) {
+		deferred.resolve(gapi.auth.getToken().access_token);
+	} else {
+		deferred.reject(authResult);
+	}
+})
+		\end{lstlisting}
+		\item wyświetlanie listy plików
+		\begin{lstlisting}[language=Java, breaklines]
+gapi.client.drive.files.list({
+	'maxResults' : 500 			// zwracamy maksymalnie 500 pozycji
+})
+		\end{lstlisting}
+		\item wysyłanie plików
+		\begin{lstlisting}[language=Java, breaklines]
+var contentType = fileData.type || 'application/octet-stream';
+var metadata = {
+	'title': filename,
+	'mimeType': contentType,
+	"parents": [{"id":parentId}]
+};
+
+var base64Data = btoa(reader.result);
+var multipartRequestBody =
+	delimiter +
+	'Content-Type: application/json\r\n\r\n' +
+	JSON.stringify(metadata) +
+	delimiter +
+	'Content-Type: ' + contentType + '\r\n' +
+	'Content-Transfer-Encoding: base64\r\n' +
+	'\r\n' +
+	base64Data +
+	close_delim;
+	
+	
+gapi.client.request({
+	'path': '/upload/drive/v2/files',
+	'method': 'POST',
+	'params': {'uploadType': 'multipart'},
+	'headers': {
+		'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
+	},
+	'body': multipartRequestBody}
+)
+		\end{lstlisting}
+		\end{itemize}
+	
+	Obsługa API została zaimplementowana zgodnie z przykładami na stronie Google API.
 	
 	\section{Baza danych}
 	
@@ -1343,7 +1520,11 @@ public class FriendId implements Serializable{
 		\end{lstlisting}
 
 
-\chapter{Instalacja i konfiguracja systemu}
+\chapter{Opis funkcjonalny}
+
+	\section{Instalacja i konfiguracja systemu}
+	
+	\section{Opis funkcjonalności}
 
 
 \chapter{Spis tabel i obrazów}
