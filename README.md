@@ -3,7 +3,7 @@ Application for book management.
 
 ## 1. Main goals
 - looking through your books
-- searching for specyfic books
+- searching for specific books
 - connect with your library / Google Drive / Facebook account
 - borrow your books
 - sending email / Facebook notification to people, who borrowed your book
